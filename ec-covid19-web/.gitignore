@@ -1,0 +1,5 @@
+# Cache
+.cache/
+
+# Public path
+public/

@@ -4,7 +4,7 @@
   "description": "This is the web cli",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "gatsby develop"
   },
   "keywords": [
     "covid19",
@@ -13,6 +13,7 @@
   "author": "byron7cueva",
   "license": "MIT",
   "dependencies": {
+    "gatsby": "^2.19.48",
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
   }
