@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { colors, fonts } from '../../settings/constants'
+import { colors, fonts, size } from '../../settings/constants'
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -17,5 +17,11 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${colors.grayDark};
     font-family: ${fonts.content.family};
     font-weight: ${fonts.content.weight};
+    font-size: ${size.textContent};
+  }
+
+  a {
+    text-decoration: none;
+    color: ${colors.light};
   }
 `

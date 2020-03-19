@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { FooterContainer } from './style'
+
 export const Footer = ({ author, url }) => (
-  <footer>
-    © {new Date().getFullYear()} Construido por
-    <a href={url}>{author}</a>
-  </footer>
+  <FooterContainer>
+    © {new Date().getFullYear()} Construido por {' '} <a href={url}>{author}</a>
+  </FooterContainer>
 )
 
 Footer.propTypes = {

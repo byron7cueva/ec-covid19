@@ -11,15 +11,15 @@ export const colors = {
 
 export const fonts = {
   content: {
-    family: 'Roboto, sans-serif',
+    family: '"Titillium Web", sans-serif',
     weight: 300
   },
   title: {
-    family: 'Lato, sans-serif',
+    family: '"Raleway", sans-serif',
     weight: 400
   }
 }
 
 export const size = {
-  textContent: '12px'
+  textContent: '14px'
 }

@@ -10,8 +10,8 @@ module.exports = {
       resolve: 'gatsby-plugin-google-fonts',
       options: {
         fonts: [
-          'Lato\:300,400',
-          'Roboto\:300,400'
+          'Titillium Web\:300,400',
+          'Raleway\:300,400'
         ]
       }
     }
