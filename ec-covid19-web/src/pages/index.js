@@ -1,7 +1,12 @@
 import React from 'react'
 
+import { GlobalStyle } from '../styles/core/global'
+
 const IndexPage = () => (
-  <h1>Hola mundo</h1>
+  <>
+    <GlobalStyle />
+    <h1>Hola mundo</h1>
+  </>
 )
 
 export default IndexPage

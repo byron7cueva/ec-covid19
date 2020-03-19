@@ -16,7 +16,8 @@
   "dependencies": {
     "gatsby": "^2.19.48",
     "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "react-dom": "^16.13.0",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "standard": "^14.3.3"
