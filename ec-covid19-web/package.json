@@ -4,7 +4,8 @@
   "description": "This is the web cli",
   "main": "index.js",
   "scripts": {
-    "dev": "gatsby develop"
+    "dev": "gatsby develop",
+    "lint": "standard"
   },
   "keywords": [
     "covid19",
@@ -16,5 +17,8 @@
     "gatsby": "^2.19.48",
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.3"
   }
 }
