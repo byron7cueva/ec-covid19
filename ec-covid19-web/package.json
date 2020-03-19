@@ -1,0 +1,19 @@
+{
+  "name": "ec-covid19-web",
+  "version": "1.0.0",
+  "description": "This is the web cli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "covid19",
+    "ec"
+  ],
+  "author": "byron7cueva",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  }
+}
