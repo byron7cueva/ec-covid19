@@ -1,0 +1,4 @@
+PROVINCIAS:
+  filename: provincias.json
+  name_column: DPA_DESPRO
+  code_column: DPA_PROVIN

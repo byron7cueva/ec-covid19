@@ -7,6 +7,8 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  *:focus { outline: none; }
+
   html, body {
     margin: 0;
     padding: 0;
