@@ -27,4 +27,22 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: ${colors.light};
   }
+
+  ::-webkit-scrollbar-track
+  {
+	  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	  background-color: #6e5773;
+  }
+
+  ::-webkit-scrollbar
+  {
+	  width: 10px;
+	  background-color: #6e5773;
+  }
+  
+  ::-webkit-scrollbar-thumb
+  {
+	  background-color: #d45d79;
+	  border: 1px solid #555555;
+  }
 `

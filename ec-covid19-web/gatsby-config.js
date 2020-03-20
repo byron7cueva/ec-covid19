@@ -10,7 +10,7 @@ module.exports = {
       resolve: 'gatsby-plugin-google-fonts',
       options: {
         fonts: [
-          'Titillium Web\:300,400',
+          'Titillium Web\:300,400,500',
           'Raleway\:300,400'
         ]
       }

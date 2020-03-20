@@ -94,6 +94,6 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
 
 Map.propTypes = {
   data: PropTypes.array,
-  selectedPlace: PropTypes.string,
+  selectedPlace: PropTypes.object,
   onClick: PropTypes.func
 }

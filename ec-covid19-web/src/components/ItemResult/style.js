@@ -6,7 +6,7 @@ export const ItemResultContainer = styled.div`
   text-align: center;
   h3 {
     font-size: 2em;
-    margin: 0 0 0.3em;
+    margin: 0;
     color: ${props => props.color};
   }
   p {

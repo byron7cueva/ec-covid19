@@ -21,5 +21,5 @@ export const fonts = {
 }
 
 export const size = {
-  textContent: '14px'
+  textContent: '13px'
 }

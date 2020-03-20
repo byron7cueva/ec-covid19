@@ -9,5 +9,6 @@ export const ResultsContainer = styled.article`
   .results__numbers {
     display: flex;
     justify-content: space-between;
+    padding: 0 5em;
   }
 `
