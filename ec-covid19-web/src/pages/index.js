@@ -4,46 +4,78 @@ import ReactTooltip from 'react-tooltip'
 import { GlobalStyle } from '../styles/core/global'
 import { Layout } from '../components/Layout'
 import { Map } from '../components/Map'
+import { DataSection } from '../components/DataSection'
+import { Results } from '../components/Results'
 
 
 const data = [
   {
     placeCode: '01',
     infected: 60,
-    activos: 5,
-    muertos: 5,
-    recuperados: 2
+    actived: 5,
+    dead: 5,
+    healed: 2
   },
   {
     placeCode: '02',
     infected: 120,
-    activos: 7,
-    muertos: 8,
-    recuperados: 3
+    actived: 7,
+    dead: 8,
+    healed: 3
   },
   {
     placeCode: '03',
     infected: 15,
-    activos: 7,
-    muertos: 8,
-    recuperados: 3
+    actived: 7,
+    dead: 8,
+    healed: 3
   },
   {
     placeCode: '04',
     infected: 350,
-    activos: 7,
-    muertos: 8,
-    recuperados: 3
+    actived: 7,
+    dead: 8,
+    healed: 3
   }
 ]
 
 class IndexPage extends Component {
-  state = {
-    selectedPlace: null
+  countryData = {
+    infected: 0,
+    actived: 0,
+    dead: 0,
+    healed: 0
   }
 
-  handlerClickGeography = (placeCode) => {
-    this.setState({selectedPlace: placeCode})
+  countryProperties = {
+    placeName: 'Ecuador'
+  }
+
+  state = {
+    selectedPlace: {},
+    currentStatistics: {}
+  }
+
+  constructor(props) {
+    super(props)
+    this.setCountryData()
+  }
+
+  handlerClickGeography = (properties) => {
+    const statistic = data.find(d => d.placeCode === properties.placeCode )
+    if (statistic) {
+      this.setState({selectedPlace: properties, currentStatistics: statistic })
+    } else {
+      this.setCountryData()
+    }
+  }
+
+  setCountryData() {
+    this.setState({selectedPlace: this.countryProperties, currentStatistics: this.countryData })
+  }
+
+  componentDidMount() {
+    this.setCountryData();
   }
 
   render() {
@@ -56,6 +88,9 @@ class IndexPage extends Component {
             selectedPlace={this.state.selectedPlace}
             onClickGeography={this.handlerClickGeography}
           />
+          <DataSection>
+            <Results statistics={this.state.currentStatistics} placeName={this.state.selectedPlace.placeName}/>
+          </DataSection>
         </Layout>
         <ReactTooltip html={true} />
       </>

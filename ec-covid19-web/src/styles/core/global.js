@@ -20,6 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${fonts.content.family};
     font-weight: ${fonts.content.weight};
     font-size: ${size.textContent};
+    padding: 1em 10em;
   }
 
   a {

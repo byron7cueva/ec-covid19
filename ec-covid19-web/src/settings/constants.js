@@ -6,7 +6,7 @@ export const colors = {
 
   red: '#fe346e',
   orange: '#fbc490',
-  grayDark: '#655780'
+  grayDark: '#372a52'
 }
 
 export const fonts = {

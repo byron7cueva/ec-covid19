@@ -3,6 +3,7 @@ import { ComposableMap, ZoomableGroup, Geographies, Geography } from 'react-simp
 import { PatternLines } from '@vx/pattern'
 import PropTypes from 'prop-types'
 
+import { MapContainer } from './style'
 import maps from '../../data/maps.yml'
 import { patternScale } from '../../settings/charts'
 import { getStyleScale } from '../../utils/chats'
@@ -10,7 +11,7 @@ import { getStyleScale } from '../../utils/chats'
 const map = maps['PROVINCIAS']
 
 export const Map = ({ data, onClickGeography, selectedPlace }) => (
-  <section>
+  <MapContainer>
     <ComposableMap
       projection='geoMercator'
       projectionConfig={{
@@ -20,7 +21,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
       height={300}
       style={{
         width: '100%',
-        height: '65vh'
+        height: '60vh'
       }}
     >
       {
@@ -53,7 +54,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
                 const dataPlace = data.find(d => d.placeCode ===  placeCode)
                 const infected = dataPlace && dataPlace.infected > 0
                 const style = getStyleScale(dataPlace)
-                const isSelected= placeCode === selectedPlace
+                const isSelected = selectedPlace && placeCode === selectedPlace.placeCode
                 return (
                   <Geography
                     key={geo.rsmKey}
@@ -63,12 +64,13 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
                       default: {
                         fill: isSelected? `url("#${style.id}")` : (infected? style.background : 'url("#noCases")'),
                         strokeWidth: isSelected? 1 : 0,
-                        stroke: isSelected? style.stroke : null,
+                        stroke: isSelected? style.stroke : null
                       },
                       hover: {
                         strokeWidth: 1,
                         stroke: style.stroke,
-                        fill: infected? `url("#${style.id}")` : 'url("#noCases")'
+                        fill: infected? `url("#${style.id}")` : 'url("#noCases")',
+                        cursor: infected? 'pointer' : 'default'
                       },
                       pressed: {
                         strokeWidth: 1,
@@ -77,7 +79,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
                       }
                     }}
                     onClick={() => {
-                      onClickGeography(placeCode)
+                      onClickGeography(properties)
                     }}
                   />
                 )
@@ -87,7 +89,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
         </Geographies>
       </ZoomableGroup>
     </ComposableMap>
-  </section>
+  </MapContainer>
 )
 
 Map.propTypes = {

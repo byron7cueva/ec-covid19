@@ -1,5 +1,5 @@
 import styled from 'styled-components'
 
-export const MapSection = styled.section`
-  
+export const MapContainer = styled.article`
+  grid-area: map;
 `

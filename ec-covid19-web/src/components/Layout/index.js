@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql, useStaticQuery } from 'gatsby'
 
-import { LayoutContainer } from './style'
+import { Main } from './style'
 import { Header } from '../Header'
 import { Footer } from '../Footer'
 
@@ -22,13 +22,13 @@ export const Layout = ({ children }) => {
   )
 
   return (
-    <LayoutContainer>
+    <>
       <Header title={data.site.siteMetadata.title} />
-      <main>
+      <Main>
         {children}
-      </main>
+      </Main>
       <Footer author={data.site.siteMetadata.author} url={data.site.siteMetadata.urlAuthor} />
-    </LayoutContainer>
+    </>
   )
 }
 
