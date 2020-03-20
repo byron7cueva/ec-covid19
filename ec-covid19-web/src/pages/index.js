@@ -7,6 +7,8 @@ import { Map } from '../components/Map'
 import { DataSection } from '../components/DataSection'
 import { Results } from '../components/Results'
 import { Table } from '../components/Table'
+import { LineChart } from '../components/LineChart'
+import { colors } from '../settings/charts'
 
 
 const data = [
@@ -84,38 +86,108 @@ const data = [
   }
 ]
 
+const alterDay = (date, days) => {
+  date.setDate(date.getDate() + days)
+  return date.toLocaleDateString('es-EC', {year: 'numeric', month: 'numeric', day: 'numeric'}).split('/').reverse().join('-')
+}
+
+const cases = {
+  '01': [
+    {
+      id: 'infected',
+      color: colors.infected,
+      data: [
+        { y: 1, x: alterDay(new Date(), -2 )},
+        { y: 3, x: alterDay(new Date(), -1 )},
+        { y: 15, x: alterDay(new Date(), 0) }
+      ]
+    },
+    {
+      id: 'dead',
+      color: colors.dead,
+      data: [
+        { y: 0, x: alterDay(new Date(), -2 )},
+        { y: 1, x: alterDay(new Date(), -1 )},
+        { y: 2, x: alterDay(new Date(), 0)}
+      ]
+    },
+    {
+      id: 'healed',
+      color: colors.healed,
+      data: [
+        { y: 0, x: alterDay(new Date(), -2 )},
+        { y: 1, x: alterDay(new Date(), -1 )},
+        { y: 3, x: alterDay(new Date(), 0)}
+      ]
+    },
+    {
+      id: 'actived',
+      color: colors.actived,
+      data: [
+        { y: 1, x: alterDay(new Date(), -2 )},
+        { y: 1, x: alterDay(new Date(), -1 )},
+        { y: 10, x: alterDay(new Date(), 0)}
+      ]
+    }
+  ],
+  '02': [
+    {
+      id: 'infected',
+      color: colors.infected,
+      data: [
+        { y: 2, x: alterDay(new Date(), -2 )},
+        { y: 3, x: alterDay(new Date(), -1 )},
+        { y: 1000, x: alterDay(new Date(), 0) }
+      ]
+    },
+    {
+      id: 'dead',
+      color: colors.dead,
+      data: [
+        { y: 12, x: alterDay(new Date(), -2 )},
+        { y: 3, x: alterDay(new Date(), -1 )},
+        { y: 1, x: alterDay(new Date(), 0)}
+      ]
+    },
+    {
+      id: 'healed',
+      color: colors.healed,
+      data: [
+        { y: 4, x: alterDay(new Date(), -2 )},
+        { y: 6, x: alterDay(new Date(), -1 )},
+        { y: 10, x: alterDay(new Date(), 0)}
+      ]
+    },
+    {
+      id: 'actived',
+      color: colors.actived,
+      data: [
+        { y: 1, x: alterDay(new Date(), -2 )},
+        { y: 13, x: alterDay(new Date(), -1 )},
+        { y: 16, x: alterDay(new Date(), 0)}
+      ]
+    }
+  ]
+}
+
 class IndexPage extends Component {
-  countryData = {
-    infected: 0,
-    actived: 0,
-    dead: 0,
-    healed: 0
-  }
-
-  countryProperties = {
-    placeName: 'Ecuador'
-  }
-
   state = {
     selectedPlace: {},
-    currentStatistics: {}
-  }
-
-  handlerClickGeography = (properties) => {
-    const statistic = data.find(d => d.placeCode === properties.placeCode )
-    if (statistic) {
-      this.setState({selectedPlace: properties, currentStatistics: statistic })
-    } else {
-      this.setCountryData()
+    currentCases: {},
+    currentHistory: cases['01'],
+    countryCases: {
+      infected: 0,
+      actived: 0,
+      dead: 0,
+      healed: 0
     }
   }
 
-  setCountryData() {
-    this.setState({selectedPlace: this.countryProperties, currentStatistics: this.countryData })
-  }
-
-  componentDidMount() {
-    this.setCountryData();
+  handlerClickGeography = (properties) => {
+    const currentCase = data.find(d => d.placeCode === properties.placeCode )
+    if (currentCase) {
+      this.setState({selectedPlace: properties, currentCases: currentCase, currentHistory: cases[properties.placeCode] })
+    }
   }
 
   render() {
@@ -129,8 +201,9 @@ class IndexPage extends Component {
             onClickGeography={this.handlerClickGeography}
           />
           <DataSection>
-            <Results statistics={this.state.currentStatistics} placeName={this.state.selectedPlace.placeName}/>
+            <Results statistics={this.state.countryCases} placeName='Ecuador'/>
             <Table data={data} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
+            <LineChart data={this.state.currentHistory} />
           </DataSection>
         </Layout>
         <ReactTooltip html={true} />

@@ -14,6 +14,7 @@
   "author": "byron7cueva",
   "license": "MIT",
   "dependencies": {
+    "@nivo/line": "^0.61.1",
     "@vx/pattern": "0.0.195",
     "gatsby": "^2.19.48",
     "gatsby-plugin-google-fonts": "^1.0.1",

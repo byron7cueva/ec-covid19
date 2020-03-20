@@ -18,10 +18,10 @@ export const styleMap = {
 
 export const patternScale = [
   {id:'noCases', numInfects: 0, background: null, stroke: '#dee3e2'},
-  {id:'nivel1', numInfects: 30, background: '#cd8d7b', stroke: '#dee3e2'},
-  {id:'nivel2', numInfects: 100, background: '#fe346e', stroke: '#dee3e2'},
-  {id:'nivel3', numInfects: 300, background: '#d63447', stroke: '#dee3e2'},
-  {id:'nivel4', numInfects: 500, background: '#b80d57', stroke: '#dee3e2'}
+  {id:'nivel1', numInfects: 30, background: '#cd8d7b', stroke: '#fff'},
+  {id:'nivel2', numInfects: 100, background: '#fe346e', stroke: '#fff'},
+  {id:'nivel3', numInfects: 300, background: '#d63447', stroke: '#fff'},
+  {id:'nivel4', numInfects: 500, background: '#b80d57', stroke: '#fff'}
 ]
 
 export const colors = {

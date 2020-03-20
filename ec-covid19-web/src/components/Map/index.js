@@ -15,13 +15,11 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
     <ComposableMap
       projection='geoMercator'
       projectionConfig={{
-        scale: 2600
+        scale: 7500
       }}
-      width={300}
-      height={300}
       style={{
         width: '100%',
-        height: '60vh'
+        height: '80vh'
       }}
     >
       {
@@ -31,7 +29,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
           key={scale.id}
           height={6}
           width={6}
-          strokeWidth={0.3}
+          strokeWidth={1}
           orientation={[ 'diagonal' ]}
          /> 
         ))
@@ -63,17 +61,17 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
                     style={{
                       default: {
                         fill: isSelected? `url("#${style.id}")` : (infected? style.background : 'url("#noCases")'),
-                        strokeWidth: isSelected? 1 : 0,
+                        strokeWidth: isSelected? 3 : 0,
                         stroke: isSelected? style.stroke : null
                       },
                       hover: {
-                        strokeWidth: 1,
+                        strokeWidth: 2,
                         stroke: style.stroke,
                         fill: infected? `url("#${style.id}")` : 'url("#noCases")',
                         cursor: infected? 'pointer' : 'default'
                       },
                       pressed: {
-                        strokeWidth: 1,
+                        strokeWidth: 3,
                         stroke: style.stroke,
                         fill: infected? `url("#${style.id}")` : 'url("#noCases")'
                       }

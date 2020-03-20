@@ -3,7 +3,7 @@ import { colors } from '../../settings/constants'
 
 export const TableContainer = styled.article`
   width: 100%;
-  height: 15em;
+  height: 30vh;
   margin: 1em 0;
 
   table {
