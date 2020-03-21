@@ -1,0 +1,15 @@
+{
+  "name": "ec-covid19-db",
+  "version": "0.1.0",
+  "description": "Managed the information in the database",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "db"
+  ],
+  "author": "byron7cueva",
+  "license": "MIT"
+}
