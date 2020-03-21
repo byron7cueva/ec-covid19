@@ -5,11 +5,14 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standard"
   },
   "keywords": [
     "db"
   ],
   "author": "byron7cueva",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^14.3.3"
+  }
 }
