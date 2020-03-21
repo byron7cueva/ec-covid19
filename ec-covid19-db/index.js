@@ -1,9 +1,13 @@
 require('./db/Connection').getInstance().connect()
-const PlaceType = require('./dao/PlaceTypeDao')
+const ConfirmedCaseDao = require('./dao/ConfirmedCaseDao')
 
 async function test () {
-  const result = await PlaceType.findAll()
-  console.log(result)
+  try {
+    const result = await ConfirmedCaseDao.findAll()
+    console.log(result)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 test()

@@ -1,10 +1,9 @@
-const PlaceType = require('../model/PlaceType')
+const { PlaceType } = require('../model')
 
 /**
  * Data Access to PlaceType model
  */
 class PlaceTypeDao {
-
   /**
    * Find all place types
    */
