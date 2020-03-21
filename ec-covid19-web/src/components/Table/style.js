@@ -1,10 +1,14 @@
 import styled from 'styled-components'
-import { colors } from '../../settings/constants'
+import { colors, devices } from '../../settings/constants'
 
 export const TableContainer = styled.article`
   width: 100%;
   height: 30vh;
-  margin: 1em 0;
+  margin: 1em 0 2em;
+
+  @media ${devices.tablet} {
+      height: 50vh;
+  }
 
   table {
     width: 100%;

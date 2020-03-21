@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { colors, fonts, size } from '../../settings/constants'
+import { colors, fonts, size, devices } from '../../settings/constants'
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${fonts.content.family};
     font-weight: ${fonts.content.weight};
     font-size: ${size.textContent};
-    padding: 1em 10em;
+    margin: 2em 0;
   }
 
   a {
@@ -44,5 +44,11 @@ export const GlobalStyle = createGlobalStyle`
   {
 	  background-color: #d45d79;
 	  border: 1px solid #555555;
+  }
+
+  @media ${devices.mobile} {
+    body {
+      margin: 1em;
+    }
   }
 `

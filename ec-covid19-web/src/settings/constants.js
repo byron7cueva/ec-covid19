@@ -3,6 +3,7 @@ export const colors = {
   second: '#50bda1',
   alternative: '#f18867',
   light: '#f5f6fa',
+  dark: '#010a43',
 
   red: '#fe346e',
   orange: '#fbc490',
@@ -22,4 +23,11 @@ export const fonts = {
 
 export const size = {
   textContent: '13px'
+}
+
+export const devices = {
+  mobile: '(max-width: 320px)',
+  mobileLandscape: '(max-width: 480px)',
+  tablet: '(max-width: 768px)',
+  laptop: '(max-width: 1024px)'
 }
