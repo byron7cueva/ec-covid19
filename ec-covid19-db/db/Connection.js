@@ -33,14 +33,16 @@ class Connection {
    * Connect to database
    */
   connect () {
-    this._connection = new Sequelize(
-      defaults(connectionConfig, {
-        dialect: 'sqlite',
-        query: {
-          raw: true
-        }
-      })
-    )
+    if (!this._connection) {
+      this._connection = new Sequelize(
+        defaults(connectionConfig, {
+          dialect: 'sqlite',
+          query: {
+            raw: true
+          }
+        })
+      )
+    }
   }
 }
 
