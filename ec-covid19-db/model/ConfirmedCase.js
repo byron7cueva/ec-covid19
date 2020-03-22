@@ -18,11 +18,10 @@ ConfirmedCase.init(
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    infected: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0
+    caseDate: {
+      type: DataTypes.DATEONLY
     },
-    actived: {
+    confirmed: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },

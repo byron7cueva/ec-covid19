@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "defaults": "^1.0.3",
+    "moment": "^2.24.0",
     "sequelize": "^5.21.5",
     "sqlite3": "^4.1.1"
   }
