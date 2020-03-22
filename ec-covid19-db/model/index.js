@@ -9,6 +9,16 @@ Place.belongsTo(PlaceType, {
   sourceKey: 'placeTypeId'
 })
 
+Place.hasMany(ConfirmedCase, {
+  foreignKey: 'placeId',
+  sourceKey: 'placeId'
+})
+
+ConfirmedCase.belongsTo(Place, {
+  foreignKey: 'placeId',
+  sourceKey: 'placeId'
+})
+
 module.exports = {
   PlaceType,
   Place,

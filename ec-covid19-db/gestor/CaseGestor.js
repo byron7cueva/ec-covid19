@@ -69,6 +69,13 @@ class CaseGestor {
   static getHistoryCasesOfPlace (placeId) {
     return ConfirmedCaseDao.findAllByPlaceAndCaseType(placeId, caseType.daily)
   }
+
+  /**
+   * Get total cases to all places
+   */
+  static getTotalCasesAllPlaces () {
+    return ConfirmedCaseDao.findAllTotalCases()
+  }
 }
 
 module.exports = CaseGestor

@@ -1,6 +1,7 @@
 'use strict'
 
-const { ConfirmedCase } = require('../model')
+const { ConfirmedCase, Place } = require('../model')
+const { caseType } = require('../config/constants')
 
 class ConfirmedCaseDao {
   /**
@@ -75,6 +76,27 @@ class ConfirmedCaseDao {
     }
 
     return ConfirmedCase.findAll(cond)
+  }
+
+  /**
+   * Get all total cases
+   */
+  static async findAllTotalCases () {
+    const opts = {
+      attributes: ['placeId', 'placeCode', 'placeName', 'placeTypeId'],
+      include: [
+        {
+          model: ConfirmedCase,
+          attributes: ['confirmed', 'dead', 'healed', 'updateDate'],
+          where: { caseTypeId: caseType.total },
+          required: false
+        }
+      ],
+      nest: true,
+      raw: true
+    }
+
+    return Place.findAll(opts)
   }
 }
 
