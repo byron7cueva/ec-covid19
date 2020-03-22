@@ -37,7 +37,7 @@ const createOrUpdateRegisterCase = async (placeId, caseTypeId, dataCase, date = 
   return ConfirmedCaseDao.create(newCase)
 }
 
-class Cases {
+class CaseGestor {
   /**
    * Register new case confirmed
    * @param {Number} placeId Id of place
@@ -61,6 +61,14 @@ class Cases {
     await createOrUpdateRegisterCase(countryPlaceId, caseType.total, dataCase)
     return createOrUpdateRegisterCase(countryPlaceId, caseType.daily, dataCase, dataCase.caseDate)
   }
+
+  /**
+   * Get History cases register daily of place
+   * @param {Number} placeId Id of place
+   */
+  static getHistoryCasesOfPlace (placeId) {
+    return ConfirmedCaseDao.findAllByPlaceAndCaseType(placeId, caseType.daily)
+  }
 }
 
-module.exports = Cases
+module.exports = CaseGestor

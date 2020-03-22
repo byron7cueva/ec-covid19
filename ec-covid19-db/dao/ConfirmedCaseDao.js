@@ -28,25 +28,17 @@ class ConfirmedCaseDao {
   }
 
   /**
-   * Find one confirmed case by condition
-   * @param {Object} condition Object to type ConfirmedCase
-   */
-  static findOneByCondition (condition) {
-    return ConfirmedCase.findOne(condition)
-  }
-
-  /**
    * Find confirmed case by date insert and place
    * @param {String} date Date on format yyyy-mm-dd
-   * @param {Integer} placeId Id of place
-   * @param {Integer} caseTypeId Id of type case
+   * @param {Number} placeId Id of place
+   * @param {Number} caseTypeId Id of type case
    */
-  static findByDatePlaceCaseType (date, placeId, caseTypeId) {
+  static findByDatePlaceCaseType (caseDate, placeId, caseTypeId) {
     const cond = {
       where: {
-        caseDate: date,
-        placeId: placeId,
-        caseTypeId: caseTypeId
+        caseDate,
+        placeId,
+        caseTypeId
       }
     }
 
@@ -55,18 +47,34 @@ class ConfirmedCaseDao {
 
   /**
    * Find confirmed case by place and case type
-   * @param {Integer} placeId Id of place
-   * @param {Integer} caseTypeId Id of type case
+   * @param {Number} placeId Id of place
+   * @param {Number} caseTypeId Id of type case
    */
   static findByPlaceAndCaseType (placeId, caseTypeId) {
     const cond = {
       where: {
-        placeId: placeId,
-        caseTypeId: caseTypeId
+        placeId,
+        caseTypeId
       }
     }
 
     return ConfirmedCase.findOne(cond)
+  }
+
+  /**
+   * Get all Confirmed cases history of place
+   * @param {Number} placeId Id of place
+   * @param {Number} caseTypeId Id of case type
+   */
+  static findAllByPlaceAndCaseType (placeId, caseTypeId) {
+    const cond = {
+      where: {
+        placeId,
+        caseTypeId
+      }
+    }
+
+    return ConfirmedCase.findAll(cond)
   }
 }
 
