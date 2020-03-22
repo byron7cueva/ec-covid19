@@ -6,7 +6,6 @@ module.exports = {
     pool: {
       max: 10,
       min: 0,
-      // Tiempo de vida si la conexion no es utilizada
       idle: 10000
     }
   }

@@ -4,7 +4,6 @@ const { Place } = require('../model')
  * Mangament access to date for Place model
  */
 class PlaceDao {
-
   /**
    * Get all Places
    */
