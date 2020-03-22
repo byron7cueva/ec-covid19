@@ -10,8 +10,7 @@ CaseType.init(
   {
     caseTypeId: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+      primaryKey: true
     },
     type: {
       type: DataTypes.STRING,

@@ -9,8 +9,7 @@ class PlaceType extends Model {}
 PlaceType.init({
   placeTypeId: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+    primaryKey: true
   },
   placeTypeName: {
     type: DataTypes.STRING,
