@@ -3,6 +3,7 @@
 const Sequelize = require('sequelize')
 const defaults = require('defaults')
 const { connectionConfig } = require('../config/db')
+const errorHandler = require('../lib/errorHandler')
 
 let instance = null
 
@@ -37,11 +38,17 @@ class Connection {
       this._connection = new Sequelize(
         defaults(connectionConfig, {
           dialect: 'sqlite',
+          logging: process.env.NODE_ENV !== 'production',
           query: {
             raw: true
           }
         })
       )
+      try {
+        this._connection.authenticate()
+      } catch (error) {
+        errorHandler(error)
+      }
     }
   }
 }

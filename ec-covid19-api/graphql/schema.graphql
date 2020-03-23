@@ -1,0 +1,39 @@
+type ConfirmedCases {
+  caseDate: String
+  confirmed: Int
+  dead: Int
+  healed: Int
+  updateDate: String
+}
+
+type Place {
+  placeId: ID!
+  placeCode: String!
+  placeName: String!
+  placeTypeId: String!
+  ConfirmedCases: ConfirmedCases
+}
+
+type Query {
+  "Return all places"
+  getPlaces: [Place]
+  "Return all total cases by place"
+  getTotalConfirmedCases: [Place]
+  "Return history cases by place"
+  getHistoryCasesOfPlace(placeId: ID!): [ConfirmedCases]
+}
+
+input ConfirmedCaseInput {
+  placeId: Int
+  confirmed: Int
+  dead: Int
+  healed: Int
+  caseDate: String
+}
+
+type Mutation {
+  "Create to case confirmed"
+  createCaseConfirmed(input: ConfirmedCaseInput!): ConfirmedCases
+  "Create to case for country"
+  registerCasesCountry(input: ConfirmedCaseInput!): ConfirmedCases
+}

@@ -5,7 +5,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "lint": "standard"
+    "lint": "standard",
+    "dev": "DEBUG=ec-covid19:* nodemon index.js"
   },
   "keywords": [
     "api"
@@ -16,8 +17,11 @@
     "standard": "^14.3.3"
   },
   "dependencies": {
+    "debug": "^4.1.1",
+    "ec-covid19-db": "file:../ec-covid19-db",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
-    "graphql": "^14.6.0"
+    "graphql": "^14.6.0",
+    "graphql-tools": "^4.0.7"
   }
 }

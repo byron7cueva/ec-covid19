@@ -1,7 +1,9 @@
 'use strict'
 
+const debug = require('debug')('ec-covid19:db:CaseGestor')
 const { ConfirmedCaseDao } = require('../dao')
 const { caseType, countryPlaceId } = require('../config/constants')
+const EcCovid19DBError = require('../lib/EcCovid19DBError')
 
 /**
  * Create or update case confirmed
@@ -45,10 +47,17 @@ class CaseGestor {
    * @param {String} date Date of case YYYY-MM-DD
    */
   static async registerCaseConfirmed (dataCase) {
+    if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
+    debug('Init register case')
     await createOrUpdateRegisterCase(countryPlaceId, caseType.total, dataCase)
+    debug('Register total case for country')
     await createOrUpdateRegisterCase(countryPlaceId, caseType.daily, dataCase, dataCase.caseDate)
+    debug('Register daily case for country')
     await createOrUpdateRegisterCase(dataCase.placeId, caseType.total, dataCase)
-    return createOrUpdateRegisterCase(dataCase.placeId, caseType.daily, dataCase, dataCase.caseDate)
+    debug('Register total case for place')
+    const caseRegister = await createOrUpdateRegisterCase(dataCase.placeId, caseType.daily, dataCase, dataCase.caseDate)
+    debug('Register daily case for place')
+    return caseRegister
   }
 
   /**
@@ -56,6 +65,8 @@ class CaseGestor {
    * @param {Number} numDead Num of deads
    */
   static async registerCasesDeadOrHealedInCountry (dataCase) {
+    debug('Register case for country')
+    if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case country')
     // cero is assigned so as not to alter confirmed cases
     dataCase.confirmed = 0
     await createOrUpdateRegisterCase(countryPlaceId, caseType.total, dataCase)

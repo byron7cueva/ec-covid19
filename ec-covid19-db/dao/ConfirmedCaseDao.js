@@ -43,6 +43,7 @@ class ConfirmedCaseDao {
       }
     }
 
+    console.log('Holaa')
     return ConfirmedCase.findOne(cond)
   }
 
