@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "gatsby develop",
+    "build": "gatsby build",
+    "start": "gatsby serve",
     "lint": "standard"
   },
   "keywords": [

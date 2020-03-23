@@ -1,0 +1,23 @@
+{
+  "name": "ec-covid19-api",
+  "version": "0.1.0",
+  "description": "This is the api for ec-covid19",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "lint": "standard"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "byron7cueva <byron7cueva@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^14.3.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.6.0"
+  }
+}
