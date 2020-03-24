@@ -9,7 +9,8 @@ import { HeaderContainer } from './style'
  */
 export const Header = ({ title }) => (
   <HeaderContainer>
-    <h1 className='header__title'>{title}</h1>
+    <h1 className='header__title'>{title} - <a href="https://www.salud.gob.ec/actualizacion-de-casos-de-coronavirus-en-ecuador/">Fuente MSP</a> </h1>
+    <p>Fuente no oficial</p>
   </HeaderContainer>
 )
 

@@ -8,11 +8,11 @@ import { Footer } from '../Footer'
 export const Layout = ({ children }) => {
   return (
     <>
-      <Header title='Covid19' />
+      <Header title='Ecuador Covid19' />
       <Main>
         {children}
       </Main>
-      <Footer author='Byron Cueva' url='aa' />
+      <Footer author='Byron Cueva' url='https://github.com/byron7cueva' />
     </>
   )
 }
