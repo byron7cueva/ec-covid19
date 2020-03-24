@@ -1,5 +1,18 @@
 # Queries
 
+## Get all places
+
+```graphql
+query {
+  getPlaces {
+    placeId
+    placeCode
+    placeName
+    placeTypeId
+  }
+}
+```
+
 ## Get total confirmed cases
 
 ```graphql

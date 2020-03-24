@@ -1,5 +1,3 @@
-# Cache
-.cache/
-
 # Public path
-public/
+dist/app.bundle.js
+dist/index.html

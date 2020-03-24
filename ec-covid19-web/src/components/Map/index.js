@@ -4,11 +4,8 @@ import { PatternLines } from '@vx/pattern'
 import PropTypes from 'prop-types'
 
 import { MapContainer } from './style'
-import maps from '../../data/maps.yml'
 import { patternScale } from '../../settings/charts'
-import { getStyleScale } from '../../utils/chats'
-
-const map = maps['PROVINCIAS']
+import { getStyleScale } from '../../utils/charts'
 
 export const Map = ({ data, onClickGeography, selectedPlace }) => (
   <MapContainer>
@@ -39,7 +36,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
         center={[-78.00, -1.80]}
       >
         <Geographies
-          geography={`maps/${map.filename}`}
+          geography={`maps/provincias.json`}
           onMouseEnter={() => {
             console.log('Enter')
           }}
@@ -50,30 +47,35 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => (
                 const { properties } = geo
                 const placeCode = properties.placeCode
                 const dataPlace = data.find(d => d.placeCode ===  placeCode)
-                const infected = dataPlace && dataPlace.infected > 0
-                const style = getStyleScale(dataPlace)
-                const isSelected = selectedPlace && placeCode === selectedPlace.placeCode
+                let confirmed = false
+                let style = getStyleScale()
+                let isSelected = false
+                if (dataPlace) {
+                  confirmed = dataPlace.ConfirmedCases.confirmed > 0
+                  style = getStyleScale(dataPlace.ConfirmedCases.confirmed)
+                  isSelected = selectedPlace && placeCode === selectedPlace.placeCode
+                }
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    data-tip={`${properties.placeName} ${infected? dataPlace.infected:''}`}
+                    data-tip={`${properties.placeName} ${confirmed? dataPlace.confirmed:''}`}
                     style={{
                       default: {
-                        fill: isSelected? `url("#${style.id}")` : (infected? style.background : 'url("#noCases")'),
+                        fill: isSelected? `url("#${style.id}")` : (confirmed? style.background : 'url("#noCases")'),
                         strokeWidth: isSelected? 3 : 0,
                         stroke: isSelected? style.stroke : null
                       },
                       hover: {
                         strokeWidth: 2,
                         stroke: style.stroke,
-                        fill: infected? `url("#${style.id}")` : 'url("#noCases")',
-                        cursor: infected? 'pointer' : 'default'
+                        fill: confirmed? `url("#${style.id}")` : 'url("#noCases")',
+                        cursor: confirmed? 'pointer' : 'default'
                       },
                       pressed: {
                         strokeWidth: 3,
                         stroke: style.stroke,
-                        fill: infected? `url("#${style.id}")` : 'url("#noCases")'
+                        fill: confirmed? `url("#${style.id}")` : 'url("#noCases")'
                       }
                     }}
                     onClick={() => {

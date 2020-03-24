@@ -8,20 +8,11 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
   const columns = useMemo (
     () => [
       { Header: 'Provincia', accessor: 'placeName' },
-      { Header: 'Muertos', accessor: 'dead' },
-      { Header: 'Infectados', accessor: 'infected' },
       { 
-        Header: 'Recuperados',
-        id: 'healed',
-        accessor: d => (
-          <Label color={colors.healed}>{d.healed}</Label>
-        )
-      },
-      { 
-        Header: 'Activos',
+        Header: 'Confirmados',
         id: 'actived',
         accessor: d => (
-          <Label color={colors.actived}>{d.actived}</Label>
+          <Label color={colors.actived}>{d.ConfirmedCases.confirmed? d.ConfirmedCases.confirmed : 0}</Label>
         )
       }
     ], []

@@ -5,14 +5,13 @@ import { ResultsContainer } from './style'
 import { ItemResult } from '../ItemResult'
 import { colors } from '../../settings/charts'
 
-export const Results = ({ placeName, statistics }) => (
+export const Results = ({ placeName, data }) => (
     <ResultsContainer>
       <h2>{placeName}</h2>
       <div className='results__numbers'>
-        <ItemResult total={statistics.healed} description='Recuperados' color={colors.healed} />
-        <ItemResult total={statistics.dead} description='Muertos' color={colors.dead} />
-        <ItemResult total={statistics.infected} description='Infectados' color={colors.infected} />
-        <ItemResult total={statistics.actived} description='Activos' color={colors.actived} />
+        <ItemResult total={data? data.ConfirmedCases.healed : 0} description='Recuperados' color={colors.healed} />
+        <ItemResult total={data? data.ConfirmedCases.dead : 0} description='Muertos' color={colors.dead} />
+        <ItemResult total={data? data.ConfirmedCases.confirmed : 0} description='Confirmados' color={colors.actived} />
       </div>
     </ResultsContainer>
 )
