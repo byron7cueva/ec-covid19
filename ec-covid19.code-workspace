@@ -1,0 +1,17 @@
+{
+  "folders": [
+	{
+		"path": "ec-covid19-db"
+	},
+	{
+		"path": "ec-covid19-database"
+	},
+	{
+		"path": "ec-covid19-api"
+	},
+	{
+		"path": "ec-covid19-web"
+	}
+],
+  "settings": {}
+}
