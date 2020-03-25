@@ -7,13 +7,11 @@ class UserDao {
   /**
    * Find User by user name and password
    * @param {*} userName Name of user
-   * @param {*} userPass Password of user
    */
-  static findByUserAndPass (userName, userPass) {
+  static findByName (userName) {
     return User.findOne({
       where: {
-        userName,
-        userPass
+        userName
       }
     })
   }
