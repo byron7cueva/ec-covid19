@@ -5,7 +5,7 @@
 ```graphql
 mutation {
   createCaseConfirmed(input: {
-    placeId: 2,
+    placeCode: "02",
     confirmed: 1,
     caseDate: "2020-03-01"
   }){
@@ -21,7 +21,7 @@ mutation {
 ```graphql
 mutation {
   registerCasesCountry(input: {
-    placeId: 1
+    placeCode: "00"
     confirmed: 2
     dead: 1
     caseDate: "2020-03-01"

@@ -9,27 +9,32 @@ Place.init({
   placeId: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    field: 'placeid'
   },
   placeCode: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    field: 'placecode'
   },
   placeName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    field: 'placename'
   },
   placeTypeId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    field: 'placetypeid'
   },
   parentRegion: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    field: 'parentregion'
   }
 },
 {
   sequelize: getInstance().connection,
-  tableName: 'Places',
+  tableName: 'places',
   timestamps: false
 })
 

@@ -41,6 +41,9 @@ class Connection {
           logging: process.env.NODE_ENV !== 'production',
           query: {
             raw: true
+          },
+          define: {
+            cameCased: true
           }
         })
       )

@@ -3,5 +3,5 @@ module.exports = {
     total: 1,
     daily: 2
   },
-  countryPlaceId: 1
+  countryPlaceCode: '00'
 }

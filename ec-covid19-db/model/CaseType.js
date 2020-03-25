@@ -10,7 +10,8 @@ CaseType.init(
   {
     caseTypeId: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      field: 'casetypeid'
     },
     type: {
       type: DataTypes.STRING,
@@ -19,7 +20,7 @@ CaseType.init(
   },
   {
     sequelize: getInstance().connection,
-    tableName: 'CaseTypes',
+    tableName: 'casetypes',
     timestamps: false
   }
 )

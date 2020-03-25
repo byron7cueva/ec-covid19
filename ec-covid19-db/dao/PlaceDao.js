@@ -10,6 +10,16 @@ class PlaceDao {
   static findAll () {
     return Place.findAll()
   }
+
+  /**
+   * Get place by placeCode
+   * @param {String} placeCode Code of place
+   */
+  static findByPlaceCode (placeCode) {
+    return Place.findOne({
+      where: { placeCode }
+    })
+  }
 }
 
 module.exports = PlaceDao

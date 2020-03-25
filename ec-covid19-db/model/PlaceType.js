@@ -9,16 +9,18 @@ class PlaceType extends Model {}
 PlaceType.init({
   placeTypeId: {
     type: DataTypes.INTEGER,
-    primaryKey: true
+    primaryKey: true,
+    field: 'placetypeid'
   },
   placeTypeName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    field: 'placetypename'
   }
 },
 {
   sequelize: getInstance().connection,
-  tableName: 'PlaceTypes',
+  tableName: 'placetypes',
   timestamps: false
 })
 

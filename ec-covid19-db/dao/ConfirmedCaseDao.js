@@ -65,13 +65,19 @@ class ConfirmedCaseDao {
 
   /**
    * Get all Confirmed cases history of place
-   * @param {Number} placeId Id of place
+   * @param {String} placeCode Code of place
    * @param {Number} caseTypeId Id of case type
    */
-  static findAllByPlaceAndCaseType (placeId, caseTypeId) {
+  static findAllByPlaceAndCaseType (placeCode, caseTypeId) {
     const cond = {
+      include: [
+        {
+          model: Place,
+          attributes: [],
+          where: { placeCode }
+        }
+      ],
       where: {
-        placeId,
         caseTypeId
       }
     }

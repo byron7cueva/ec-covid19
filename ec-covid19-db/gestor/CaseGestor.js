@@ -1,8 +1,8 @@
 'use strict'
 
 const debug = require('debug')('ec-covid19:db:CaseGestor')
-const { ConfirmedCaseDao } = require('../dao')
-const { caseType, countryPlaceId } = require('../config/constants')
+const { ConfirmedCaseDao, PlaceDao } = require('../dao')
+const { caseType, countryPlaceCode } = require('../config/constants')
 const EcCovid19DBError = require('../lib/EcCovid19DBError')
 
 /**
@@ -49,13 +49,16 @@ class CaseGestor {
   static async registerCaseConfirmed (dataCase) {
     if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
     debug('Init register case')
-    await createOrUpdateRegisterCase(countryPlaceId, caseType.total, dataCase)
+    debug('Find country place')
+    const countryPlace = await PlaceDao.findByPlaceCode(countryPlaceCode)
+    const place = await PlaceDao.findByPlaceCode(dataCase.placeCode)
+    await createOrUpdateRegisterCase(countryPlace.placeId, caseType.total, dataCase)
     debug('Register total case for country')
-    await createOrUpdateRegisterCase(countryPlaceId, caseType.daily, dataCase, dataCase.caseDate)
+    await createOrUpdateRegisterCase(countryPlace.placeId, caseType.daily, dataCase, dataCase.caseDate)
     debug('Register daily case for country')
-    await createOrUpdateRegisterCase(dataCase.placeId, caseType.total, dataCase)
+    await createOrUpdateRegisterCase(place.placeId, caseType.total, dataCase)
     debug('Register total case for place')
-    const caseRegister = await createOrUpdateRegisterCase(dataCase.placeId, caseType.daily, dataCase, dataCase.caseDate)
+    const caseRegister = await createOrUpdateRegisterCase(place.placeId, caseType.daily, dataCase, dataCase.caseDate)
     debug('Register daily case for place')
     return caseRegister
   }
@@ -69,16 +72,18 @@ class CaseGestor {
     if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case country')
     // cero is assigned so as not to alter confirmed cases
     dataCase.confirmed = 0
-    await createOrUpdateRegisterCase(countryPlaceId, caseType.total, dataCase)
-    return createOrUpdateRegisterCase(countryPlaceId, caseType.daily, dataCase, dataCase.caseDate)
+    debug('Find country place')
+    const countryPlace = await PlaceDao.findByPlaceCode(countryPlaceCode)
+    await createOrUpdateRegisterCase(countryPlace.placeId, caseType.total, dataCase)
+    return createOrUpdateRegisterCase(countryPlace.placeId, caseType.daily, dataCase, dataCase.caseDate)
   }
 
   /**
    * Get History cases register daily of place
-   * @param {Number} placeId Id of place
+   * @param {String} placeCode Code of place
    */
-  static getHistoryCasesOfPlace (placeId) {
-    return ConfirmedCaseDao.findAllByPlaceAndCaseType(placeId, caseType.daily)
+  static getHistoryCasesOfPlace (placeCode) {
+    return ConfirmedCaseDao.findAllByPlaceAndCaseType(placeCode, caseType.daily)
   }
 
   /**

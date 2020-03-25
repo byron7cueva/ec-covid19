@@ -20,15 +20,15 @@ type Query {
   "Return all total cases by place"
   getTotalConfirmedCases: [Place]
   "Return history cases by place"
-  getHistoryCasesOfPlace(placeId: ID!): [ConfirmedCases]
+  getHistoryCasesOfPlace(placeCode: String!): [ConfirmedCases]
 }
 
 input ConfirmedCaseInput {
-  placeId: Int
+  placeCode: String!
   confirmed: Int
   dead: Int
   healed: Int
-  caseDate: String
+  caseDate: String!
 }
 
 type Mutation {

@@ -8,18 +8,22 @@ ConfirmedCase.init(
     caseId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      field: 'caseid'
     },
     placeId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field: 'placeid'
     },
     caseTypeId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field: 'casetypeid'
     },
     caseDate: {
-      type: DataTypes.DATEONLY
+      type: DataTypes.DATEONLY,
+      field: 'casedate'
     },
     confirmed: {
       type: DataTypes.INTEGER,
@@ -33,12 +37,18 @@ ConfirmedCase.init(
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    insertDate: DataTypes.DATE,
-    updateDate: DataTypes.DATE
+    insertDate: {
+      type: DataTypes.DATE,
+      field: 'insertdate'
+    },
+    updateDate: {
+      type: DataTypes.DATE,
+      field: 'updatedate'
+    }
   },
   {
     sequelize: getInstance().connection,
-    tableName: 'ConfirmedCases',
+    tableName: 'confirmedcases',
     createdAt: 'insertDate',
     updatedAt: 'updateDate'
   }
