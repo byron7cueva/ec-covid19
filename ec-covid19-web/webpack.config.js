@@ -12,7 +12,8 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/api': 'http://localhost:3000',
+      '/auth': 'http://localhost:3000'
     }
   },
   module: {

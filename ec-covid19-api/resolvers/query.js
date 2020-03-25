@@ -21,10 +21,10 @@ module.exports = {
   /**
    * Get history cases of place
    */
-  getHistoryCasesOfPlace: async (root, { placeId }) => {
+  getHistoryCasesOfPlace: async (root, { placeCode }) => {
     let cases = []
     try {
-      cases = await CaseGestor.getHistoryCasesOfPlace(placeId)
+      cases = await CaseGestor.getHistoryCasesOfPlace(placeCode)
     } catch (error) {
       errorHandler(error)
     }

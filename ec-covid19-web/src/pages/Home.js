@@ -67,7 +67,7 @@ export class Home extends Component {
   getHistoryCases () {
     const query = `
       query {
-        getHistoryCasesOfPlace(placeId: 1) {
+        getHistoryCasesOfPlace(placeCode: "00") {
           caseDate
           confirmed
           dead

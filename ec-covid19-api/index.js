@@ -1,12 +1,15 @@
 'use strict'
 
-require('dotenv').config()
 const debug = require('debug')('ec-covid19:api')
 const express = require('express')
 const { readFileSync } = require('fs')
 const { join } = require('path')
 const { makeExecutableSchema } = require('graphql-tools')
 const gqlMiddleware = require('express-graphql')
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const { port, env } = require('./config/server')
 const resolvers = require('./resolvers')

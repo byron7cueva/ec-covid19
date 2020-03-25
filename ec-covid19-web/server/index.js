@@ -1,13 +1,24 @@
 const debug = require('debug')('ec-covid19:web')
 const express = require('express')
 const { createProxyMiddleware } = require("http-proxy-middleware")
-const { port } = require('./config/server')
+const { join } = require('path')
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
+const { port, endPoint } = require('./config/server')
 
 const app = express()
+app.use(express.static(join(__dirname, '..', 'dist')))
 
 const devProxy = {
   "/api": {
-    target: "http://localhost:3000/api/",
+    target: endPoint,
+    changeOrigin: true
+  },
+  "/auth": {
+    target: endPoint,
     changeOrigin: true
   }
 };

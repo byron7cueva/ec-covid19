@@ -79,7 +79,9 @@ class ConfirmedCaseDao {
       ],
       where: {
         caseTypeId
-      }
+      },
+      nest: true,
+      raw: true
     }
 
     return ConfirmedCase.findAll(cond)
