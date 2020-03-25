@@ -1,5 +1,5 @@
 require('./db/Connection').getInstance().connect()
-const { PlaceGestor, CaseGestor } = require('./gestor')
+const { PlaceGestor, CaseGestor, UserGestor } = require('./gestor')
 
 function handleFatalError (error) {
   console.error(error.message)
@@ -12,5 +12,6 @@ process.on('unhandledRejection', handleFatalError)
 
 module.exports = {
   PlaceGestor,
-  CaseGestor
+  CaseGestor,
+  UserGestor
 }

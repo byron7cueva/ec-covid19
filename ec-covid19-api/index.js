@@ -15,6 +15,16 @@ const typeDefs = readFileSync(join(__dirname, 'graphql', 'schema.graphql'), { en
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 const isDev = env !== 'production'
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+app.use((req, res, next) => {
+  if (req.path === '/api' && req.body.query.includes('mutation')) {
+    return res.status(500).send({ message: 'User no authorized' })
+  }
+  next()
+})
+
 app.use('/api', gqlMiddleware({
   schema,
   rootValue: resolvers,

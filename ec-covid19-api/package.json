@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "lint": "standard",
-    "dev": "DEBUG=ec-covid19:* nodemon index.js"
+    "dev": "DEBUG=ec-covid19:* nodemon index.js",
+    "debug": "DB_HOST=192.168.1.10 DB_USER=desarrollo DB_NAME=eccovid19 DB_PASS=desarrollo DEBUG=ec-covid19:* node --nolazy --inspect-brk=9229 index.js"
   },
   "keywords": [
     "api"
@@ -17,11 +18,13 @@
     "standard": "^14.3.3"
   },
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "debug": "^4.1.1",
     "ec-covid19-db": "file:../ec-covid19-db",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.6.0",
-    "graphql-tools": "^4.0.7"
+    "graphql-tools": "^4.0.7",
+    "jsonwebtoken": "^8.5.1"
   }
 }

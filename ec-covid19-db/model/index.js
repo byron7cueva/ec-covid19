@@ -2,6 +2,7 @@ const PlaceType = require('./PlaceType')
 const Place = require('./Place')
 const CaseType = require('./CaseType')
 const ConfirmedCase = require('./ConfirmedCase')
+const User = require('./User')
 
 // Associations
 Place.belongsTo(PlaceType, {
@@ -23,5 +24,6 @@ module.exports = {
   PlaceType,
   Place,
   CaseType,
-  ConfirmedCase
+  ConfirmedCase,
+  User
 }
