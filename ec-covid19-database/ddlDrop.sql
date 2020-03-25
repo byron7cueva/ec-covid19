@@ -1,6 +1,6 @@
 /* Drop Database */
 
-DROP TABLE Place;
-DROP TABLE PlaceType;
-DROP TABLE CaseType;
-DROP TABLE ConfirmedCase;
+DROP TABLE Places;
+DROP TABLE PlaceTypes;
+DROP TABLE CaseTypes;
+DROP TABLE ConfirmedCases;
