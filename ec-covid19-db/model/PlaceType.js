@@ -18,7 +18,7 @@ PlaceType.init({
 },
 {
   sequelize: getInstance().connection,
-  tableName: 'PlaceType',
+  tableName: 'PlaceTypes',
   timestamps: false
 })
 

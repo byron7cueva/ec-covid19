@@ -29,7 +29,7 @@ Place.init({
 },
 {
   sequelize: getInstance().connection,
-  tableName: 'Place',
+  tableName: 'Places',
   timestamps: false
 })
 

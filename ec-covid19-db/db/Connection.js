@@ -37,7 +37,7 @@ class Connection {
     if (!this._connection) {
       this._connection = new Sequelize(
         defaults(connectionConfig, {
-          dialect: 'sqlite',
+          dialect: 'postgres',
           logging: process.env.NODE_ENV !== 'production',
           query: {
             raw: true

@@ -38,7 +38,7 @@ ConfirmedCase.init(
   },
   {
     sequelize: getInstance().connection,
-    tableName: 'ConfirmedCase',
+    tableName: 'ConfirmedCases',
     createdAt: 'insertDate',
     updatedAt: 'updateDate'
   }

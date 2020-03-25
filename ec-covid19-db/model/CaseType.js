@@ -19,7 +19,7 @@ CaseType.init(
   },
   {
     sequelize: getInstance().connection,
-    tableName: 'CaseType',
+    tableName: 'CaseTypes',
     timestamps: false
   }
 )

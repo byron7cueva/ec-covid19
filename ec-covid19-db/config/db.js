@@ -1,10 +1,14 @@
+require('dotenv').config()
 const path = require('path')
 
 module.exports = {
   connectionConfig: {
-    storage: process.env.STORAGE || path.join(__dirname, '../storage/ecCovid19.db3'),
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
     pool: {
-      max: 10,
+      max: 5,
       min: 0,
       idle: 10000
     }
