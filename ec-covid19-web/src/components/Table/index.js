@@ -1,5 +1,7 @@
 import React, { useMemo, useEffect, useRef, useState } from 'react'
-import { useTable } from 'react-table'
+import { useTable, useGroupBy, useExpanded } from 'react-table'
+import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai'
+import moment from 'moment'
 
 import { TableContainer, Label } from './style'
 import { colors } from '../../settings/charts'
@@ -7,7 +9,35 @@ import { colors } from '../../settings/charts'
 export const Table = ({data, onRowClick, selectedPlace }) => {
   const columns = useMemo (
     () => [
+      {
+        id: 'expander',
+        Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
+          <span {...getToggleAllRowsExpandedProps()}>
+            { isAllRowsExpanded ? <AiFillCaretDown size={14} /> : <AiFillCaretRight size={14} />}
+          </span>
+        ),
+        Cell: ({ row }) => (
+          row.canExpand ? (
+            <span
+              {...row.getToggleRowExpandedProps({
+                style: {
+                  paddingLeft: `${row.depth * 2}rem`,
+                },
+              })}
+            >
+              {row.isExpanded ? <AiFillCaretDown size={14} /> : <AiFillCaretRight size={14} />}
+            </span>
+          ) : null
+        )
+      },
       { Header: 'Provincia', accessor: 'placeName' },
+      {
+        Header: 'Actualización',
+        id: 'updateDate',
+        accessor: d => (
+          <span>{d.ConfirmedCases.updateDate ? new moment(parseInt(d.ConfirmedCases.updateDate)).format('DD/MM - HH:mm') : ''}</span>
+        )
+      },
       { 
         Header: 'Confirmados',
         id: 'actived',
@@ -23,8 +53,9 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow
-  } = useTable({ columns, data})
+    prepareRow,
+    state: { expanded }
+  } = useTable({ columns, data}, useExpanded )
 
   const tbodyEl = useRef(null)
   const [trSelected, setTrSelected] = useState(null)
@@ -32,7 +63,8 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
   useEffect(() => {
     if (selectedPlace.placeCode) {
       if (trSelected) {
-        tbodyEl.current.querySelector(trSelected).classList.remove('selected')
+        const element = tbodyEl.current.querySelector(trSelected)
+        if (element) element.classList.remove('selected')
       }
       const id = `#row-${selectedPlace.placeCode}`
       setTrSelected(id)
@@ -62,7 +94,9 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
             return (
               <tr id={`row-${row.original.placeCode}`} {...row.getRowProps()}>
                 {row.cells.map(cell => (
-                  <td {...cell.getCellProps()} onClick={() => onRowClick(row.original)}>{cell.render('Cell')}</td>
+                  <td {...cell.getCellProps()} onClick={() => onRowClick(row.original)}>
+                    {cell.render('Cell')}
+                  </td>
                 ))}
               </tr>
             )

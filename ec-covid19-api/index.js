@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use((req, res, next) => {
-  if (req.path === '/api' && req.body.query.indexOf('mutation') === 0) {
+  if (req.path === '/api' && req.body.query !== undefined && req.body.query.indexOf('mutation') === 0) {
     try {
       logged(req)
     } catch (e) {

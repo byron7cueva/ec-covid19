@@ -10,6 +10,7 @@ import { Table } from '../components/Table'
 import { LineChart } from '../components/LineChart'
 import { colors } from '../settings/charts'
 import { request } from 'graphql-request'
+import { placeType, countryPlaceCode } from '../utils/constants'
 
 export class Home extends Component {
   constructor(props) {
@@ -23,10 +24,9 @@ export class Home extends Component {
     this.handlerClickGeography = this.handlerClickGeography.bind(this)
   }
 
-  handlerClickGeography(properties) {
-    const currentCase = this.state.totalCases.find(d => d.placeCode === properties.placeCode )
-    if (currentCase && currentCase.placeCode !== '00') {
-      this.setState({selectedPlace: properties})
+  handlerClickGeography(place) {
+    if (place && place.placeCode !== '00') {
+      this.setState({selectedPlace: place})
     }
   }
 
@@ -43,6 +43,7 @@ export class Home extends Component {
           placeCode
           placeName
           placeTypeId
+          parentRegion
           ConfirmedCases {
             caseDate
             confirmed
@@ -56,8 +57,15 @@ export class Home extends Component {
 
     request('/api', query)
     .then(data => {
-      const countryCases = data.getTotalConfirmedCases.find(d => d.placeCode === '00' )
-      this.setState({totalCases: data.getTotalConfirmedCases, countryCases})
+      const totalCases = data.getTotalConfirmedCases
+      const country = totalCases.find(item => item.placeTypeId === placeType.country)
+      const provinces = totalCases.filter(item => item.placeTypeId === placeType.province)
+      provinces.forEach(prov => {
+        prov.subRows = totalCases.filter(item => item.placeTypeId === placeType.canton && item.parentRegion === prov.placeId)
+      })
+      country.subRows = provinces
+      country.expanded = true
+      this.setState({totalCases: [country], countryCases: country})
     })
     .catch(error => {
       console.log(error)
@@ -67,7 +75,7 @@ export class Home extends Component {
   getHistoryCases () {
     const query = `
       query {
-        getHistoryCasesOfPlace(placeCode: "00") {
+        getHistoryCasesOfPlace(placeCode: "${countryPlaceCode}") {
           caseDate
           confirmed
           dead
@@ -87,7 +95,6 @@ export class Home extends Component {
         dead.data.push({x: hisCas.caseDate, y: hisCas.dead})
         healed.data.push({x: hisCas.caseDate, y: hisCas.healed})
       })
-      console.log([confirmed, dead, healed])
       this.setState({currentHistory: [confirmed, dead, healed]})
     })
     .catch(error => {

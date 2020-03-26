@@ -4,13 +4,15 @@
 
 ```graphql
 mutation {
-  createCaseConfirmed(input: {
-    placeCode: "02",
-    confirmed: 1,
-    caseDate: "2020-03-01"
+  registerCantonCaseConfirmed(input: {
+    placeCode: "1001"
+    confirmed: 2
+    caseDate: "2020-03-02"
   }){
-    caseId
-    placeId
+    caseDate
+    confirmed
+    dead
+    healed
     updateDate
   }
 }

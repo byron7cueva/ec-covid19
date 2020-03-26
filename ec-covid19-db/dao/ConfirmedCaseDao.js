@@ -92,7 +92,7 @@ class ConfirmedCaseDao {
    */
   static async findAllTotalCases () {
     const opts = {
-      attributes: ['placeId', 'placeCode', 'placeName', 'placeTypeId'],
+      attributes: ['placeId', 'placeCode', 'placeName', 'placeTypeId', 'parentRegion'],
       include: [
         {
           model: ConfirmedCase,

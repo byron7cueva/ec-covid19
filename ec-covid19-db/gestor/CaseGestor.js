@@ -2,7 +2,7 @@
 
 const debug = require('debug')('ec-covid19:db:CaseGestor')
 const { ConfirmedCaseDao, PlaceDao } = require('../dao')
-const { caseType, countryPlaceCode } = require('../config/constants')
+const { caseType, placeType, countryPlaceCode } = require('../config/constants')
 const EcCovid19DBError = require('../lib/EcCovid19DBError')
 
 /**
@@ -46,21 +46,28 @@ class CaseGestor {
    * @param {Number} confirmed Num confirmed cases
    * @param {String} date Date of case YYYY-MM-DD
    */
-  static async registerCaseConfirmed (dataCase) {
+  static async registerCantonCaseConfirmed (dataCase) {
     if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
     debug('Init register case')
-    debug('Find country place')
-    const countryPlace = await PlaceDao.findByPlaceCode(countryPlaceCode)
-    const place = await PlaceDao.findByPlaceCode(dataCase.placeCode)
-    await createOrUpdateRegisterCase(countryPlace.placeId, caseType.total, dataCase)
+    const canton = await PlaceDao.findByPlaceCode(dataCase.placeCode)
+
+    debug('Register case on country')
+    const country = await PlaceDao.findByPlaceCode(countryPlaceCode)
     debug('Register total case for country')
-    await createOrUpdateRegisterCase(countryPlace.placeId, caseType.daily, dataCase, dataCase.caseDate)
+    await createOrUpdateRegisterCase(country.placeId, caseType.total, dataCase)
     debug('Register daily case for country')
-    await createOrUpdateRegisterCase(place.placeId, caseType.total, dataCase)
-    debug('Register total case for place')
-    const caseRegister = await createOrUpdateRegisterCase(place.placeId, caseType.daily, dataCase, dataCase.caseDate)
-    debug('Register daily case for place')
-    return caseRegister
+    await createOrUpdateRegisterCase(country.placeId, caseType.daily, dataCase, dataCase.caseDate)
+
+    const province = await PlaceDao.findById(canton.parentRegion)
+    debug('Register total case for province')
+    await createOrUpdateRegisterCase(province.placeId, caseType.total, dataCase)
+    debug('Register daily case for province')
+    await createOrUpdateRegisterCase(province.placeId, caseType.daily, dataCase, dataCase.caseDate)
+
+    debug('Register total case for canton')
+    await createOrUpdateRegisterCase(canton.placeId, caseType.total, dataCase)
+    debug('Register daily case for canton')
+    return createOrUpdateRegisterCase(canton.placeId, caseType.daily, dataCase, dataCase.caseDate)
   }
 
   /**
@@ -89,7 +96,7 @@ class CaseGestor {
   /**
    * Get total cases to all places
    */
-  static getTotalCasesAllPlaces () {
+  static async getTotalCasesAllPlaces () {
     return ConfirmedCaseDao.findAllTotalCases()
   }
 }

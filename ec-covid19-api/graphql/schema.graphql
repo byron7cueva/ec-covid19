@@ -7,10 +7,11 @@ type ConfirmedCases {
 }
 
 type Place {
-  placeId: ID!
+  placeId: Int
   placeCode: String!
   placeName: String!
-  placeTypeId: String!
+  placeTypeId: Int!
+  parentRegion: Int
   ConfirmedCases: ConfirmedCases
 }
 
@@ -33,7 +34,7 @@ input ConfirmedCaseInput {
 
 type Mutation {
   "Create to case confirmed"
-  createCaseConfirmed(input: ConfirmedCaseInput!): ConfirmedCases
+  registerCantonCaseConfirmed(input: ConfirmedCaseInput!): ConfirmedCases
   "Create to case for country"
   registerCasesCountry(input: ConfirmedCaseInput!): ConfirmedCases
 }

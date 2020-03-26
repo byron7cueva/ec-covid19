@@ -11,13 +11,27 @@ class PlaceDao {
     return Place.findAll()
   }
 
+  static findBy (condition) {
+    return Place.findOne(condition)
+  }
+
   /**
    * Get place by placeCode
    * @param {String} placeCode Code of place
    */
   static findByPlaceCode (placeCode) {
-    return Place.findOne({
+    return this.findBy({
       where: { placeCode }
+    })
+  }
+
+  /**
+   * Get place by Id
+   * @param {Number} placeId Id of place
+   */
+  static findById (placeId) {
+    return this.findBy({
+      where: { placeId }
     })
   }
 }

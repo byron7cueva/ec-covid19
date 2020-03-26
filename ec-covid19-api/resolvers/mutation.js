@@ -9,10 +9,10 @@ module.exports = {
   /**
    * Create a case confirmed
    */
-  createCaseConfirmed: async (root, { input }) => {
+  registerCantonCaseConfirmed: async (root, { input }) => {
     let newCase
     try {
-      newCase = await CaseGestor.registerCaseConfirmed(input)
+      newCase = await CaseGestor.registerCantonCaseConfirmed(input)
     } catch (error) {
       errorHandler(error)
     }
