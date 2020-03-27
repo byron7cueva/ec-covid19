@@ -5,7 +5,7 @@ import { ItemResultContainer } from './style'
 
 export const ItemResult = ({ total, description, color }) => (
   <ItemResultContainer color={color}>
-    <h3>{total}</h3>
+    <h3>{total ? total : 0}</h3>
     <p>{description}</p>
   </ItemResultContainer>
 )
