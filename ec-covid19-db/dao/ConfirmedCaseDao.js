@@ -42,8 +42,6 @@ class ConfirmedCaseDao {
         caseTypeId
       }
     }
-
-    console.log('Holaa')
     return ConfirmedCase.findOne(cond)
   }
 
