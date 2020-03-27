@@ -68,7 +68,7 @@ export class Home extends Component {
       this.setState({totalCases: [country], countryCases: country})
     })
     .catch(error => {
-      console.log(error)
+
     })
   }
 
@@ -98,7 +98,7 @@ export class Home extends Component {
       this.setState({currentHistory: [confirmed, dead, healed]})
     })
     .catch(error => {
-      console.log(error)
+
     })    
   }
 
