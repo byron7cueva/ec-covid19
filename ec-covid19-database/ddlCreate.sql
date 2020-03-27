@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS Places (
 	placeId INTEGER NOT NULL DEFAULT nextval('Places_placeId_seq'),
 	placeCode VARCHAR(10) NOT NULL UNIQUE,
 	placeName VARCHAR(50) NOT NULL,
+	x DOUBLE PRECISION,
+	y DOUBLE PRECISION,
 	placeTypeId INTEGER NOT NULL,
 	parentRegion INTEGER
 );

@@ -31,7 +31,8 @@
     "react-simple-maps": "^1.0.0-beta.0",
     "react-table": "^7.0.0",
     "react-tooltip": "^4.1.2",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

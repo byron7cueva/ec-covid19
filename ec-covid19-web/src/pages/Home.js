@@ -42,6 +42,8 @@ export class Home extends Component {
           placeId
           placeCode
           placeName
+          x
+          y
           placeTypeId
           parentRegion
           ConfirmedCases {

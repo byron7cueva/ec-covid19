@@ -22,6 +22,12 @@ Place.init({
     allowNull: false,
     field: 'placename'
   },
+  x: {
+    type: DataTypes.DOUBLE
+  },
+  y: {
+    type: DataTypes.DOUBLE
+  },
   placeTypeId: {
     type: DataTypes.INTEGER,
     allowNull: false,

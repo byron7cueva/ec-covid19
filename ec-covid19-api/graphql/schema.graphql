@@ -10,6 +10,8 @@ type Place {
   placeId: Int
   placeCode: String!
   placeName: String!
+  x: Float
+  y: Float
   placeTypeId: Int!
   parentRegion: Int
   ConfirmedCases: ConfirmedCases

@@ -18,31 +18,31 @@ INSERT INTO CaseTypes(caseTypeId, type) VALUES
 INSERT INTO Places(placeCode, placeName, placeTypeId) VALUES('00','ECUADOR', 1);
 
 /* Provincias */
-INSERT INTO Places(placeCode, placeName, placeTypeId, parentRegion) VALUES
-('01','AZUAY',2,(select placeId from Places where placeCode = '00')),
-('02','BOLIVAR',2,(select placeId from Places where placeCode = '00')),
-('03','CAÑAR',2,(select placeId from Places where placeCode = '00')),
-('04','CARCHI',2,(select placeId from Places where placeCode = '00')),
-('05','COTOPAXI',2,(select placeId from Places where placeCode = '00')),
-('06','CHIMBORAZO',2,(select placeId from Places where placeCode = '00')),
-('07','EL ORO',2,(select placeId from Places where placeCode = '00')),
-('08','ESMERALDAS',2,(select placeId from Places where placeCode = '00')),
-('09','GUAYAS',2,(select placeId from Places where placeCode = '00')),
-('10','IMBABURA',2,(select placeId from Places where placeCode = '00')),
-('11','LOJA',2,(select placeId from Places where placeCode = '00')),
-('12','LOS RIOS',2,(select placeId from Places where placeCode = '00')),
-('13','MANABI',2,(select placeId from Places where placeCode = '00')),
-('14','MORONA SANTIAGO',2,(select placeId from Places where placeCode = '00')),
-('15','NAPO',2,(select placeId from Places where placeCode = '00')),
-('16','PASTAZA',2,(select placeId from Places where placeCode = '00')),
-('17','PICHINCHA',2,(select placeId from Places where placeCode = '00')),
-('18','TUNGURAHUA',2,(select placeId from Places where placeCode = '00')),
-('19','ZAMORA CHINCHIPE',2,(select placeId from Places where placeCode = '00')),
-('20','GALAPAGOS',2,(select placeId from Places where placeCode = '00')),
-('21','SUCUMBIOS',2,(select placeId from Places where placeCode = '00')),
-('22','ORELLANA',2,(select placeId from Places where placeCode = '00')),
-('23','SANTO DOMINGO DE LOS TSACHILAS',2,(select placeId from Places where placeCode = '00')),
-('24','SANTA ELENA',2,(select placeId from Places where placeCode = '00'));
+INSERT INTO Places(placeCode, placeName, placeTypeId, parentRegion, x, y) VALUES
+('01','AZUAY',2,(select placeId from Places where placeCode = '00'), -79.217027460231392, -3.063368061779532),
+('02','BOLIVAR',2,(select placeId from Places where placeCode = '00'), -79.057632983191027, -1.676145442392809),
+('03','CAÑAR',2,(select placeId from Places where placeCode = '00'), -78.997311903601144, -2.524413181562859),
+('04','CARCHI',2,(select placeId from Places where placeCode = '00'), -77.972804597590098, 0.777195893390834),
+('05','COTOPAXI',2,(select placeId from Places where placeCode = '00'), -78.789457800480449, -0.775866751591376),
+('06','CHIMBORAZO',2,(select placeId from Places where placeCode = '00'), -78.748672688236098, -1.998714359751516),
+('07','EL ORO',2,(select placeId from Places where placeCode = '00'), -79.841251418354773, -3.468703430601732),
+('08','ESMERALDAS',2,(select placeId from Places where placeCode = '00'), -79.280500874365657, 0.656406712121103),
+('09','GUAYAS',2,(select placeId from Places where placeCode = '00'), -79.925491387322239, -1.950241537205953),
+('10','IMBABURA',2,(select placeId from Places where placeCode = '00'), -78.324147083367677, 0.499426796546523),
+('11','LOJA',2,(select placeId from Places where placeCode = '00'), -79.799889349014563, -4.035189088832672),
+('12','LOS RIOS',2,(select placeId from Places where placeCode = '00'), -79.538108301530968, -1.336093302270182),
+('13','MANABI',2,(select placeId from Places where placeCode = '00'), -80.102134744944692, -0.787411983125811),
+('14','MORONA SANTIAGO',2,(select placeId from Places where placeCode = '00'), -77.733438447662081, -2.517612571650533),
+('15','NAPO',2,(select placeId from Places where placeCode = '00'), -77.951499176495361, -0.606913013983796),
+('16','PASTAZA',2,(select placeId from Places where placeCode = '00'), -76.823690404044868, -1.807298724395955),
+('17','PICHINCHA',2,(select placeId from Places where placeCode = '00'), -78.50450002157595, -0.195082592070566),
+('18','TUNGURAHUA',2,(select placeId from Places where placeCode = '00'), -78.501968613940917, -1.256087180760388),
+('19','ZAMORA CHINCHIPE',2,(select placeId from Places where placeCode = '00'), -78.848161691373008, -4.178897121524937),
+('20','GALAPAGOS',2,(select placeId from Places where placeCode = '00'), -91.088987744347079, -0.444805391991203),
+('21','SUCUMBIOS',2,(select placeId from Places where placeCode = '00'), -76.683393905465437, 0.00311990632424),
+('22','ORELLANA',2,(select placeId from Places where placeCode = '00'), -76.223387371976415, -0.805732861700533),
+('23','SANTO DOMINGO DE LOS TSACHILAS',2,(select placeId from Places where placeCode = '00'), -79.170208469666704, -0.340921386092186),
+('24','SANTA ELENA',2,(select placeId from Places where placeCode = '00'), -80.520093004015465, -2.087041475617609);
 
 /* Cantones */
 INSERT INTO Places(placeCode, placeName, placeTypeId, parentRegion) VALUES

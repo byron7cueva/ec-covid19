@@ -1,7 +1,8 @@
 import React from 'react'
-import { ComposableMap, ZoomableGroup, Geographies, Geography } from 'react-simple-maps'
+import { ComposableMap, ZoomableGroup, Geographies, Geography, Marker } from 'react-simple-maps'
 import { PatternLines } from '@vx/pattern'
 import PropTypes from 'prop-types'
+import topojson from 'topojson-client'
 
 import { MapContainer } from './style'
 import { patternScale } from '../../settings/charts'
@@ -39,9 +40,6 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
         >
           <Geographies
             geography={`maps/provincias.json`}
-            onMouseEnter={() => {
-              console.log('Enter')
-            }}
           >
             {
               ({ geographies }) => (
@@ -55,32 +53,41 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
                     isSelected = selectedPlace && placeCode === selectedPlace.placeCode
                   }
                   return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      data-tip={`${placeName} ${confirmed? dataPlace.confirmed:''}`}
-                      style={{
-                        default: {
-                          fill: isSelected? `url("#${style.id}")` : (confirmed? style.background : 'url("#noCases")'),
-                          strokeWidth: isSelected? 3 : 0,
-                          stroke: isSelected? style.stroke : null
-                        },
-                        hover: {
-                          strokeWidth: 2,
-                          stroke: style.stroke,
-                          fill: confirmed? `url("#${style.id}")` : 'url("#noCases")',
-                          cursor: confirmed? 'pointer' : 'default'
-                        },
-                        pressed: {
-                          strokeWidth: 3,
-                          stroke: style.stroke,
-                          fill: confirmed? `url("#${style.id}")` : 'url("#noCases")'
-                        }
-                      }}
-                      onClick={() => {
-                        onClickGeography(geo.properties)
-                      }}
-                    />
+                    <>
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        data-tip={`${placeName} ${confirmed? dataPlace.confirmed:''}`}
+                        style={{
+                          default: {
+                            fill: isSelected? `url("#${style.id}")` : (confirmed? style.background : 'url("#noCases")'),
+                            strokeWidth: isSelected? 3 : 0,
+                            stroke: isSelected? style.stroke : null
+                          },
+                          hover: {
+                            strokeWidth: 2,
+                            stroke: style.stroke,
+                            fill: confirmed? `url("#${style.id}")` : 'url("#noCases")',
+                            cursor: confirmed? 'pointer' : 'default'
+                          },
+                          pressed: {
+                            strokeWidth: 3,
+                            stroke: style.stroke,
+                            fill: confirmed? `url("#${style.id}")` : 'url("#noCases")'
+                          }
+                        }}
+                        onClick={() => {
+                          onClickGeography(geo.properties)
+                        }}
+                      />
+                      { confirmed ?  
+                        <Marker coordinates={[ dataPlace.x, dataPlace.y ]}>
+                          <circle r={style.radio} fill="#e74c3c" stroke="#d63031" strokeWidth="2" fillOpacity="0.7" />
+                          <text textAnchor="middle" fontSize='15' fill='#fff' >{placeName}</text>
+                        </Marker>
+                        : null
+                      }
+                    </>
                   )
                 })
               )
