@@ -1,7 +1,6 @@
 import React, { useMemo, useEffect, useRef, useState } from 'react'
-import { useTable, useGroupBy, useExpanded } from 'react-table'
+import { useTable, useExpanded } from 'react-table'
 import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai'
-import moment from 'moment'
 
 import { TableContainer, Label } from './style'
 import { colors } from '../../settings/charts'
@@ -31,13 +30,6 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
         )
       },
       { Header: 'Provincia', accessor: 'placeName' },
-      {
-        Header: 'Actualización',
-        id: 'updateDate',
-        accessor: d => (
-          <span>{d.ConfirmedCases.updateDate ? new moment(parseInt(d.ConfirmedCases.updateDate)).format('DD/MM - HH:mm') : ''}</span>
-        )
-      },
       { 
         Header: 'Confirmados',
         id: 'actived',

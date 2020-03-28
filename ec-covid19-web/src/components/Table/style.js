@@ -38,6 +38,10 @@ export const TableContainer = styled.article`
       text-align: left;
   }
 
+  td:last-child {
+      text-align: right;
+  }
+
   tbody {
     flex: 1 1 auto;
     display: block;

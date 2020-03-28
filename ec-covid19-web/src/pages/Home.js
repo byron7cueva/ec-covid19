@@ -115,7 +115,7 @@ export class Home extends Component {
             onClickGeography={this.handlerClickGeography}
           />
           <DataSection>
-            <Results data={this.state.countryCases} placeName='Ecuador'/>
+            <Results data={this.state.countryCases} />
             <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
             <LineChart data={this.state.currentHistory} />
           </DataSection>

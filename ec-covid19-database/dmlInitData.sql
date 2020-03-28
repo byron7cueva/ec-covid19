@@ -101,7 +101,7 @@ INSERT INTO Places(placeCode, placeName, placeTypeId, parentRegion) VALUES
 ('1702','CAYAMBE',3,(SELECT placeId from Places where placeCode = '17')),
 ('1703','MEJIA',3,(SELECT placeId from Places where placeCode = '17')),
 ('1704','PEDRO MONCAYO',3,(SELECT placeId from Places where placeCode = '17')),
-('1705','RUMIÐAHUI',3,(SELECT placeId from Places where placeCode = '17')),
+('1705','RUMIÑAHUI',3,(SELECT placeId from Places where placeCode = '17')),
 ('1707','SAN MIGUEL DE LOS BANCOS',3,(SELECT placeId from Places where placeCode = '17')),
 ('1708','PEDRO VICENTE MALDONADO',3,(SELECT placeId from Places where placeCode = '17')),
 ('1709','PUERTO QUITO',3,(SELECT placeId from Places where placeCode = '17')),

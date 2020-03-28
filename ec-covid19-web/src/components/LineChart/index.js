@@ -8,7 +8,7 @@ export const LineChart = ({ data }) => (
   <LineChartContainer>
     <ResponsiveLine 
       data={data}
-      margin={{ top: 10, right: 10, bottom: 47, left: 40}}
+      margin={{ top: 10, right: 10, bottom: 60, left: 40}}
       enableGridX={false}
       useMesh={true}
       curve={'monotoneX'}
@@ -31,12 +31,13 @@ export const LineChart = ({ data }) => (
       axisBottom={{
         orient: 'bottom',
         format: '%b %d',
-        tickValues: 'every 1 days'
+        tickValues: 'every 3 days',
+        tickRotation: -30
       }}
       theme={
         {
           fontFamily: fonts.content.family,
-          fontSize: 14,
+          fontSize: 11,
           textColor:colors.light,
           grid: {
               line: {
@@ -57,7 +58,7 @@ export const LineChart = ({ data }) => (
           direction: 'row',
           justify: false,
           translateX: 0,
-          translateY: 50,
+          translateY: 60,
           itemsSpacing: 10,
           itemDirection: 'left-to-right',
           itemWidth: 100,

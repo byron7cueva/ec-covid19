@@ -68,6 +68,7 @@ class ConfirmedCaseDao {
    */
   static findAllByPlaceAndCaseType (placeCode, caseTypeId) {
     const cond = {
+      order: [['caseDate', 'ASC']],
       include: [
         {
           model: Place,
@@ -90,6 +91,7 @@ class ConfirmedCaseDao {
    */
   static async findAllTotalCases () {
     const opts = {
+      order: [['placeName', 'ASC']],
       include: [
         {
           model: ConfirmedCase,
