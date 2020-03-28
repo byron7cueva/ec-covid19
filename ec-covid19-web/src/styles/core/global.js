@@ -28,6 +28,19 @@ export const GlobalStyle = createGlobalStyle`
     color: ${colors.alternative};
   }
 
+  .block-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: ${colors.grayDark};
+  }
+
   ::-webkit-scrollbar-track
   {
 	  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);

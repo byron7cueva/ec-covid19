@@ -4,7 +4,7 @@ import { PatternLines } from '@vx/pattern'
 import PropTypes from 'prop-types'
 
 import { MapContainer } from './style'
-import { patternScale } from '../../settings/charts'
+import { patternScale, colors } from '../../settings/charts'
 import { getStyleScale } from '../../utils/charts'
 
 export const Map = ({ data, onClickGeography, selectedPlace }) => {
@@ -98,8 +98,8 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
                   }
                   return confirmed ?  
                         <Marker coordinates={[ dataPlace.x, dataPlace.y ]} key={geo.rsmKey}>
-                          <circle r={style.radio} fill='#e74c3c' stroke="#d63031" strokeWidth="2" fillOpacity="0.5" />
-                          <text textAnchor="middle" fontSize='14' fontWeight="600" fill='#fff' >{placeName}</text>
+                          <circle r={style.radio} fill={colors.confirmed} stroke={colors.confirmed} strokeWidth="2" fillOpacity="0.5" />
+                          <text textAnchor="middle" fontSize='14' fontWeight="600" fill='#fff' dy={27}>{placeName}</text>
                         </Marker>
                         : null
                 }))

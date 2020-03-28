@@ -12,7 +12,7 @@ export const Layout = ({ children }) => {
       <Main>
         {children}
       </Main>
-      <Footer author='Byron Cueva' url='https://github.com/byron7cueva' />
+      <Footer author='@byron7cueva' url='https://github.com/byron7cueva' />
     </>
   )
 }

@@ -2,11 +2,15 @@ import React from 'react'
 import { ResponsiveLine } from '@nivo/line'
 
 import { LineChartContainer } from './style'
+import { LoadingPartial } from '../LoadingPatial'
 import { colors, fonts } from '../../settings/constants'
+import { NoData } from '../NoData'
 
-export const LineChart = ({ data }) => (
+export const LineChart = ({ data, loading }) => (
   <LineChartContainer>
-    <ResponsiveLine 
+    { loading ? <LoadingPartial /> : 
+      data ? 
+      <ResponsiveLine 
       data={data}
       margin={{ top: 10, right: 10, bottom: 60, left: 40}}
       enableGridX={false}
@@ -70,6 +74,7 @@ export const LineChart = ({ data }) => (
           effects: []
         }
       ]}
-    />
+    /> : <NoData description='No hay casos confirmados' />
+    }
   </LineChartContainer>
 )
