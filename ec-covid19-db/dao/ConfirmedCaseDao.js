@@ -1,7 +1,9 @@
 'use strict'
 
+const { QueryTypes } = require('sequelize')
+
 const { ConfirmedCase, Place } = require('../model')
-const { caseType } = require('../config/constants')
+const { placeType } = require('../config/constants')
 
 class ConfirmedCaseDao {
   /**
@@ -29,82 +31,161 @@ class ConfirmedCaseDao {
   }
 
   /**
-   * Find confirmed case by date insert and place
-   * @param {String} date Date on format yyyy-mm-dd
-   * @param {Number} placeId Id of place
-   * @param {Number} caseTypeId Id of type case
-   */
-  static findByDatePlaceCaseType (caseDate, placeId, caseTypeId) {
-    const cond = {
-      where: {
-        caseDate,
-        placeId,
-        caseTypeId
-      }
-    }
-    return ConfirmedCase.findOne(cond)
-  }
-
-  /**
-   * Find confirmed case by place and case type
-   * @param {Number} placeId Id of place
-   * @param {Number} caseTypeId Id of type case
-   */
-  static findByPlaceAndCaseType (placeId, caseTypeId) {
-    const cond = {
-      where: {
-        placeId,
-        caseTypeId
-      }
-    }
-
-    return ConfirmedCase.findOne(cond)
-  }
-
-  /**
-   * Get all Confirmed cases history of place
+   * Find cases by code place and date case
    * @param {String} placeCode Code of place
-   * @param {Number} caseTypeId Id of case type
+   * @param {String} caseDate Date YYYY-MM-DD
    */
-  static findAllByPlaceAndCaseType (placeCode, caseTypeId) {
+  static findByCodeAndDate (placeCode, caseDate) {
     const cond = {
-      order: [['caseDate', 'ASC']],
-      include: [
-        {
-          model: Place,
-          attributes: [],
-          where: { placeCode }
-        }
-      ],
       where: {
-        caseTypeId
-      },
-      nest: true,
-      raw: true
+        placeCode,
+        caseDate
+      }
     }
-
-    return ConfirmedCase.findAll(cond)
+    return ConfirmedCase.findOne(cond)
   }
 
   /**
-   * Get all total cases
+   * Find total last cases of place
+   * @param {String} placeCode Code of place
    */
-  static async findAllTotalCases () {
-    const opts = {
-      order: [['placeName', 'ASC']],
-      include: [
-        {
-          model: ConfirmedCase,
-          attributes: ['confirmed', 'dead', 'healed', 'updateDate'],
-          where: { caseTypeId: caseType.total },
-          required: false
-        }
-      ],
-      nest: true,
-      raw: true
-    }
+  static async findTotalLastCaseOfPlace (placeCode) {
+    const cases = await ConfirmedCase.sequelize.query(`
+      SELECT caseDate, totalConfirmed, totalDead, totalHealed
+      FROM ConfirmedCases c
+      WHERE c.placeCode = '${placeCode}' and caseDate = (select max(caseDate) from ConfirmedCases where placeCode = c.placeCode)
+    `, {
+      model: ConfirmedCase,
+      mapToModel: true,
+      type: QueryTypes.SELECT
+    })
+    return cases.length > 0 ? cases[0] : null
+  }
 
-    return Place.findAll(opts)
+  /**
+   * Find sum total last cases by parent region
+   * @param {String} parentRegion Code of parent region
+   * @param {Integer} placeTypeId Id of type place
+   * @param {String} caseDate Date of case
+   */
+  static async findSumTotalLastCases (parentRegion, placeTypeId, caseDate) {
+    const cases = await ConfirmedCase.sequelize.query(`
+      SELECT r.placeCode, sum(totalConfirmed) as totalConfirmed
+      FROM Places r
+      INNER JOIN Places p on p.parentRegion = r.placeCode
+      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from ConfirmedCases where placeCode = p.placeCode and caseDate <= '${caseDate}')
+      WHERE p.placeTypeId = ${placeTypeId} and p.parentRegion = '${parentRegion}'
+      GROUP BY r.placeCode
+    `, {
+      model: ConfirmedCase,
+      mapToModel: true,
+      type: QueryTypes.SELECT
+    })
+    return cases.length > 0 ? cases[0] : null
+  }
+
+  /**
+   * Find all total last cases
+   */
+  static findAllTotalLastCases () {
+    return ConfirmedCase.sequelize.query(`
+      SELECT p.placeCode, placeName, x, y, placeTypeId, parentRegion, caseDate, confirmed, totalConfirmed, dead, totalDead, healed, totalhealed, updateDate
+      FROM Places p
+      LEFT JOIN confirmedcases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from confirmedcases where placeCode = p.placeCode)
+      ORDER BY placeTypeId, parentRegion, placeName
+    `, {
+      model: Place,
+      mapToModel: true,
+      type: QueryTypes.SELECT,
+      nest: true
+    })
+  }
+
+  /**
+   * Find all total history cases
+   * @param {String} placeCode Code of place
+   */
+  static findTotalHistoryCases (placeCode) {
+    return ConfirmedCase.findAll({
+      attributes: ['caseDate', 'totalConfirmed', 'totalDead', 'totalhealed'],
+      where: {
+        placeCode
+      },
+      order: [['caseDate', 'ASC']]
+    })
+  }
+
+  /**
+   * Find all daily history case by canton
+   * @param {String} placeCode Code of canton
+   */
+  static findDailyHistoryCasesCanton (placeCode) {
+    return ConfirmedCase.findAll({
+      attributes: ['caseDate', 'confirmed', 'dead', 'healed'],
+      where: {
+        placeCode
+      },
+      order: [['caseDate', 'ASC']]
+    })
+  }
+
+  /**
+   * Find all daily history case by province
+   * @param {String} placeCode Code of province
+   */
+  static findDailyHistoryCasesProvince (placeCode) {
+    return ConfirmedCase.sequelize.query(`
+      SELECT caseDate, sum(confirmed) as confirmed, sum(dead) as dead, sum(healed) as healed
+      FROM Places r
+      INNER JOIN Places p on p.parentRegion = r.placeCode
+      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode
+      WHERE p.placeTypeId = ${placeType.canton} and r.placeCode = '${placeCode}'
+      GROUP BY r.placeCode, caseDate
+      ORDER BY caseDate ASC
+    `, {
+      model: ConfirmedCase,
+      mapToModel: true,
+      type: QueryTypes.SELECT
+    })
+  }
+
+  /**
+   * Find all daily history cases by region
+   * @param {String} placeCode Code of region
+   */
+  static findDailyHistoryCasesRegion (placeCode) {
+    return ConfirmedCase.sequelize.query(`
+      SELECT caseDate, sum(confirmed) as confirmed, sum(dead) as dead, sum(healed) as healed
+      FROM Places g
+      INNER JOIN Places r on r.parentRegion = g.placeCode
+      INNER JOIN Places p on p.parentRegion = r.placeCode
+      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode
+      WHERE p.placeTypeId = ${placeType.canton} and g.placeCode = '${placeCode}'
+      GROUP BY g.placeCode, caseDate
+      ORDER BY caseDate ASC
+    `, {
+      model: ConfirmedCase,
+      mapToModel: true,
+      type: QueryTypes.SELECT
+    })
+  }
+
+  /**
+   * Find all dayly cases by country
+   */
+  static findDailyHistoryCasesCountry () {
+    return ConfirmedCase.sequelize.query(`
+      SELECT caseDate, sum(confirmed) as confirmed, sum(dead) as dead, sum(healed) as healed
+      FROM Places p
+      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode
+      WHERE placeTypeId = ${placeType.canton}
+      GROUP BY caseDate
+      ORDER BY caseDate ASC
+    `, {
+      model: ConfirmedCase,
+      mapToModel: true,
+      type: QueryTypes.SELECT
+    })
   }
 }
 

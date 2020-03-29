@@ -1,103 +1,118 @@
 'use strict'
 
 const debug = require('debug')('ec-covid19:db:CaseGestor')
+const defaults = require('defaults')
 const { ConfirmedCaseDao, PlaceDao } = require('../dao')
-const { caseType, placeType, countryPlaceCode } = require('../config/constants')
+const { placeType, countryPlaceCode } = require('../config/constants')
 const EcCovid19DBError = require('../lib/EcCovid19DBError')
 
 /**
- * Create or update case confirmed
- * @param {Number} placeId Id of place
- * @param {Number} caseTypeId  Id of type case
- * @param {Number} confirmed Id Confirmed
- * @param {String} date Date case in format YYYY-MM-DD
+ * Regirtes case of parent region
+ * @param {Place} childPlace Child place
+ * @param {ConfirmedCase} dataCase Confirmed case
  */
-const createOrUpdateRegisterCase = async (placeId, caseTypeId, dataCase, date = null) => {
-  let existCase
-  const { confirmed = 0, dead = 0, healed = 0 } = dataCase
-  if (caseTypeId === caseType.daily) {
-    existCase = await ConfirmedCaseDao.findByDatePlaceCaseType(date, placeId, caseTypeId)
+async function registerTotalParentCase (childPlace, dataCase) {
+  const place = await PlaceDao.findByPlaceCode(childPlace.parentRegion)
+  let existCase = await ConfirmedCaseDao.findByCodeAndDate(childPlace.parentRegion, dataCase.caseDate) || {}
+
+  // If country add total case dead and healed. Because no exist info by canton
+  if (place.placeTypeId === placeType.country && existCase.caseId === undefined) {
+    const lastCase = await ConfirmedCaseDao.findTotalLastCaseOfPlace(place.placeCode)
+    existCase = defaults(lastCase, existCase)
+  }
+
+  const sumParent = await ConfirmedCaseDao.findSumTotalLastCases(childPlace.parentRegion, childPlace.placeTypeId, dataCase.caseDate)
+  existCase = defaults(sumParent, existCase)
+  existCase.caseDate = dataCase.caseDate
+  if (existCase.caseId) {
+    await ConfirmedCaseDao.update(existCase)
+    debug(`Update case of ${place.placeCode} to date ${dataCase.caseDate}`)
   } else {
-    existCase = await ConfirmedCaseDao.findByPlaceAndCaseType(placeId, caseTypeId)
+    await ConfirmedCaseDao.create(existCase)
+    debug(`Create case of ${place.placeCode} to date ${dataCase.caseDate}`)
   }
-
-  if (existCase) {
-    existCase.confirmed += confirmed
-    existCase.dead += dead
-    existCase.healed += healed
-    return ConfirmedCaseDao.update(existCase)
-  }
-
-  const newCase = {
-    placeId: placeId,
-    caseTypeId: caseTypeId,
-    confirmed: confirmed,
-    dead: dead,
-    healed: healed,
-    caseDate: date
-  }
-  return ConfirmedCaseDao.create(newCase)
+  return place
 }
 
 class CaseGestor {
   /**
    * Register new case confirmed
-   * @param {Number} placeId Id of place
-   * @param {Number} confirmed Num confirmed cases
-   * @param {String} date Date of case YYYY-MM-DD
+   * @param {ConfirmedCase} dataCase Confirmed case
    */
   static async registerCantonCaseConfirmed (dataCase) {
+    if (dataCase.placeCode === undefined) throw new EcCovid19DBError('The placeCode is required to register new confirmed case')
     if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
-    debug('Init register case')
-    const canton = await PlaceDao.findByPlaceCode(dataCase.placeCode)
 
-    debug('Register case on country')
-    const country = await PlaceDao.findByPlaceCode(countryPlaceCode)
-    debug('Register total case for country')
-    await createOrUpdateRegisterCase(country.placeId, caseType.total, dataCase)
-    debug('Register daily case for country')
-    await createOrUpdateRegisterCase(country.placeId, caseType.daily, dataCase, dataCase.caseDate)
+    // Validate if this is valida canton
+    const cantonPlace = await PlaceDao.findByPlaceCodeAndType(dataCase.placeCode, placeType.canton)
+    if (cantonPlace === null) throw new EcCovid19DBError(`The canton with code ${dataCase.placeCode} not exist `)
 
-    const province = await PlaceDao.findById(canton.parentRegion)
-    debug('Register total case for province')
-    await createOrUpdateRegisterCase(province.placeId, caseType.total, dataCase)
-    debug('Register daily case for province')
-    await createOrUpdateRegisterCase(province.placeId, caseType.daily, dataCase, dataCase.caseDate)
+    let existCase = await ConfirmedCaseDao.findByCodeAndDate(cantonPlace.placeCode, dataCase.caseDate) || {}
+    existCase = defaults(dataCase, existCase)
+    let saveCase
 
-    debug('Register total case for canton')
-    await createOrUpdateRegisterCase(canton.placeId, caseType.total, dataCase)
-    debug('Register daily case for canton')
-    return createOrUpdateRegisterCase(canton.placeId, caseType.daily, dataCase, dataCase.caseDate)
+    if (existCase.caseId) {
+      saveCase = await ConfirmedCaseDao.update(existCase)
+      debug(`Update case of ${cantonPlace.placeCode} to date ${dataCase.caseDate}`)
+    } else {
+      saveCase = await ConfirmedCaseDao.create(existCase)
+      debug(`Create case of ${cantonPlace.placeCode} to date ${dataCase.caseDate}`)
+    }
+    const province = await registerTotalParentCase(cantonPlace, dataCase)
+    const region = await registerTotalParentCase(province, dataCase)
+    await registerTotalParentCase(region, dataCase)
+    return saveCase
   }
 
   /**
-   * Register dead cases in the country
-   * @param {Number} numDead Num of deads
+   * Get total last cases
    */
-  static async registerCasesDeadOrHealedInCountry (dataCase) {
-    debug('Register case for country')
-    if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case country')
-    // cero is assigned so as not to alter confirmed cases
-    dataCase.confirmed = 0
-    debug('Find country place')
-    const countryPlace = await PlaceDao.findByPlaceCode(countryPlaceCode)
-    await createOrUpdateRegisterCase(countryPlace.placeId, caseType.total, dataCase)
-    return createOrUpdateRegisterCase(countryPlace.placeId, caseType.daily, dataCase, dataCase.caseDate)
+  static getAllTotalLastCases () {
+    return ConfirmedCaseDao.findAllTotalLastCases()
   }
 
   /**
-   * Get History cases register daily of place
+   * Get total history cases of place
    * @param {String} placeCode Code of place
    */
-  static getHistoryCasesOfPlace (placeCode) {
-    return ConfirmedCaseDao.findAllByPlaceAndCaseType(placeCode, caseType.daily)
+  static getTotalHistoryCases (placeCode) {
+    return ConfirmedCaseDao.findTotalHistoryCases(placeCode)
   }
 
   /**
-   * Get total cases to all places
+   * Get daily history of place
+   * @param {String} placeCode Code of place
    */
-  static async getTotalCasesAllPlaces () {
-    return ConfirmedCaseDao.findAllTotalCases()
+  static async getDailyHitoryCases (placeCode) {
+    const place = await PlaceDao.findByPlaceCode(placeCode)
+
+    if (place === null) throw new EcCovid19DBError(`The place with code ${placeCode} not exist `)
+
+    switch (place.placeTypeId) {
+      case placeType.canton: return ConfirmedCaseDao.findDailyHistoryCasesCanton(placeCode)
+      case placeType.province: return ConfirmedCaseDao.findDailyHistoryCasesProvince(placeCode)
+      case placeType.region: return ConfirmedCaseDao.findDailyHistoryCasesRegion(placeCode)
+      case placeType.country: return ConfirmedCaseDao.findDailyHistoryCasesCountry()
+    }
+  }
+
+  /**
+   * Register Dead and Healed by country. This is temporal function
+   * @param {ConfirmedCase} dataCase Confirmed case
+   */
+  static async registerDeadAndHealedCountry (dataCase) {
+    const existCase = await ConfirmedCaseDao.findByCodeAndDate(countryPlaceCode, dataCase.caseDate) || {}
+    existCase.dead = dataCase.dead
+    existCase.totalDead = dataCase.totalDead
+    existCase.healed = dataCase.healed
+    existCase.totalHealed = dataCase.totalHealed
+
+    if (existCase.caseId === undefined) {
+      existCase.placeCode = dataCase.placeCode
+      existCase.caseDate = dataCase.caseDate
+      return ConfirmedCaseDao.insert(existCase)
+    }
+    return ConfirmedCaseDao.update(existCase)
   }
 }
 

@@ -26,12 +26,13 @@ class PlaceDao {
   }
 
   /**
-   * Get place by Id
-   * @param {Number} placeId Id of place
+   * Get place by code and type
+   * @param {String} placeCode Code of place
+   * @param {Integer} placeTypeId Type
    */
-  static findById (placeId) {
+  static findByPlaceCodeAndType (placeCode, placeTypeId) {
     return this.findBy({
-      where: { placeId }
+      where: { placeCode, placeTypeId}
     })
   }
 }
