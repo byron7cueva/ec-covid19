@@ -11,15 +11,10 @@ ConfirmedCase.init(
       autoIncrement: true,
       field: 'caseid'
     },
-    placeId: {
-      type: DataTypes.INTEGER,
+    placeCode: {
+      type: DataTypes.STRING,
       allowNull: false,
-      field: 'placeid'
-    },
-    caseTypeId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'casetypeid'
+      field: 'placecode'
     },
     caseDate: {
       type: DataTypes.DATEONLY,
@@ -29,13 +24,28 @@ ConfirmedCase.init(
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    totalConfirmed: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      field: 'totalconfirmed'
+    },
     dead: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    totalDead: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      field: 'totaldead'
+    },
     healed: {
       type: DataTypes.INTEGER,
       defaultValue: 0
+    },
+    totalHealed: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      field: 'totalhealed'
     },
     insertDate: {
       type: DataTypes.DATE,

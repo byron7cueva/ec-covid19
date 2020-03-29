@@ -6,14 +6,9 @@ const { getInstance } = require('../db/Connection')
 class Place extends Model {}
 
 Place.init({
-  placeId: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    field: 'placeid'
-  },
   placeCode: {
     type: DataTypes.STRING,
+    primaryKey: true,
     allowNull: false,
     field: 'placecode'
   },
@@ -34,7 +29,7 @@ Place.init({
     field: 'placetypeid'
   },
   parentRegion: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     field: 'parentregion'
   }
 },
