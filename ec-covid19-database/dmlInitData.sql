@@ -271,19 +271,19 @@ INSERT INTO Places(placeCode, placeName, placeTypeId, parentRegion) VALUES
 
 /* Cantones de Los Rios */
 INSERT INTO Places(placeCode, placeName, placeTypeId, parentRegion) VALUES
-('1201', 'BABAHOYO', 3, '12'),
-('1202', 'BABA', 3, '12'),
-('1203', 'MONTALVO', 3, '12'),
-('1204', 'PUEBLOVIEJO', 3, '12'),
-('1205', 'QUEVEDO', 3, '12'),
-('1206', 'URDANETA', 3, '12'),
-('1207', 'VENTANAS', 3, '12'),
-('1208', 'VINCES', 3, '12'),
-('1209', 'PALENQUE', 3, '12'),
-('1210', 'BUENA FE', 3, '12'),
-('1211', 'VALENCIA', 3, '12'),
-('1212', 'MOCACHE', 3, '12'),
-('1213', 'QUINSALOMA', 3, '12');
+('1201', 'BABAHOYO', 4, '12'),
+('1202', 'BABA', 4, '12'),
+('1203', 'MONTALVO', 4, '12'),
+('1204', 'PUEBLOVIEJO', 4, '12'),
+('1205', 'QUEVEDO', 4, '12'),
+('1206', 'URDANETA', 4, '12'),
+('1207', 'VENTANAS', 4, '12'),
+('1208', 'VINCES', 4, '12'),
+('1209', 'PALENQUE', 4, '12'),
+('1210', 'BUENA FE', 4, '12'),
+('1211', 'VALENCIA', 4, '12'),
+('1212', 'MOCACHE', 4, '12'),
+('1213', 'QUINSALOMA', 4, '12');
 
 /* Cantones de Los Manabi */
 INSERT INTO Places(placeCode, placeName, placeTypeId, parentRegion) VALUES

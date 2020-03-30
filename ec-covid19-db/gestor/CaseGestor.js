@@ -43,7 +43,7 @@ class CaseGestor {
     if (dataCase.placeCode === undefined) throw new EcCovid19DBError('The placeCode is required to register new confirmed case')
     if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
 
-    // Validate if this is valida canton
+    // Validate if this is valid canton
     const cantonPlace = await PlaceDao.findByPlaceCodeAndType(dataCase.placeCode, placeType.canton)
     if (cantonPlace === null) throw new EcCovid19DBError(`The canton with code ${dataCase.placeCode} not exist `)
 
