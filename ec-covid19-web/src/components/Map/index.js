@@ -8,7 +8,18 @@ import { patternScale, colors } from '../../settings/charts'
 import { getStyleScale } from '../../utils/charts'
 
 export const Map = ({ data, onClickGeography, selectedPlace }) => {
-  const places = data.length > 0 ? data[0].subRows : []
+  const findPlace = (placeCode) => {
+    const regions = data[0].subRows
+    let result
+    regions.forEach(reg => {
+      const place = reg.subRows.find(d => d.placeCode ===  placeCode)
+      if (place) {
+        result = place
+        return
+      }
+    })
+    return result
+  }
   return (
     <MapContainer>
       <ComposableMap
@@ -36,6 +47,8 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
         <ZoomableGroup
           zoom={1}
           center={[-78.00, -1.80]}
+          disablePanning={true}
+          disableZooming={true}
         >
           <Geographies
             geography={`maps/provincias.json`}
@@ -44,18 +57,18 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
               ({ geographies }) => (
                 geographies.map((geo, i) => {
                   const { placeCode, placeName } = geo.properties
-                  const dataPlace = places.find(d => d.placeCode ===  placeCode)
+                  const dataPlace = findPlace(placeCode)
                   let confirmed = false, style = getStyleScale(), isSelected = false
                   if (dataPlace) {
-                    confirmed = dataPlace.ConfirmedCases.confirmed > 0
-                    style = getStyleScale(dataPlace.ConfirmedCases.confirmed)
+                    confirmed = dataPlace.totalconfirmed > 0
+                    style = getStyleScale(dataPlace.totalconfirmed)
                     isSelected = selectedPlace && placeCode === selectedPlace.placeCode
                   }
                   return (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
-                      data-tip={`${placeName} ${confirmed? dataPlace.confirmed:''}`}
+                      data-tip={`${placeName} ${confirmed? dataPlace.totalconfirmed:''}`}
                       style={{
                         default: {
                           fill: isSelected? `url("#${style.id}")` : (confirmed? style.background : 'url("#noCases")'),
@@ -90,11 +103,11 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
               ({ geographies }) => (
                 geographies.map((geo, i) => {
                   const { placeCode, placeName } = geo.properties
-                  const dataPlace = places.find(d => d.placeCode ===  placeCode)
+                  const dataPlace = findPlace(placeCode)
                   let confirmed = false, style = getStyleScale()
                   if (dataPlace) {
-                    confirmed = dataPlace.ConfirmedCases.confirmed > 0
-                    style = getStyleScale(dataPlace.ConfirmedCases.confirmed)
+                    confirmed = dataPlace.totalconfirmed > 0
+                    style = getStyleScale(dataPlace.totalconfirmed)
                   }
                   return confirmed ?  
                         <Marker coordinates={[ dataPlace.x, dataPlace.y ]} key={geo.rsmKey}>

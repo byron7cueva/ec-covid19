@@ -15,10 +15,11 @@ type Place {
   x: Float
   y: Float
   placeTypeId: Int!
-  parentRegion: Int
+  parentRegion: String
   totalconfirmed: Int
   totaldead: Int
   totalhealed: Int
+  casedate: String
 }
 
 type Query {

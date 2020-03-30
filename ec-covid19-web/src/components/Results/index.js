@@ -11,11 +11,11 @@ export const Results = ({ data }) => (
       { data ? (
         <>
           <h2>{data.placeName}</h2>
-          <p>{new moment(parseInt(data.ConfirmedCases.updateDate)).add(-1, 'hours').format('DD/MM - HH:mm')}</p>
+          <p>{data.casedate}</p>
           <div className='results__numbers'>
-            <ItemResult total={data.ConfirmedCases.healed} description='Recuperados' color={colors.healed} />
-            <ItemResult total={data.ConfirmedCases.dead} description='Fallecidos' color={colors.dead} />
-            <ItemResult total={data.ConfirmedCases.confirmed} description='Confirmados' color={colors.confirmed} />
+            <ItemResult total={data.totalhealed} description='Recuperados' color={colors.healed} />
+            <ItemResult total={data.totaldead} description='Fallecidos' color={colors.dead} />
+            <ItemResult total={data.totalconfirmed} description='Confirmados' color={colors.confirmed} />
           </div>
         </>
         )

@@ -12,17 +12,17 @@ export const LineChartQuery = ({ placeCode }) => {
     setLoading(true)
     const query = `
       query {
-        getHistoryCasesOfPlace(placeCode: "${placeCode}") {
+        getTotalHistoryCases(placeCode: "${placeCode}"){
           caseDate
-          confirmed
-          dead
-          healed
+          totalConfirmed
+          totalDead
+          totalHealed
         }
       }
     `
     request('/api', query)
     .then(data => {
-      const historyCases = data.getHistoryCasesOfPlace
+      const historyCases = data.getTotalHistoryCases
       let result = null
       if ( historyCases.length > 0 ) {
         const confirmed = { id: 'Confirmados', color: colors.confirmed, data: []}
@@ -30,9 +30,9 @@ export const LineChartQuery = ({ placeCode }) => {
         const healed = { id: 'Recuperados', color: colors.healed, data: []}
       
         historyCases.forEach(hisCas => {
-          confirmed.data.push({x: hisCas.caseDate, y: hisCas.confirmed})
-          dead.data.push({x: hisCas.caseDate, y: hisCas.dead})
-          healed.data.push({x: hisCas.caseDate, y: hisCas.healed})
+          confirmed.data.push({x: hisCas.caseDate, y: hisCas.totalConfirmed})
+          dead.data.push({x: hisCas.caseDate, y: hisCas.totalDead})
+          healed.data.push({x: hisCas.caseDate, y: hisCas.totalHealed})
         })
         result = [confirmed, dead, healed]
       }

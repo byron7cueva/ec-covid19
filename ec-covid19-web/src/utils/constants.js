@@ -1,8 +1,9 @@
 module.exports = {
   placeType: {
     country: 1,
-    province: 2,
-    canton: 3
+    region: 2,
+    province: 3,
+    canton: 4
   },
-  countryPlaceCode: '00'
+  countryPlaceCode: '0'
 }

@@ -35,38 +35,39 @@ export class Home extends Component {
   getTotalConfirmedCases () {
     const query = `
       query {
-        getTotalConfirmedCases {
-          placeId
+        getAllTotalLastCases{
           placeCode
           placeName
           x
           y
           placeTypeId
           parentRegion
-          ConfirmedCases {
-            caseDate
-            confirmed
-            dead
-            healed
-            updateDate
-          }
+          totalconfirmed
+          totaldead
+          totalhealed
+          casedate
         }
       }    
     `
 
     request('/api', query)
     .then(data => {
-      const totalCases = data.getTotalConfirmedCases
+      const totalCases = data.getAllTotalLastCases
       const country = totalCases.find(item => item.placeTypeId === placeType.country)
+      const region = totalCases.filter(item => item.placeTypeId === placeType.region)
       const provinces = totalCases.filter(item => item.placeTypeId === placeType.province)
       provinces.forEach(prov => {
-        prov.subRows = totalCases.filter(item => item.placeTypeId === placeType.canton && item.parentRegion === prov.placeId)
+        prov.subRows = totalCases.filter(item => item.placeTypeId === placeType.canton && item.parentRegion === prov.placeCode)
       })
-      country.subRows = provinces
+      region.forEach(reg => {
+        reg.subRows = totalCases.filter(item => item.placeTypeId === placeType.province && item.parentRegion === reg.placeCode)
+      })
+      country.subRows = region
       country.expanded = true
       this.setState({totalCases: [country], countryCases: country, selectedPlace: country, loading: false})
     })
     .catch(error => {
+      console.log(error)
     })
   }
 

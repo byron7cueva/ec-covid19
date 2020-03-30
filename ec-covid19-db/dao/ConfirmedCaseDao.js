@@ -106,7 +106,7 @@ class ConfirmedCaseDao {
    */
   static findTotalHistoryCases (placeCode) {
     return ConfirmedCase.findAll({
-      attributes: ['caseDate', 'totalConfirmed', 'totalDead', 'totalhealed'],
+      attributes: ['caseDate', 'totalConfirmed', 'totalDead', 'totalHealed'],
       where: {
         placeCode
       },

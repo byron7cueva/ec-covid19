@@ -29,7 +29,7 @@ export const TableContainer = styled.article`
   }
 
   td:first-child, th:first-child {
-      width: 50px;
+      width: 80px;
       text-align: left;
   }
 

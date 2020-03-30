@@ -34,7 +34,7 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
         Header: 'Confirmados',
         id: 'actived',
         accessor: d => (
-          <Label color={colors.confirmed}>{d.ConfirmedCases.confirmed? d.ConfirmedCases.confirmed : 0}</Label>
+          <Label color={colors.confirmed}>{d.totalconfirmed? d.totalconfirmed : 0}</Label>
         )
       }
     ], []
@@ -54,13 +54,15 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
 
   useEffect(() => {
     if (selectedPlace.placeCode) {
+      let element
       if (trSelected) {
-        const element = tbodyEl.current.querySelector(trSelected)
+        element = tbodyEl.current.querySelector(trSelected)
         if (element) element.classList.remove('selected')
       }
       const id = `#row-${selectedPlace.placeCode}`
       setTrSelected(id)
-      tbodyEl.current.querySelector(id).classList.add('selected')
+      element = tbodyEl.current.querySelector(id)
+      if (element) element.classList.add('selected')
     }
   }, [selectedPlace])
 
