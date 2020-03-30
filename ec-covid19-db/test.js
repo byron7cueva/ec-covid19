@@ -1,6 +1,6 @@
 const { CaseGestor } = require('./')
 
-CaseGestor.registerCantonCaseConfirmed({
+/* CaseGestor.registerCantonCaseConfirmed({
   placeCode: '1701',
   caseDate: '2020-03-22',
   totalConfirmed: 4,
@@ -9,13 +9,13 @@ CaseGestor.registerCantonCaseConfirmed({
   console.log(data)
 }).catch(e => {
   console.error(e.message)
-})
+}) */
 
-/* CaseGestor.getAllTotalLastCases().then(data => {
+CaseGestor.getAllTotalLastCases().then(data => {
   console.log(data)
 }).catch(e => {
   console.error(e.message)
-}) */
+})
 
 /* CaseGestor.getTotalHistoryCases('0901').then(data => {
   console.log(data)

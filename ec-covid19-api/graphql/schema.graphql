@@ -1,36 +1,49 @@
 type ConfirmedCases {
   caseDate: String
   confirmed: Int
+  totalConfirmed: Int
   dead: Int
+  totalDead: Int
   healed: Int
+  totalHealed: Int
   updateDate: String
 }
 
 type Place {
-  placeId: Int
-  placeCode: String!
+  placeCode: ID!
   placeName: String!
   x: Float
   y: Float
   placeTypeId: Int!
   parentRegion: Int
-  ConfirmedCases: ConfirmedCases
+  totalconfirmed: Int
+  totaldead: Int
+  totalhealed: Int
 }
 
 type Query {
   "Return all places"
   getPlaces: [Place]
   "Return all total cases by place"
-  getTotalConfirmedCases: [Place]
-  "Return history cases by place"
-  getHistoryCasesOfPlace(placeCode: String!): [ConfirmedCases]
+  getAllTotalLastCases: [Place]
+  "Return total history cases by place"
+  getTotalHistoryCases(placeCode: String!): [ConfirmedCases]
+  "Return daily history cases"
+  getDailyHitoryCases(placeCode: String): [ConfirmedCases]
 }
 
 input ConfirmedCaseInput {
-  placeCode: String!
+  placeCode: ID!
   confirmed: Int
+  totalConfirmed: Int
+  caseDate: String!
+}
+
+input ConfirmedCountryCaseInput {
   dead: Int
+  totalDead: Int
   healed: Int
+  totalHealed: Int
   caseDate: String!
 }
 
@@ -38,5 +51,5 @@ type Mutation {
   "Create to case confirmed"
   registerCantonCaseConfirmed(input: ConfirmedCaseInput!): ConfirmedCases
   "Create to case for country"
-  registerCasesCountry(input: ConfirmedCaseInput!): ConfirmedCases
+  registerDeadAndHealedCountry(input: ConfirmedCountryCaseInput!): ConfirmedCases
 }

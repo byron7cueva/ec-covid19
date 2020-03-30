@@ -101,6 +101,7 @@ class CaseGestor {
    * @param {ConfirmedCase} dataCase Confirmed case
    */
   static async registerDeadAndHealedCountry (dataCase) {
+    if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
     const existCase = await ConfirmedCaseDao.findByCodeAndDate(countryPlaceCode, dataCase.caseDate) || {}
     existCase.dead = dataCase.dead
     existCase.totalDead = dataCase.totalDead
@@ -108,7 +109,7 @@ class CaseGestor {
     existCase.totalHealed = dataCase.totalHealed
 
     if (existCase.caseId === undefined) {
-      existCase.placeCode = dataCase.placeCode
+      existCase.placeCode = countryPlaceCode
       existCase.caseDate = dataCase.caseDate
       return ConfirmedCaseDao.insert(existCase)
     }

@@ -8,10 +8,10 @@ module.exports = {
   /**
    * Get total cases confirmed
    */
-  getTotalConfirmedCases: async () => {
+  getAllTotalLastCases: async () => {
     let cases = []
     try {
-      cases = await CaseGestor.getTotalCasesAllPlaces()
+      cases = await CaseGestor.getAllTotalLastCases()
     } catch (error) {
       errorHandler(error)
     }
@@ -21,10 +21,10 @@ module.exports = {
   /**
    * Get history cases of place
    */
-  getHistoryCasesOfPlace: async (root, { placeCode }) => {
+  getTotalHistoryCases: async (root, { placeCode }) => {
     let cases = []
     try {
-      cases = await CaseGestor.getHistoryCasesOfPlace(placeCode)
+      cases = await CaseGestor.getTotalHistoryCases(placeCode)
     } catch (error) {
       errorHandler(error)
     }
@@ -42,5 +42,15 @@ module.exports = {
       errorHandler(error)
     }
     return places
+  },
+
+  getDailyHitoryCases: async (root, { placeCode }) => {
+    let cases = []
+    try {
+      cases = await CaseGestor.getDailyHitoryCases(placeCode)
+    } catch (error) {
+      errorHandler(error)
+    }
+    return cases
   }
 }

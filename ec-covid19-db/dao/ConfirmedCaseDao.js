@@ -3,7 +3,7 @@
 const { QueryTypes } = require('sequelize')
 
 const { ConfirmedCase, Place } = require('../model')
-const { placeType } = require('../config/constants')
+const { placeType, countryPlaceCode } = require('../config/constants')
 
 class ConfirmedCaseDao {
   /**
@@ -89,15 +89,14 @@ class ConfirmedCaseDao {
    */
   static findAllTotalLastCases () {
     return ConfirmedCase.sequelize.query(`
-      SELECT p.placeCode, placeName, x, y, placeTypeId, parentRegion, caseDate, confirmed, totalConfirmed, dead, totalDead, healed, totalhealed, updateDate
+      SELECT p.placeCode, p.placeName, p.x, p.y, p.placeTypeId, p.parentRegion, c.caseDate, c.confirmed, c.totalConfirmed, c.dead, c.totalDead, c.healed, c.totalHealed, c.updateDate
       FROM Places p
-      LEFT JOIN confirmedcases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from confirmedcases where placeCode = p.placeCode)
+      LEFT JOIN ConfirmedCases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from confirmedcases where placeCode = p.placeCode)
       ORDER BY placeTypeId, parentRegion, placeName
     `, {
       model: Place,
       mapToModel: true,
-      type: QueryTypes.SELECT,
-      nest: true
+      type: QueryTypes.SELECT
     })
   }
 
@@ -171,16 +170,16 @@ class ConfirmedCaseDao {
   }
 
   /**
-   * Find all dayly cases by country
+   * Find all dayly cases by country TEMPORAL BECAUSE DATA BY CANTON NOT EXIST
    */
   static findDailyHistoryCasesCountry () {
     return ConfirmedCase.sequelize.query(`
-      SELECT caseDate, sum(confirmed) as confirmed, sum(dead) as dead, sum(healed) as healed
+      SELECT c.caseDate, sum(c.confirmed) as confirmed, max(f.dead) as dead , max(f.healed) as healed
       FROM Places p
-      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode
-      WHERE placeTypeId = ${placeType.canton}
-      GROUP BY caseDate
-      ORDER BY caseDate ASC
+      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode and placeTypeId = ${placeType.canton}
+      LEFT JOIN ConfirmedCases f on f.caseDate = c.caseDate and f.placeCode = '${countryPlaceCode}'
+      GROUP BY c.caseDate
+      ORDER BY c.caseDate ASC
     `, {
       model: ConfirmedCase,
       mapToModel: true,
