@@ -7,7 +7,8 @@ import { MapContainer } from './style'
 import { patternScale, colors } from '../../settings/charts'
 import { getStyleScale } from '../../utils/charts'
 
-export const Map = ({ data, onClickGeography, selectedPlace }) => {
+export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => {
+
   const findPlace = (placeCode) => {
     const regions = data[0].subRows
     let result
@@ -52,6 +53,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
         >
           <Geographies
             geography={`maps/provincias.json`}
+            onMouseEnter={onMouseEnter}
           >
             {
               ({ geographies }) => (
@@ -69,6 +71,7 @@ export const Map = ({ data, onClickGeography, selectedPlace }) => {
                       key={geo.rsmKey}
                       geography={geo}
                       data-tip={`${placeName} ${confirmed? dataPlace.totalconfirmed:''}`}
+                      data-for='tooltip'
                       style={{
                         default: {
                           fill: isSelected? `url("#${style.id}")` : (confirmed? style.background : 'url("#noCases")'),

@@ -91,7 +91,7 @@ class ConfirmedCaseDao {
     return ConfirmedCase.sequelize.query(`
       SELECT p.placeCode, p.placeName, p.x, p.y, p.placeTypeId, p.parentRegion, c.caseDate, c.confirmed, c.totalConfirmed, c.dead, c.totalDead, c.healed, c.totalHealed, c.updateDate
       FROM Places p
-      LEFT JOIN ConfirmedCases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from confirmedcases where placeCode = p.placeCode)
+      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from confirmedcases where placeCode = p.placeCode)
       ORDER BY placeTypeId, parentRegion, placeName
     `, {
       model: Place,

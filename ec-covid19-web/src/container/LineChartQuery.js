@@ -27,7 +27,7 @@ export const LineChartQuery = ({ placeCode }) => {
       if ( historyCases.length > 0 ) {
         const confirmed = { id: 'Confirmados', color: colors.confirmed, data: []}
         const dead = { id: 'Fallecidos', color: colors.dead, data: []}
-        const healed = { id: 'Recuperados', color: colors.healed, data: []}
+        const healed = { id: 'Alta Hospitalaria', color: colors.healed, data: []}
       
         historyCases.forEach(hisCas => {
           confirmed.data.push({x: hisCas.caseDate, y: hisCas.totalConfirmed})

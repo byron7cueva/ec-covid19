@@ -1,5 +1,6 @@
 require('./db/Connection').getInstance().connect()
 const { PlaceGestor, CaseGestor, UserGestor } = require('./gestor')
+const { EcCovid19DBError } = require('./lib/EcCovid19DBError')
 
 function handleFatalError (error) {
   console.error(error.message)
@@ -13,5 +14,6 @@ process.on('unhandledRejection', handleFatalError)
 module.exports = {
   PlaceGestor,
   CaseGestor,
-  UserGestor
+  UserGestor,
+  EcCovid19DBError
 }

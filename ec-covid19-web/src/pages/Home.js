@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import ReactTooltip from 'react-tooltip'
 import { request } from 'graphql-request'
+import ReactTooltip from 'react-tooltip'
 
 import { GlobalStyle } from '../styles/core/global'
 import { Layout } from '../components/Layout'
@@ -22,10 +22,15 @@ export class Home extends Component {
       loading: true
     }
     this.handlerClickGeography = this.handlerClickGeography.bind(this)
+    this.handlerOnMouseEnterMap = this.handlerOnMouseEnterMap.bind(this)
   }
 
   handlerClickGeography(place) {
     this.setState({selectedPlace: place})
+  }
+
+  handlerOnMouseEnterMap () {
+    ReactTooltip.rebuild()
   }
 
   componentDidMount() {
@@ -81,6 +86,7 @@ export class Home extends Component {
                 data={this.state.totalCases}
                 selectedPlace={this.state.selectedPlace}
                 onClickGeography={this.handlerClickGeography}
+                onMouseEnter={this.handlerOnMouseEnterMap}
               />
               <DataSection>
                 <Results data={this.state.countryCases} />
@@ -89,7 +95,7 @@ export class Home extends Component {
               </DataSection>
             </Layout>
         }
-        <ReactTooltip html={true} />
+        <ReactTooltip id='tooltip' html={true} place='top' effect='float' />
       </>
     )
   }

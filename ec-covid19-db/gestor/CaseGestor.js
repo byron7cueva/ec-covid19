@@ -48,16 +48,33 @@ class CaseGestor {
     if (cantonPlace === null) throw new EcCovid19DBError(`The canton with code ${dataCase.placeCode} not exist `)
 
     let existCase = await ConfirmedCaseDao.findByCodeAndDate(cantonPlace.placeCode, dataCase.caseDate) || {}
-    existCase = defaults(dataCase, existCase)
-    let saveCase
+    if (existCase.caseId) throw new EcCovid19DBError(`Exist case to canton ${dataCase.placeCode} in date ${dataCase.caseDate} `)
 
-    if (existCase.caseId) {
+    const prevCase = await ConfirmedCaseDao.findTotalLastCaseOfPlace(dataCase.placeCode)
+    let confirmed = dataCase.totalConfirmed
+
+    if (prevCase) {
+      if (dataCase.totalConfirmed === prevCase.totalConfirmed) throw new EcCovid19DBError(`Exist case to canton ${dataCase.placeCode} in date ${dataCase.caseDate} with similar totalConfirmed`)
+      confirmed = dataCase.totalConfirmed - prevCase.totalConfirmed
+      confirmed = confirmed < 0 ? 0 : confirmed
+    }
+
+    console.log('PREV')
+    console.log(prevCase)
+    console.log(dataCase)
+    console.log('PREV')
+
+    existCase = defaults(dataCase, existCase)
+    existCase.confirmed = confirmed
+    /* if (existCase.caseId) {
       saveCase = await ConfirmedCaseDao.update(existCase)
       debug(`Update case of ${cantonPlace.placeCode} to date ${dataCase.caseDate}`)
     } else {
       saveCase = await ConfirmedCaseDao.create(existCase)
       debug(`Create case of ${cantonPlace.placeCode} to date ${dataCase.caseDate}`)
-    }
+    } */
+    const saveCase = await ConfirmedCaseDao.create(existCase)
+    debug(`Create case of ${saveCase.placeCode} to date ${saveCase.caseDate}, confirmed ${saveCase.confirmed} and total confirmed ${saveCase.totalConfirmed}`)
     const province = await registerTotalParentCase(cantonPlace, dataCase)
     const region = await registerTotalParentCase(province, dataCase)
     await registerTotalParentCase(region, dataCase)

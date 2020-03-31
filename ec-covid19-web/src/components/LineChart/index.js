@@ -18,25 +18,33 @@ export const LineChart = ({ data, loading }) => (
       curve={'monotoneX'}
       enableSlices='x'
       colors={d => d.color}
+      animate={true}
       xScale={{
         type: 'time',
         format: '%Y-%m-%d',
         precision: 'day'
       }}
-      xFormat="time:%Y-%m-%d"
+      xFormat='time:%Y-%m-%d'
+      yFormat=',d'
       yScale={{
         type: 'linear',
         stacked: false,
+        max: 'auto',
+        min: 'auto'
       }}
       axisLeft={{
         orient: 'left',
-        legendOffset: 12
+        legendOffset: 12,
+        tickSize: 0,
+        tickValues: 5
       }}
       axisBottom={{
         orient: 'bottom',
-        format: '%b %d',
-        tickValues: 'every 3 days',
-        tickRotation: -30
+        format: '%-m/%-d',
+        legendOffset: 40,
+        legendPosition: 'middle',
+        tickRotation: 0,
+        tickValues: 5
       }}
       theme={
         {
