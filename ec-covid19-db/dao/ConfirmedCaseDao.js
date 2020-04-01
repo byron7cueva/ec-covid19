@@ -186,6 +186,19 @@ class ConfirmedCaseDao {
       type: QueryTypes.SELECT
     })
   }
+
+  static async findTotalBeforeCaseOfPlace (placeCode, caseDate) {
+    const cases = await ConfirmedCase.sequelize.query(`
+      SELECT caseDate, totalConfirmed, totalDead, totalHealed
+      FROM ConfirmedCases c
+      WHERE c.placeCode = '${placeCode}' and caseDate = (select max(caseDate) from ConfirmedCases where placeCode = c.placeCode and caseDate < '${caseDate}')
+    `, {
+      model: ConfirmedCase,
+      mapToModel: true,
+      type: QueryTypes.SELECT
+    })
+    return cases.length > 0 ? cases[0] : null
+  }
 }
 
 module.exports = ConfirmedCaseDao
