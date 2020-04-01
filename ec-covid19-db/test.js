@@ -11,17 +11,17 @@ const { CaseGestor } = require('./')
   console.error(e.message)
 }) */
 
-CaseGestor.getAllTotalLastCases().then(data => {
-  console.log(data)
-}).catch(e => {
-  console.error(e.message)
-})
-
-/* CaseGestor.getTotalHistoryCases('0901').then(data => {
+/* CaseGestor.getAllTotalLastCases().then(data => {
   console.log(data)
 }).catch(e => {
   console.error(e.message)
 }) */
+
+CaseGestor.getTotalHistoryCases('1001').then(data => {
+  console.log(data)
+}).catch(e => {
+  console.error(e.message)
+})
 
 /* CaseGestor.getDailyHitoryCases('0').then(data => {
   console.log(data)

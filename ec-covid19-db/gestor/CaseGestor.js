@@ -2,6 +2,8 @@
 
 const debug = require('debug')('ec-covid19:db:CaseGestor')
 const defaults = require('defaults')
+const moment = require('moment')
+
 const { ConfirmedCaseDao, PlaceDao } = require('../dao')
 const { placeType, countryPlaceCode } = require('../config/constants')
 const EcCovid19DBError = require('../lib/EcCovid19DBError')
@@ -32,6 +34,23 @@ async function registerTotalParentCase (childPlace, dataCase) {
     debug(`Create case of ${place.placeCode} to date ${dataCase.caseDate}`)
   }
   return place
+}
+
+/**
+ * Add Cases on date not register new cases
+ * @param {ConfirmedCase} prevCase Previous case
+ * @param {ConfirmedCase} actualCase Actual case
+ * @param {Array} result Result
+ */
+function addCasesDate (prevCase, actualCase, result) {
+  const prevDate = moment(prevCase.caseDate)
+  const actualDate = moment(actualCase.caseDate)
+  const days = actualDate.diff(prevDate, 'days')
+  let nextDate
+  for (let j = 1; j < days; j++) {
+    nextDate = moment(prevCase.caseDate).add(j, 'days').format('YYYY-MM-DD')
+    result.push({ ...prevCase, caseDate: nextDate })
+  }
 }
 
 class CaseGestor {
@@ -88,8 +107,23 @@ class CaseGestor {
    * Get total history cases of place
    * @param {String} placeCode Code of place
    */
-  static getTotalHistoryCases (placeCode) {
-    return ConfirmedCaseDao.findTotalHistoryCases(placeCode)
+  static async getTotalHistoryCases (placeCode) {
+    const totalCases = await ConfirmedCaseDao.findTotalHistoryCases(placeCode)
+    if (totalCases.length === 0) return totalCases
+
+    const lastCaseCountry = await ConfirmedCaseDao.findTotalLastCaseOfPlace(countryPlaceCode)
+    let prevCase = totalCases[0]
+    const result = [prevCase]
+
+    for (let i = 1; i < totalCases.length; i++) {
+      addCasesDate(prevCase, totalCases[i], result)
+      prevCase = totalCases[i]
+      result.push(prevCase)
+    }
+
+    addCasesDate(prevCase, lastCaseCountry, result)
+
+    return result
   }
 
   /**
