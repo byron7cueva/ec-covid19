@@ -53,6 +53,29 @@ function addCasesDate (prevCase, actualCase, result) {
   }
 }
 
+async function fillCasesNoRegister (totalCases, withClearCase = false) {
+  const lastCaseCountry = await ConfirmedCaseDao.findTotalLastCaseOfPlace(countryPlaceCode)
+  let prevCase = totalCases[0]
+  const result = [prevCase]
+  const clearCase = {
+    caseDate: prevCase.caseDate,
+    confirmed: 0,
+    dead: 0,
+    healed: 0
+  }
+
+  for (let i = 1; i < totalCases.length; i++) {
+    addCasesDate(withClearCase ? clearCase : prevCase, totalCases[i], result)
+    prevCase = totalCases[i]
+    result.push(prevCase)
+    clearCase.caseDate = prevCase.caseDate
+  }
+
+  addCasesDate(withClearCase ? clearCase : prevCase, lastCaseCountry, result)
+
+  return result
+}
+
 class CaseGestor {
   /**
    * Register new case confirmed
@@ -110,20 +133,7 @@ class CaseGestor {
   static async getTotalHistoryCases (placeCode) {
     const totalCases = await ConfirmedCaseDao.findTotalHistoryCases(placeCode)
     if (totalCases.length === 0) return totalCases
-
-    const lastCaseCountry = await ConfirmedCaseDao.findTotalLastCaseOfPlace(countryPlaceCode)
-    let prevCase = totalCases[0]
-    const result = [prevCase]
-
-    for (let i = 1; i < totalCases.length; i++) {
-      addCasesDate(prevCase, totalCases[i], result)
-      prevCase = totalCases[i]
-      result.push(prevCase)
-    }
-
-    addCasesDate(prevCase, lastCaseCountry, result)
-
-    return result
+    return fillCasesNoRegister(totalCases)
   }
 
   /**
@@ -134,13 +144,24 @@ class CaseGestor {
     const place = await PlaceDao.findByPlaceCode(placeCode)
 
     if (place === null) throw new EcCovid19DBError(`The place with code ${placeCode} not exist `)
+    let totalCases = []
 
     switch (place.placeTypeId) {
-      case placeType.canton: return ConfirmedCaseDao.findDailyHistoryCasesCanton(placeCode)
-      case placeType.province: return ConfirmedCaseDao.findDailyHistoryCasesProvince(placeCode)
-      case placeType.region: return ConfirmedCaseDao.findDailyHistoryCasesRegion(placeCode)
-      case placeType.country: return ConfirmedCaseDao.findDailyHistoryCasesCountry()
+      case placeType.canton:
+        totalCases = await ConfirmedCaseDao.findDailyHistoryCasesCanton(placeCode)
+        break
+      case placeType.province:
+        totalCases = await ConfirmedCaseDao.findDailyHistoryCasesProvince(placeCode)
+        break
+      case placeType.region:
+        totalCases = await ConfirmedCaseDao.findDailyHistoryCasesRegion(placeCode)
+        break
+      case placeType.country:
+        totalCases = await ConfirmedCaseDao.findDailyHistoryCasesCountry()
+        break
     }
+
+    return fillCasesNoRegister(totalCases, true)
   }
 
   /**

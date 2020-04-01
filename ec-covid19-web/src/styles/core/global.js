@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
   *:focus { outline: none; }
 
-  html, body {
+  html, body, h4 {
     margin: 0;
     padding: 0;
   }

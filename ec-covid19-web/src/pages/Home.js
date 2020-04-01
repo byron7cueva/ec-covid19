@@ -8,7 +8,8 @@ import { Map } from '../components/Map'
 import { DataSection } from '../components/DataSection'
 import { Results } from '../components/Results'
 import { Table } from '../components/Table'
-import { LineChartQuery } from '../container/LineChartQuery'
+import { TotalHistoryChart } from '../container/TotalHistoryChart'
+import { DailyHistoryChart } from '../container/DailyHistoryChart'
 import { placeType } from '../utils/constants'
 import { LoadingPartial } from '../components/LoadingPatial'
 
@@ -59,7 +60,13 @@ export class Home extends Component {
     .then(data => {
       const totalCases = data.getAllTotalLastCases
       const country = totalCases.find(item => item.placeTypeId === placeType.country)
-      const region = totalCases.filter(item => item.placeTypeId === placeType.region)
+      const region = totalCases.filter(item => {
+        if (item.placeTypeId === placeType.region) {
+          item.expanded = true
+          return true
+        }
+        return false
+      })
       const provinces = totalCases.filter(item => item.placeTypeId === placeType.province)
       provinces.forEach(prov => {
         prov.subRows = totalCases.filter(item => item.placeTypeId === placeType.canton && item.parentRegion === prov.placeCode)
@@ -72,7 +79,6 @@ export class Home extends Component {
       this.setState({totalCases: [country], countryCases: country, selectedPlace: country, loading: false})
     })
     .catch(error => {
-      console.log(error)
     })
   }
 
@@ -91,7 +97,8 @@ export class Home extends Component {
               <DataSection>
                 <Results data={this.state.countryCases} />
                 <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
-                <LineChartQuery placeCode={this.state.selectedPlace.placeCode} />
+                <TotalHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
+                <DailyHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
               </DataSection>
             </Layout>
         }

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { devices } from '../../settings/constants'
 
 export const ResultsContainer = styled.article`
   text-align: center;
@@ -10,5 +11,11 @@ export const ResultsContainer = styled.article`
     display: flex;
     justify-content: space-between;
     padding: 0 5em;
+  }
+
+  @media ${devices.mobileLandscape} {
+    .results__numbers {
+      padding: 0 1em;
+    }
   }
 `

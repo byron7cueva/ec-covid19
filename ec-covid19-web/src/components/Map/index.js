@@ -26,7 +26,7 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
       <ComposableMap
         projection='geoMercator'
         projectionConfig={{
-          scale: 7500
+          scale: 8000
         }}
         style={{
           width: '100%',
@@ -47,7 +47,7 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
         }
         <ZoomableGroup
           zoom={1}
-          center={[-78.00, -1.80]}
+          center={[-78.05, -2.00]}
           disablePanning={true}
           disableZooming={true}
         >

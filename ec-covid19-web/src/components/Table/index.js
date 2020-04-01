@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useRef, useState } from 'react'
 import { useTable, useExpanded } from 'react-table'
 import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai'
+import { placeType } from '../../utils/constants'
 
 import { TableContainer, Label } from './style'
 import { colors } from '../../settings/charts'
@@ -29,7 +30,19 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
           ) : null
         )
       },
-      { Header: 'Provincia', accessor: 'placeName' },
+      { 
+        Header: 'Provincia',
+        id: 'placeName',
+        accessor: d => {
+          if (d.placeTypeId > placeType.region) {
+            const words = d.placeName.split(' ')
+            let result = ''
+            words.forEach( word => result += `${word[0].toUpperCase()}${word.slice(1).toLowerCase()} `)
+            return result
+          }
+          return d.placeName
+        }
+      },
       { 
         Header: 'Confirmados',
         id: 'actived',

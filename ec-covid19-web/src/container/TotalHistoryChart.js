@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { request } from 'graphql-request'
 
 import { LineChart } from '../components/LineChart'
-import { colors } from '../settings/charts'
+import { createDataHistory } from '../utils/charts'
 
-export const LineChartQuery = ({ placeCode }) => {
+export const TotalHistoryChart = ({ placeCode, placeName }) => {
   const [ history, setHistory ] = useState([])
   const [ isLoading, setLoading ] = useState(false)
 
@@ -23,19 +23,7 @@ export const LineChartQuery = ({ placeCode }) => {
     request('/api', query)
     .then(data => {
       const historyCases = data.getTotalHistoryCases
-      let result = null
-      if ( historyCases.length > 0 ) {
-        const confirmed = { id: 'Confirmados', color: colors.confirmed, data: []}
-        const dead = { id: 'Fallecidos', color: colors.dead, data: []}
-        const healed = { id: 'Alta Hospitalaria', color: colors.healed, data: []}
-      
-        historyCases.forEach(hisCas => {
-          confirmed.data.push({x: hisCas.caseDate, y: hisCas.totalConfirmed})
-          dead.data.push({x: hisCas.caseDate, y: hisCas.totalDead})
-          healed.data.push({x: hisCas.caseDate, y: hisCas.totalHealed})
-        })
-        result = [confirmed, dead, healed]
-      }
+      let result = createDataHistory(historyCases)
       setHistory(result)
       setLoading(false)
     })
@@ -45,6 +33,9 @@ export const LineChartQuery = ({ placeCode }) => {
     }) 
   }, [ placeCode ] )
   return (
-    <LineChart data={history} loading={isLoading} />
+    <>
+      <h4>Total casos / día de {placeName}</h4>
+      <LineChart data={history} loading={isLoading} />
+    </>
   )
 }
