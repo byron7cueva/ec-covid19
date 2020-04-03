@@ -56,3 +56,19 @@ inner join places p on p.parentRegion = r.placeCode
 inner join confirmedcases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from confirmedcases where placeCode = p.placeCode and caseDate <= '2020-03-28')
 where p.placeTypeId = 4 and p.parentRegion = '09'
 group by r.placeCode;
+
+
+SELECT r.placeCode, sum(totalConfirmed) as totalConfirmed, sum(totalDead) as totalDead, sum(totalHealed) as totalHealed
+FROM Places r
+INNER JOIN Places p on p.parentRegion = r.placeCode
+INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from ConfirmedCases where placeCode = p.placeCode and caseDate <= '2020-04-03')
+WHERE p.placeTypeId = 2 and p.parentRegion = '0'
+GROUP BY r.placeCode
+
+
+SELECT r.placeCode, sum(confirmed) as confirmed, sum(dead) as dead, sum(healed) as healed
+FROM Places r
+INNER JOIN Places p on p.parentRegion = r.placeCode
+INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode and c.caseDate = '2020-04-03'
+WHERE p.placeTypeId = 4 and p.parentRegion = '09'
+GROUP BY r.placeCode

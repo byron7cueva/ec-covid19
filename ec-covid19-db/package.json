@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard",
-    "dev": "NODE_ENV=development nodemon index.js"
+    "dev": "NODE_ENV=development nodemon index.js",
+    "debug": "NODE_ENV=development DEBUG=ec-covid19:* node --nolazy --inspect-brk=9229 test.js"
   },
   "keywords": [
     "db"
@@ -20,6 +21,7 @@
     "debug": "^4.1.1",
     "defaults": "^1.0.3",
     "dotenv": "^8.2.0",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "pg": "^7.18.2",
     "pg-hstore": "^2.3.3",

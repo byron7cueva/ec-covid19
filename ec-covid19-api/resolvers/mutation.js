@@ -9,23 +9,10 @@ module.exports = {
   /**
    * Create a case confirmed
    */
-  registerCantonCaseConfirmed: async (root, { input }) => {
+  registerCase: async (root, { input }) => {
     let newCase
     try {
-      newCase = await CaseGestor.registerCantonCaseConfirmed(input)
-    } catch (error) {
-      errorHandler(error)
-    }
-    return newCase
-  },
-
-  /**
-   * Create a confirmed case on country
-   */
-  registerDeadAndHealedCountry: async (root, { input }) => {
-    let newCase
-    try {
-      newCase = await CaseGestor.registerDeadAndHealedCountry(input)
+      newCase = await CaseGestor.registerCase(input)
     } catch (error) {
       errorHandler(error)
     }

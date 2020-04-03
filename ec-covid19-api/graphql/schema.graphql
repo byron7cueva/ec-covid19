@@ -35,22 +35,13 @@ type Query {
 
 input ConfirmedCaseInput {
   placeCode: ID!
-  confirmed: Int
+  caseDate: String!
   totalConfirmed: Int
-  caseDate: String!
-}
-
-input ConfirmedCountryCaseInput {
-  dead: Int
   totalDead: Int
-  healed: Int
   totalHealed: Int
-  caseDate: String!
 }
 
 type Mutation {
-  "Create to case confirmed"
-  registerCantonCaseConfirmed(input: ConfirmedCaseInput!): ConfirmedCases
-  "Create to case for country"
-  registerDeadAndHealedCountry(input: ConfirmedCountryCaseInput!): ConfirmedCases
+  "Register new case"
+  registerCase(input: ConfirmedCaseInput!): ConfirmedCases
 }
