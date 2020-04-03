@@ -61,6 +61,12 @@ class ConfirmedCaseDao {
     return cases.length > 0 ? cases[0] : null
   }
 
+  /**
+   * Find total last cases and sum
+   * @param {String} parentRegion Code of place the parent region to group
+   * @param {Integer} placeTypeId Type place of childs regions to group
+   * @param {String} caseDate Date maximun case register on db
+   */
   static async findSumTotalLastCases (parentRegion, placeTypeId, caseDate) {
     const cases = await ConfirmedCase.sequelize.query(`
       SELECT r.placeCode, sum(totalConfirmed) as totalConfirmed, sum(totalDead) as totalDead, sum(totalHealed) as totalHealed
@@ -77,6 +83,12 @@ class ConfirmedCaseDao {
     return cases.length > 0 ? cases[0] : null
   }
 
+  /**
+   * Find daily cases and sum
+   * @param {String} parentRegion Code of place the parent region to group
+   * @param {Integer} placeTypeId Type place of childs regions to group
+   * @param {String} caseDate Date maximun case register on db
+   */
   static async findSumDailyCasesInDate (parentRegion, placeTypeId, caseDate) {
     const cases = await ConfirmedCase.sequelize.query(`
       SELECT r.placeCode, sum(confirmed) as confirmed, sum(dead) as dead, sum(healed) as healed
@@ -137,6 +149,11 @@ class ConfirmedCaseDao {
     })
   }
 
+  /**
+   * Find a case before the date
+   * @param {String} placeCode Code of place
+   * @param {String} caseDate Date of case
+   */
   static async findTotalBeforeCaseOfPlace (placeCode, caseDate) {
     const cases = await ConfirmedCase.sequelize.query(`
       SELECT caseDate, totalConfirmed, totalDead, totalHealed

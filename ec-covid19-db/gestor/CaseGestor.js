@@ -40,6 +40,10 @@ class CaseGestor {
     return fillCasesNoRegister(totalCases, true)
   }
 
+  /**
+   * Register Case
+   * @param {ConfirmedCase} dataCase The case to save
+   */
   static async registerCase (dataCase) {
     if (dataCase.placeCode === undefined) throw new EcCovid19DBError('The placeCode is required to register new confirmed case')
     if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
@@ -53,9 +57,9 @@ class CaseGestor {
 
     const prevCase = await ConfirmedCaseDao.findTotalBeforeCaseOfPlace(place.placeCode, dataCase.caseDate)
 
-    calcuteDailyTypeCase(dataCase, prevCase, existCase, TypeCase.CONFIRMED)
-    calcuteDailyTypeCase(dataCase, prevCase, existCase, TypeCase.DEAD)
-    calcuteDailyTypeCase(dataCase, prevCase, existCase, TypeCase.HEALED)
+    calculateDailyTypeCase(dataCase, prevCase, existCase, TypeCase.CONFIRMED)
+    calculateDailyTypeCase(dataCase, prevCase, existCase, TypeCase.DEAD)
+    calculateDailyTypeCase(dataCase, prevCase, existCase, TypeCase.HEALED)
 
     let saveCase
     if (existCase.caseId) {
@@ -75,7 +79,14 @@ class CaseGestor {
   }
 }
 
-function calcuteDailyTypeCase (dataCase, prevCase, existCase, typeCase) {
+/**
+ * Calcule the daily case
+ * @param {ConfirmedCase} dataCase It is confirmed casa to save
+ * @param {ConfirmedCase} prevCase It is previous case
+ * @param {ConfirmedCase} existCase It is exist actual case
+ * @param {Object} typeCase It is typecase enum
+ */
+function calculateDailyTypeCase (dataCase, prevCase, existCase, typeCase) {
   if (lodash.isNil(dataCase[typeCase.total]) || dataCase[typeCase.total] === 0) return
 
   let dailyValue = dataCase[typeCase.total]
@@ -87,6 +98,11 @@ function calcuteDailyTypeCase (dataCase, prevCase, existCase, typeCase) {
   existCase[typeCase.daily] = dailyValue
 }
 
+/**
+ * Register parent region case
+ * @param {ConfirmedCase} childPlace This es child region case
+ * @param {ConfirmedCase} dataCase This is case to save
+ */
 async function registerParentCase (childPlace, dataCase) {
   if (childPlace.parentRegion === null) return null
   // Search parent
@@ -116,6 +132,15 @@ async function registerParentCase (childPlace, dataCase) {
   return parentPlace
 }
 
+/**
+ * Asign values to cases depending the state information that public the Gestion de Riesgos
+ * @param {ConfirmedCase} fromTotal Total cases
+ * @param {ConfirmedCase} fromDaily Daily cases
+ * @param {ConfirmedCase} to Case exist to update o save
+ * @param {Object} typeCase Type case enum
+ * @param {Integer} placeTypeId Type of place
+ * @param {ConfirmedCase} prevCase Previous case
+ */
 function asignValueCase (fromTotal, fromDaily, to, typeCase, placeTypeId, prevCase) {
   if ((placeTypeId === placeType.province && typeCase === TypeCase.DEAD) ||
   (placeTypeId === placeType.country && typeCase === TypeCase.HEALED)) {
@@ -146,6 +171,11 @@ function addCasesDate (prevCase, actualCase, result) {
   }
 }
 
+/**
+ * Fill cases no register on db
+ * @param {Array} totalCases List the cases
+ * @param {Boolean} withClearCase If add clear case
+ */
 async function fillCasesNoRegister (totalCases, withClearCase = false) {
   const lastCaseCountry = await ConfirmedCaseDao.findTotalLastCaseOfPlace(countryPlaceCode)
   let prevCase = totalCases[0]
