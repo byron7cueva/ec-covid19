@@ -20,7 +20,6 @@ export class Home extends Component {
     this.state = {
       totalCases: [],
       selectedPlace: {},
-      countryCases: null,
       loading: true
     }
     this.handlerClickGeography = this.handlerClickGeography.bind(this)
@@ -64,7 +63,7 @@ export class Home extends Component {
     .then(data => {
       const totalCases = data.getAllTotalLastCases
       const country = totalCases.find(item => item.placeTypeId === placeType.country)
-      this.setState({totalCases: totalCases, countryCases: country, selectedPlace: country, loading: false})
+      this.setState({totalCases: totalCases, selectedPlace: country, loading: false})
     })
     .catch(error => {
     })
@@ -75,8 +74,8 @@ export class Home extends Component {
       <>
         <GlobalStyle />
         { this.state.loading ? <LoadingPartial />
-          : <Layout>
-              <Results data={this.state.countryCases} />
+          : <Layout title='Casos confirmados' subtitle='Casos confirmados de covid19 en Ecuador, por país, región, provincia y canton'>
+              <Results data={this.state.selectedPlace} />
               <div className='flex'>
                 <Map
                   data={this.state.totalCases}

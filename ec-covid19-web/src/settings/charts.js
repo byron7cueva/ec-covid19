@@ -29,7 +29,7 @@ export const patternScale = [
 
 
 export const colors = {
-  dead: '#6a8caf',
+  dead: '#ffa34d',
   healed: '#50bda1',
   confirmed: '#d63447'
 }

@@ -25,7 +25,7 @@ export const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: ${colors.alternative};
+    color: ${colors.second};
   }
 
   h4 {
