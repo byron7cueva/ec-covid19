@@ -11,7 +11,7 @@ import { LoadingPartial } from '../LoadingPatial'
 import maps from '../../data/maps.yml'
 
 export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => {
-  const [map, setMap] = useState({})
+  const [map, setMap] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -34,7 +34,8 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
   return (
     <MapContainer>
       { loading ? <LoadingPartial /> : null }
-      <ComposableMap
+      { map ? 
+        <ComposableMap
         projection='geoMercator'
         projectionConfig={{
           scale: map.scale
@@ -135,6 +136,8 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+      : null
+      }
     </MapContainer>
   )
 }
