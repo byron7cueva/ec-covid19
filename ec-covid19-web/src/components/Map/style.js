@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { devices } from '../../settings/constants'
 
 export const MapContainer = styled.article`
+  position: relative;
   height: 63em;
   width: 50%;
 

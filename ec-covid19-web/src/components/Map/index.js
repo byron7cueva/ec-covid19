@@ -7,14 +7,20 @@ import { MapContainer } from './style'
 import { patternScale, colors } from '../../settings/charts'
 import { getStyleScale, capitalize } from '../../utils/charts'
 import { placeType } from '../../utils/constants'
+import { LoadingPartial } from '../LoadingPatial'
 import maps from '../../data/maps.yml'
 
 export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => {
   const [map, setMap] = useState({})
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (selectedPlace.placeTypeId < placeType.canton) {
+      setLoading(true)
       setMap(maps[selectedPlace.placeName])
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     } else {
       const place = findPlace(selectedPlace.parentRegion)
       setMap(maps[place.placeName])
@@ -27,6 +33,7 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
   
   return (
     <MapContainer>
+      { loading ? <LoadingPartial /> : null }
       <ComposableMap
         projection='geoMercator'
         projectionConfig={{
@@ -61,7 +68,7 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
           >
             {
               ({ geographies }) => (
-                geographies.map((geo, i) => {
+                geographies.map(geo => {
                   const { placeCode, placeName } = geo.properties
                   const dataPlace = findPlace(placeCode)
                   let confirmed = false, style = getStyleScale(), isSelected = false
@@ -108,7 +115,7 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
           >
             { 
               ({ geographies }) => (
-                geographies.map((geo, i) => {
+                geographies.map(geo => {
                   const { placeCode } = geo.properties
                   const dataPlace = findPlace(placeCode)
                   let confirmed = false, style = getStyleScale()
