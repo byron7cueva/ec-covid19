@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${fonts.content.family};
     font-weight: ${fonts.content.weight};
     font-size: ${size.textContent};
-    margin: 1.5em 0;
+    margin: 1.5em 4%;
   }
 
   a {

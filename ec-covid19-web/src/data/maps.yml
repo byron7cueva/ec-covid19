@@ -25,33 +25,33 @@ INSULAR:
 
 AZUAY:
   file: '01'
-  center: [-79.00, -3.30]
-  scale: 30000
+  center: [-79.07, -3.00]
+  scale: 33000
 
 BOLIVAR:
   file: '02'
-  center: [-79.08, -1.80]
-  scale: 35000
+  center: [-79.08, -1.65]
+  scale: 40000
 
 CAÑAR:
   file: '03'
-  center: [-79.05, -2.75]
-  scale: 44000
+  center: [-79.05, -2.50]
+  scale: 45000
 
 CARCHI:
   file: '04'
-  center: [-78.00, 0.73]
-  scale: 40000
+  center: [-78.05, 0.80]
+  scale: 43000
 
 COTOPAXI:
   file: '05'
-  center: [-78.86, -0.83]
-  scale: 40000
+  center: [-78.86, -0.75]
+  scale: 44000
 
 CHIMBORAZO:
   file: '06'
-  center: [-78.71, -2.10]
-  scale: 40000
+  center: [-78.80, -1.97]
+  scale: 38000
 
 EL ORO:
   file: '07'

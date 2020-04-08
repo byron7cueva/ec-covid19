@@ -6,7 +6,7 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1em 4%;
+  padding: 1em 0;
 
   .flex {
     display: flex;

@@ -9,7 +9,7 @@ export const MapContainer = styled.article`
 
   @media ${devices.laptop} {
     height: 50em;
-    padding: 0 1em;
+    padding: 0;
     width: 100%;
   }
 
