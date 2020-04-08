@@ -10,7 +10,7 @@ export const Results = ({ data }) => (
       { data ? (
         <>
           <h2>{data.placeName}</h2>
-          <p>{data.casedate}</p>
+          <h4>{data.casedate}</h4>
           <div className='results__numbers'>
             <ItemResult total={data.totalhealed} description='Alta Hospitalaria' color={colors.healed} />
             <ItemResult total={data.totaldead} description='Fallecidos' color={colors.dead} />

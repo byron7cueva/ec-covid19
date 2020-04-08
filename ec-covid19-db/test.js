@@ -28,7 +28,7 @@ const { CaseGestor } = require('./')
 
 // Casos Alta Hospitalaria
 
-CaseGestor.registerCase({
+/* CaseGestor.registerCase({
   placeCode: '0',
   caseDate: '2020-04-03',
   totalHealed: 70
@@ -37,7 +37,7 @@ CaseGestor.registerCase({
 }).catch(e => {
   console.error(e.message)
   console.error(e.stack)
-})
+}) */
 
 /* CaseGestor.getAllTotalLastCases().then(data => {
   console.log(data)
@@ -69,3 +69,9 @@ CaseGestor.registerCase({
 }).catch(e => {
   console.error(e.message)
 }) */
+
+CaseGestor.findAllTotalLastCasesByProvinces().then(data => {
+  console.log(data)
+}).catch(e => {
+  console.error(e.message)
+})

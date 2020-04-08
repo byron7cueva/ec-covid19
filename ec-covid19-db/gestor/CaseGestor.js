@@ -77,6 +77,10 @@ class CaseGestor {
     } while (pivotPlace !== null)
     return saveCase
   }
+
+  static getAllTotalLastCasesByProvinces () {
+    return ConfirmedCaseDao.findAllTotalLastCasesByProvinces()
+  }
 }
 
 /**

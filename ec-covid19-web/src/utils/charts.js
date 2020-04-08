@@ -1,4 +1,5 @@
 import { patternScale, colors } from '../settings/charts'
+import { placeType } from './constants'
 
 export const getStyleScale = confirmed => {
   const infected = confirmed || 0
@@ -19,4 +20,14 @@ export const createDataHistory = (historyCases, daily = false) => {
     healed.data.push({x: hisCas.caseDate, y: daily ? hisCas.healed : hisCas.totalHealed})
   })
   return [confirmed, dead, healed]
+}
+
+export const capitalize = d => {
+  if (d.placeTypeId > placeType.region) {
+    const words = d.placeName.split(' ')
+    let result = ''
+    words.forEach( word => result += `${word[0].toUpperCase()}${word.slice(1).toLowerCase()} `)
+    return result
+  }
+  return d.placeName
 }

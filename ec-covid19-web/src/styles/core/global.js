@@ -20,12 +20,16 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${fonts.content.family};
     font-weight: ${fonts.content.weight};
     font-size: ${size.textContent};
-    margin: 2em 0;
+    margin: 1.5em 0;
   }
 
   a {
     text-decoration: none;
     color: ${colors.alternative};
+  }
+
+  h4 {
+    font-size: 1.3em;
   }
 
   .block-section {

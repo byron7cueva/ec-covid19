@@ -3,6 +3,7 @@
 const { QueryTypes } = require('sequelize')
 
 const { ConfirmedCase, Place } = require('../model')
+const { placeType } = require('../config/constants')
 
 class ConfirmedCaseDao {
   /**
@@ -165,6 +166,20 @@ class ConfirmedCaseDao {
       type: QueryTypes.SELECT
     })
     return cases.length > 0 ? cases[0] : null
+  }
+
+  static findAllTotalLastCasesByProvinces () {
+    return ConfirmedCase.sequelize.query(`
+      SELECT p.placeCode, p.placeName, p.placeTypeId, c.totalConfirmed, c.totalDead, c.totalHealed
+      FROM Places p
+      INNER JOIN ConfirmedCases c on p.placeCode = c.placeCode and c.caseDate = (select max(caseDate) from confirmedcases where placeCode = p.placeCode)
+      WHERE placeTypeId = ${placeType.province}
+      ORDER BY placeName DESC
+    `, {
+      model: Place,
+      mapToModel: true,
+      type: QueryTypes.SELECT
+    })
   }
 }
 

@@ -52,5 +52,15 @@ module.exports = {
       errorHandler(error)
     }
     return cases
+  },
+
+  getAllTotalLastCasesByProvinces: async () => {
+    let cases = []
+    try {
+      cases = await CaseGestor.getAllTotalLastCasesByProvinces()
+    } catch (error) {
+      errorHandler(error)
+    }
+    return cases
   }
 }

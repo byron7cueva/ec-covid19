@@ -31,6 +31,8 @@ type Query {
   getTotalHistoryCases(placeCode: String!): [ConfirmedCases]
   "Return daily history cases"
   getDailyHitoryCases(placeCode: String): [ConfirmedCases]
+  "Return total last cases of province in format to pie graphic"
+  getAllTotalLastCasesByProvinces: [Place]
 }
 
 input ConfirmedCaseInput {

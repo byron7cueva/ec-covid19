@@ -13,22 +13,22 @@ export const colors = {
 
 export const fonts = {
   content: {
-    family: '"Titillium Web", sans-serif',
+    family: '"Rajdhani", sans-serif',
     weight: 300
   },
   title: {
-    family: '"Raleway", sans-serif',
+    family: '"Rajdhani", sans-serif',
     weight: 400
   }
 }
 
 export const size = {
-  textContent: '13px'
+  textContent: '14px'
 }
 
 export const devices = {
   mobile: '(max-width: 320px)',
   mobileLandscape: '(max-width: 480px)',
   tablet: '(max-width: 768px)',
-  laptop: '(max-width: 1024px)'
+  laptop: '(max-width: 1200px)'
 }

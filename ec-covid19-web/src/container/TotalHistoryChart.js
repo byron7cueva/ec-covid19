@@ -33,9 +33,6 @@ export const TotalHistoryChart = ({ placeCode, placeName }) => {
     }) 
   }, [ placeCode ] )
   return (
-    <>
-      <h4>Total casos / día de {placeName}</h4>
-      <LineChart data={history} loading={isLoading} />
-    </>
+    <LineChart data={history} loading={isLoading} title={`Total de casos de ${placeName}`} height='25em'/>
   )
 }

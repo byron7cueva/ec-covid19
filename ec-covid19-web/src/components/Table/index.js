@@ -1,12 +1,14 @@
 import React, { useMemo, useEffect, useRef, useState } from 'react'
 import { useTable, useExpanded } from 'react-table'
 import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai'
-import { placeType } from '../../utils/constants'
 
+import { useTableData } from '../../hooks/useTableData'
+import { placeType } from '../../utils/constants'
 import { TableContainer, Label } from './style'
 import { colors } from '../../settings/charts'
 
 export const Table = ({data, onRowClick, selectedPlace }) => {
+  const [dataTable, setDataTable] = useTableData()
   const columns = useMemo (
     () => [
       {
@@ -31,7 +33,6 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
         )
       },
       { 
-        Header: 'Provincia',
         id: 'placeName',
         accessor: d => {
           if (d.placeTypeId > placeType.region) {
@@ -60,10 +61,14 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
     rows,
     prepareRow,
     state: { expanded }
-  } = useTable({ columns, data}, useExpanded )
+  } = useTable({ columns, data: dataTable}, useExpanded )
 
   const tbodyEl = useRef(null)
   const [trSelected, setTrSelected] = useState(null)
+
+  useEffect(() => {
+    setDataTable(data)
+  }, [data])
 
   useEffect(() => {
     if (selectedPlace.placeCode) {

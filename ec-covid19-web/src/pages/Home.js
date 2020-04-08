@@ -10,6 +10,7 @@ import { Results } from '../components/Results'
 import { Table } from '../components/Table'
 import { TotalHistoryChart } from '../container/TotalHistoryChart'
 import { DailyHistoryChart } from '../container/DailyHistoryChart'
+import { TotalProvinceChart } from '../container/TotalProvinceChart'
 import { placeType } from '../utils/constants'
 import { LoadingPartial } from '../components/LoadingPatial'
 
@@ -27,7 +28,10 @@ export class Home extends Component {
   }
 
   handlerClickGeography(place) {
-    this.setState({selectedPlace: place})
+    const selectedPlace = this.state.totalCases.find(d => d.placeCode ===  place.placeCode)
+    if (selectedPlace) {
+      this.setState({selectedPlace})
+    }
   }
 
   handlerOnMouseEnterMap () {
@@ -60,23 +64,7 @@ export class Home extends Component {
     .then(data => {
       const totalCases = data.getAllTotalLastCases
       const country = totalCases.find(item => item.placeTypeId === placeType.country)
-      const region = totalCases.filter(item => {
-        if (item.placeTypeId === placeType.region) {
-          item.expanded = true
-          return true
-        }
-        return false
-      })
-      const provinces = totalCases.filter(item => item.placeTypeId === placeType.province)
-      provinces.forEach(prov => {
-        prov.subRows = totalCases.filter(item => item.placeTypeId === placeType.canton && item.parentRegion === prov.placeCode)
-      })
-      region.forEach(reg => {
-        reg.subRows = totalCases.filter(item => item.placeTypeId === placeType.province && item.parentRegion === reg.placeCode)
-      })
-      country.subRows = region
-      country.expanded = true
-      this.setState({totalCases: [country], countryCases: country, selectedPlace: country, loading: false})
+      this.setState({totalCases: totalCases, countryCases: country, selectedPlace: country, loading: false})
     })
     .catch(error => {
     })
@@ -88,18 +76,23 @@ export class Home extends Component {
         <GlobalStyle />
         { this.state.loading ? <LoadingPartial />
           : <Layout>
-              <Map
-                data={this.state.totalCases}
-                selectedPlace={this.state.selectedPlace}
-                onClickGeography={this.handlerClickGeography}
-                onMouseEnter={this.handlerOnMouseEnterMap}
-              />
-              <DataSection>
-                <Results data={this.state.countryCases} />
-                <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
-                <TotalHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
-                <DailyHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
-              </DataSection>
+              <Results data={this.state.countryCases} />
+              <div className='flex'>
+                <Map
+                  data={this.state.totalCases}
+                  selectedPlace={this.state.selectedPlace}
+                  onClickGeography={this.handlerClickGeography}
+                  onMouseEnter={this.handlerOnMouseEnterMap}
+                />
+                <div className='w-50'>
+                  <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
+                  <DataSection>
+                    <TotalHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
+                    <DailyHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
+                  </DataSection>
+                </div>
+              </div>
+              <TotalProvinceChart/>
             </Layout>
         }
         <ReactTooltip id='tooltip' html={true} place='top' effect='float' />

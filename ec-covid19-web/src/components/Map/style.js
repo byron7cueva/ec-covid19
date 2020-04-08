@@ -3,20 +3,24 @@ import styled from 'styled-components'
 import { devices } from '../../settings/constants'
 
 export const MapContainer = styled.article`
+  height: 63em;
   width: 50%;
-  padding-right: 2em;
+
+  @media ${devices.laptop} {
+    height: 50em;
+    padding: 0 1em;
+    width: 100%;
+  }
 
   @media ${devices.tablet} {
-    width: 100%;
-    height: 75vh;
-    padding: 0;
+    height: 40em;
   }
 
   @media ${devices.mobileLandscape} {
-    height: 60vh;
+    height: 25em;
   }
 
   @media ${devices.mobile} {
-    height: 70vh;
+    height: 20em;
   }
 `

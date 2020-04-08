@@ -1,14 +1,11 @@
 import styled from 'styled-components'
-import { colors, devices } from '../../settings/constants'
+import { colors } from '../../settings/constants'
 
 export const TableContainer = styled.article`
+  grid-area: table;
   width: 100%;
-  height: 30vh;
+  height: 30em;
   margin: 1em 0 2em;
-
-  @media ${devices.tablet} {
-      height: 50vh;
-  }
 
   table {
     width: 100%;
@@ -29,7 +26,7 @@ export const TableContainer = styled.article`
   }
 
   td:first-child, th:first-child {
-      width: 80px;
+      width: 85px;
       text-align: left;
   }
 
@@ -53,7 +50,7 @@ export const TableContainer = styled.article`
       border: 1px solid transparent;
     }
     tr:nth-child(odd) {
-      background-color: #424874;
+      background-color: rgba(66,72,116,0.3);
     }
     tr:hover, tr.selected {
       color: ${colors.light};

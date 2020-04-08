@@ -4,22 +4,26 @@ import { devices } from '../../settings/constants'
 
 export const Main = styled.main`
   display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 1em 10%;
+  padding: 1em 4%;
+
+  .flex {
+    display: flex;
+  }
+
+  .w-50 {
+    width: 50%;
+  }
 
   @media ${devices.laptop} {
-    padding: 1em 2em;
-  }
+    display: block;
+    .flex {
+      flex-direction: column;
+    }
 
-  @media ${devices.tablet} {
-    flex-direction: column;
-  }
-
-  @media ${devices.mobileLandscape} {
-    padding: 1em;
-  }
-
-  @media ${devices.mobile} {
-    padding: 0.5em 0;
+    .w-50 {
+      width: 100%;
+    }
   }
 `

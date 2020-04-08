@@ -33,9 +33,6 @@ export const DailyHistoryChart = ({ placeCode, placeName }) => {
     }) 
   }, [ placeCode ] )
   return (
-    <>
-      <h4>Casos diarios de {placeName}</h4>
-      <LineChart data={history} loading={isLoading} />
-    </>
+    <LineChart data={history} loading={isLoading} title={`Casos diarios de ${placeName}`} height='25em'/>
   )
 }
