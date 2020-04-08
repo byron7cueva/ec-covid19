@@ -35,8 +35,12 @@ export const TableContainer = styled.article`
       text-align: left;
   }
 
-  td:last-child {
+  tr td:last-child {
       text-align: right;
+  }
+
+  tr th:last-child {
+      text-align: center;
   }
 
   tbody {

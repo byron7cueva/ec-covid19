@@ -56,7 +56,7 @@ CHIMBORAZO:
 EL ORO:
   file: '07'
   center: [-79.81, -3.48]
-  scale: 40000
+  scale: 45000
 
 ESMERALDAS:
   file: '08'
@@ -65,8 +65,8 @@ ESMERALDAS:
 
 GUAYAS:
   file: '09'
-  center: [-79.88, -2.08]
-  scale: 20000
+  center: [-79.88, -1.95]
+  scale: 24000
 
 IMBABURA:
   file: '10'
@@ -80,23 +80,23 @@ LOJA:
 
 LOS RIOS:
   file: '12'
-  center: [-79.52, -1.40]
-  scale: 30000
+  center: [-79.52, -1.30]
+  scale: 33000
 
 MANABI:
   file: '13'
-  center: [-80.17, -0.90]
-  scale: 20000
+  center: [-80.17, -0.75]
+  scale: 23000
 
 MORONA SANTIAGO:
   file: '14'
-  center: [-77.75, -2.75]
-  scale: 19000
+  center: [-77.80, -2.50]
+  scale: 20000
 
 NAPO:
   file: '15'
   center: [-77.71, -0.66]
-  scale: 27000
+  scale: 30000
 
 PASTAZA:
   file: '16'
@@ -106,7 +106,7 @@ PASTAZA:
 PICHINCHA:
   file: '17'
   center: [-78.63, -0.16]
-  scale: 26000
+  scale: 28000
 
 TUNGURAHUA:
   file: '18'
@@ -120,18 +120,18 @@ ZAMORA CHINCHIPE:
 
 GALAPAGOS:
   file: '20'
-  center: [-81.92, 0.39]
-  scale: 15000
+  center: [-82.00, 0.39]
+  scale: 17000
 
 SUCUMBIOS:
   file: '21'
-  center: [-76.54, -0.10]
-  scale: 15000
+  center: [-76.60, -0.10]
+  scale: 16000
 
 ORELLANA:
   file: '22'
   center: [-76.42, -0.88]
-  scale: 17000
+  scale: 18000
 
 SANTO DOMINGO DE LOS TSACHILAS:
   file: '23'
@@ -140,5 +140,5 @@ SANTO DOMINGO DE LOS TSACHILAS:
 
 SANTA ELENA:
   file: '24'
-  center: [-80.57, -2.11]
-  scale: 50000
+  center: [-80.62, -2.11]
+  scale: 55000

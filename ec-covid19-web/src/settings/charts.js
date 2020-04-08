@@ -29,9 +29,9 @@ export const patternScale = [
 
 
 export const colors = {
-  dead: '#fbc490',
+  dead: '#6a8caf',
   healed: '#50bda1',
-  confirmed: '#e74c3c'
+  confirmed: '#d63447'
 }
 
 export const theme = {

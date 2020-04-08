@@ -8,20 +8,20 @@ export const MapContainer = styled.article`
   width: 50%;
 
   @media ${devices.laptop} {
-    height: 50em;
+    height: 55em;
     padding: 0;
     width: 100%;
   }
 
   @media ${devices.tablet} {
-    height: 40em;
+    height: 50em;
   }
 
   @media ${devices.mobileLandscape} {
-    height: 25em;
+    height: 40em;
   }
 
   @media ${devices.mobile} {
-    height: 20em;
+    height: 25em;
   }
 `
