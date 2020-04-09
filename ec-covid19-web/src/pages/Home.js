@@ -13,6 +13,8 @@ import { DailyHistoryChart } from '../container/DailyHistoryChart'
 import { TotalProvinceChart } from '../container/TotalProvinceChart'
 import { placeType } from '../utils/constants'
 import { LoadingPartial } from '../components/LoadingPatial'
+import { MenuButton } from '../components/MenuButton'
+import { Menu } from '../components/Menu'
 
 export class Home extends Component {
   constructor(props) {
@@ -20,21 +22,27 @@ export class Home extends Component {
     this.state = {
       totalCases: [],
       selectedPlace: {},
+      showMenu: false,
       loading: true
     }
     this.handlerClickGeography = this.handlerClickGeography.bind(this)
     this.handlerOnMouseEnterMap = this.handlerOnMouseEnterMap.bind(this)
+    this.handlerClickMenuButton = this.handlerClickMenuButton.bind(this)
   }
 
-  handlerClickGeography(place) {
+  handlerClickGeography (place) {
     const selectedPlace = this.state.totalCases.find(d => d.placeCode ===  place.placeCode)
     if (selectedPlace) {
-      this.setState({selectedPlace})
+      this.setState({selectedPlace, showMenu: false})
     }
   }
 
   handlerOnMouseEnterMap () {
     ReactTooltip.rebuild()
+  }
+
+  handlerClickMenuButton () {
+    this.setState({showMenu: !this.state.showMenu})
   }
 
   componentDidMount() {
@@ -89,7 +97,9 @@ export class Home extends Component {
                   />
                 </div>
                 <div className='w-50'>
-                  <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
+                  <Menu show={this.state.showMenu}>
+                    <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
+                  </Menu>
                   <DataSection>
                     <TotalHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
                     <DailyHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
@@ -97,6 +107,7 @@ export class Home extends Component {
                 </div>
               </div>
               <TotalProvinceChart/>
+              <MenuButton onClick={this.handlerClickMenuButton} clicked={this.state.showMenu}/>
             </Layout>
         }
         <ReactTooltip id='tooltip' html={true} place='top' effect='float' />

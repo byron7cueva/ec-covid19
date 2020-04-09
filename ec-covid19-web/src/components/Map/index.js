@@ -20,7 +20,7 @@ export const Map = ({ data, onClickGeography, selectedPlace, onMouseEnter }) => 
       setMap(maps[selectedPlace.placeName])
       setTimeout(() => {
         setLoading(false)
-      }, 1000)
+      }, 1500)
     } else {
       const place = findPlace(selectedPlace.parentRegion)
       setMap(maps[place.placeName])

@@ -1,5 +1,5 @@
 export const colors = {
-  first: '#e85f99',
+  first: '#d7385e',
   second: '#50bda1',
   alternative: '#f18867',
   light: '#f5f6fa',
@@ -26,6 +26,9 @@ export const size = {
   textContent: {
     laptop: '14px',
     mobileLandscape: '11px'
+  },
+  icons: {
+    laptop: 20
   }
 }
 

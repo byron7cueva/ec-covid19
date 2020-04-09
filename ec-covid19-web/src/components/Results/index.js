@@ -15,9 +15,9 @@ export const Results = ({ data }) => {
           <h2>{data.placeName}</h2>
           <h4>{data.casedate}</h4>
           <div className='results__numbers'>
-            <ItemResult total={data.totalhealed} daily={isNow ? data.healed : '-'} description='Alta Hospitalaria' color={colors.healed} />
-            <ItemResult total={data.totaldead} daily={isNow ? data.dead : '-'} description='Fallecidos' color={colors.dead} />
-            <ItemResult total={data.totalconfirmed} daily={isNow ? data.confirmed : '-'} description='Confirmados' color={colors.confirmed} />
+            <ItemResult total={data.totalhealed} daily={isNow ? data.healed : 0} description='Alta Hospitalaria' color={colors.healed} />
+            <ItemResult total={data.totaldead} daily={isNow ? data.dead : 0} description='Fallecidos' color={colors.dead} />
+            <ItemResult total={data.totalconfirmed} daily={isNow ? data.confirmed : 0} description='Confirmados' color={colors.confirmed} />
           </div>
         </>
         )

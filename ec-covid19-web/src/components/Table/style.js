@@ -4,7 +4,7 @@ import { colors } from '../../settings/constants'
 export const TableContainer = styled.article`
   grid-area: table;
   width: 100%;
-  height: 30em;
+  height: 100%;
   margin: 1em 0 2em;
 
   table {
