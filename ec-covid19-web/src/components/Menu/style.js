@@ -5,6 +5,7 @@ import { devices, colors } from '../../settings/constants'
 export const MenuContainer = styled.div`
   width: 100%;
   height: 30em;
+  padding-bottom: 1em;
 
   @media ${devices.tablet} {
     z-index: 1;

@@ -6,32 +6,32 @@ ECUADOR:
 COSTA:
   file: '0'
   center: [-79.50, -1.75]
-  scale: 8000
+  scale: 6600
 
 SIERRA:
   file: '0'
-  center: [-79.00, -1.75]
-  scale: 8000
+  center: [-78.00, -1.75]
+  scale: 6600
 
 AMAZONICA:
   file: '0'
-  center: [-77.00, -1.58]
-  scale: 8000
+  center: [-77.40, -2.20]
+  scale: 7000
 
 INSULAR:
   file: '20'
-  center: [-81.92, 0.39]
+  center: [-82.00, 0.39]
   scale: 15000
 
 AZUAY:
   file: '01'
-  center: [-79.07, -3.00]
+  center: [-79.10, -3.05]
   scale: 33000
 
 BOLIVAR:
   file: '02'
-  center: [-79.08, -1.65]
-  scale: 40000
+  center: [-79.08, -1.70]
+  scale: 37000
 
 CAÑAR:
   file: '03'
@@ -45,17 +45,17 @@ CARCHI:
 
 COTOPAXI:
   file: '05'
-  center: [-78.86, -0.75]
+  center: [-78.86, -0.77]
   scale: 44000
 
 CHIMBORAZO:
   file: '06'
-  center: [-78.80, -1.97]
-  scale: 38000
+  center: [-78.80, -2.00]
+  scale: 34000
 
 EL ORO:
   file: '07'
-  center: [-79.81, -3.48]
+  center: [-79.83, -3.48]
   scale: 45000
 
 ESMERALDAS:
@@ -66,7 +66,7 @@ ESMERALDAS:
 GUAYAS:
   file: '09'
   center: [-79.88, -1.95]
-  scale: 24000
+  scale: 19000
 
 IMBABURA:
   file: '10'
@@ -75,27 +75,27 @@ IMBABURA:
 
 LOJA:
   file: '11'
-  center: [-79.80, -4.10]
-  scale: 30000
+  center: [-79.80, -4.05]
+  scale: 26000
 
 LOS RIOS:
   file: '12'
-  center: [-79.52, -1.30]
-  scale: 33000
+  center: [-79.52, -1.35]
+  scale: 24000
 
 MANABI:
   file: '13'
   center: [-80.17, -0.75]
-  scale: 23000
+  scale: 16000
 
 MORONA SANTIAGO:
   file: '14'
   center: [-77.80, -2.50]
-  scale: 20000
+  scale: 18000
 
 NAPO:
   file: '15'
-  center: [-77.71, -0.66]
+  center: [-77.71, -0.61]
   scale: 30000
 
 PASTAZA:
@@ -110,18 +110,18 @@ PICHINCHA:
 
 TUNGURAHUA:
   file: '18'
-  center: [-78.50, -1.29]
+  center: [-78.53, -1.29]
   scale: 50000
 
 ZAMORA CHINCHIPE:
   file: '19'
   center: [-78.89, -4.20]
-  scale: 30000
+  scale: 23000
 
 GALAPAGOS:
   file: '20'
   center: [-82.00, 0.39]
-  scale: 17000
+  scale: 15000
 
 SUCUMBIOS:
   file: '21'
@@ -140,5 +140,5 @@ SANTO DOMINGO DE LOS TSACHILAS:
 
 SANTA ELENA:
   file: '24'
-  center: [-80.62, -2.11]
-  scale: 55000
+  center: [-80.62, -2.08]
+  scale: 47000
