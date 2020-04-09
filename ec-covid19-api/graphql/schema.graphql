@@ -17,8 +17,11 @@ type Place {
   placeTypeId: Int!
   parentRegion: String
   totalconfirmed: Int
+  confirmed: Int
   totaldead: Int
+  dead: Int
   totalhealed: Int
+  healed: Int
   casedate: String
 }
 

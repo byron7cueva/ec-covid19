@@ -4,7 +4,7 @@ import { devices } from '../../settings/constants'
 export const ResultsContainer = styled.article`
   grid-area: result;
   text-align: center;
-  padding: 0 20%;
+  padding: 0 5%;
   h2, p {
     margin: 0 0 0.3em;
   }
@@ -16,7 +16,6 @@ export const ResultsContainer = styled.article`
   }
 
   @media ${devices.laptop} {
-    padding: 0 15%;
     .results__numbers {
       padding: 0 1em;
     }

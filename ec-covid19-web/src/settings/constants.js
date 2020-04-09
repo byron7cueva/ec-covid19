@@ -23,7 +23,10 @@ export const fonts = {
 }
 
 export const size = {
-  textContent: '14px'
+  textContent: {
+    laptop: '14px',
+    mobileLandscape: '11px'
+  }
 }
 
 export const devices = {

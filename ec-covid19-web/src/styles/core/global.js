@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${colors.grayDark};
     font-family: ${fonts.content.family};
     font-weight: ${fonts.content.weight};
-    font-size: ${size.textContent};
+    font-size: ${size.textContent.laptop};
     margin: 1.5em 4%;
   }
 
@@ -61,6 +61,12 @@ export const GlobalStyle = createGlobalStyle`
   {
 	  background-color: #d45d79;
 	  border: 1px solid #555555;
+  }
+
+  @media ${devices.mobileLandscape} {
+    body {
+      font-size: ${size.textContent.mobileLandscape};
+    }
   }
 
   @media ${devices.mobile} {

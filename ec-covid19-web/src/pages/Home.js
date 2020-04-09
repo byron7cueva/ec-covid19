@@ -52,8 +52,11 @@ export class Home extends Component {
           placeTypeId
           parentRegion
           totalconfirmed
+          confirmed
           totaldead
+          dead
           totalhealed
+          healed
           casedate
         }
       }    
@@ -75,14 +78,16 @@ export class Home extends Component {
         <GlobalStyle />
         { this.state.loading ? <LoadingPartial />
           : <Layout title='Casos confirmados' subtitle='Casos confirmados de covid19 en Ecuador, por país, región, provincia y canton'>
-              <Results data={this.state.selectedPlace} />
               <div className='flex'>
-                <Map
-                  data={this.state.totalCases}
-                  selectedPlace={this.state.selectedPlace}
-                  onClickGeography={this.handlerClickGeography}
-                  onMouseEnter={this.handlerOnMouseEnterMap}
-                />
+                <div className='w-50'>
+                  <Results data={this.state.selectedPlace} />
+                  <Map
+                    data={this.state.totalCases}
+                    selectedPlace={this.state.selectedPlace}
+                    onClickGeography={this.handlerClickGeography}
+                    onMouseEnter={this.handlerOnMouseEnterMap}
+                  />
+                </div>
                 <div className='w-50'>
                   <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
                   <DataSection>
