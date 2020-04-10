@@ -6,7 +6,7 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1em 0;
+  padding: 1.5em 4%;
 
   .flex {
     display: flex;
@@ -25,5 +25,9 @@ export const Main = styled.main`
     .w-50 {
       width: 100%;
     }
+  }
+
+  @media ${devices.mobile} {
+    margin: 1em;
   }
 `

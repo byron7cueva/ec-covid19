@@ -6,7 +6,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      favicon: 'src/assets/img/favicon.png'
     })
   ],
   devServer: {
@@ -32,6 +33,17 @@ module.exports = {
         test: /\.ya?ml$/,
         type: 'json',
         use: 'yaml-loader'
+      },
+      {
+        test: /\.(png)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'assets/[hash].[ext]'
+            }
+          }
+        ]
       }
     ]
   }

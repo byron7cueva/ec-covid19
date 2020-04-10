@@ -20,7 +20,6 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${fonts.content.family};
     font-weight: ${fonts.content.weight};
     font-size: ${size.textContent.laptop};
-    margin: 1.5em 4%;
   }
 
   a {
@@ -66,12 +65,6 @@ export const GlobalStyle = createGlobalStyle`
   @media ${devices.mobileLandscape} {
     body {
       font-size: ${size.textContent.mobileLandscape};
-    }
-  }
-
-  @media ${devices.mobile} {
-    body {
-      margin: 1em;
     }
   }
 `
