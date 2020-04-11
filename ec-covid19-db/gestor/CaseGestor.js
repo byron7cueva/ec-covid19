@@ -48,7 +48,7 @@ class CaseGestor {
     if (dataCase.placeCode === undefined) throw new EcCovid19DBError('The placeCode is required to register new confirmed case')
     if (dataCase.caseDate === undefined) throw new EcCovid19DBError('The caseDate is required to register new confirmed case')
 
-    // Validate if this is valid canton
+    // Validate if this is valid place
     const place = await PlaceDao.findByPlaceCode(dataCase.placeCode)
     if (place === null) throw new EcCovid19DBError(`The place with code ${dataCase.placeCode} not exist `)
 
@@ -78,9 +78,95 @@ class CaseGestor {
     return saveCase
   }
 
+  static registerCases (caseDate, cases) {
+    if (lodash.isNil(caseDate)) throw new EcCovid19DBError('The caseDate is required to register new cases')
+    if (lodash.isNil(cases) || !lodash.isArray(cases)) throw new EcCovid19DBError('No has cases to register')
+  }
+
   static getAllTotalLastCasesByProvinces () {
     return ConfirmedCaseDao.findAllTotalLastCasesByProvinces()
   }
+}
+
+function registerCollectionCases (caseDate, cases) {
+  return new Promise((resolve, reject) => {
+    const parentRegions = []
+    const promises = []
+
+    cases.forEach(itemCase => {
+      itemCase.caseDate = caseDate
+      promises.push(registerOneCase(itemCase, parentRegions))
+    })
+
+    Promise.all(promises).then(results => {
+      resolve(results)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+function propageCases (parentRegions) {
+
+}
+
+async function registerOneCase (dataCase, parentRegions) {
+  // Validate if this is valid place
+  const place = await PlaceDao.findByPlaceCode(dataCase.placeCode)
+  if (place === null) return null
+
+  let existCase = await ConfirmedCaseDao.findByCodeAndDate(place.placeCode, dataCase.caseDate) || {}
+  existCase = defaults(dataCase, existCase)
+
+  const prevCase = await ConfirmedCaseDao.findTotalBeforeCaseOfPlace(place.placeCode, dataCase.caseDate)
+
+  calculateDailyTypeCase(dataCase, prevCase, existCase, TypeCase.CONFIRMED)
+  calculateDailyTypeCase(dataCase, prevCase, existCase, TypeCase.DEAD)
+  calculateDailyTypeCase(dataCase, prevCase, existCase, TypeCase.HEALED)
+
+  let saveCase
+  if (existCase.caseId) {
+    saveCase = await ConfirmedCaseDao.update(existCase)
+    debug(`Update case of ${place.placeCode} to date ${dataCase.caseDate}`)
+  } else {
+    saveCase = await ConfirmedCaseDao.create(existCase)
+    debug(`Create case of ${place.placeCode} to date ${dataCase.caseDate}`)
+  }
+
+  debug(`Create case of ${saveCase.placeCode} to date ${saveCase.caseDate}, confirmed ${saveCase.confirmed} and total confirmed ${saveCase.totalConfirmed}`)
+  if (!parentRegions.find(item => item.parentRegion === place.parentRegion)) {
+    parentRegions.push({ parentRegion: place.parentRegion, placeTypeId: place.placeTypeId })
+  }
+  return saveCase
+}
+
+async function registerOneParentCase (childPlace, dataCase) {
+  if (childPlace.parentRegion === null) return null
+  // Search parent
+  const parentPlace = await PlaceDao.findByPlaceCode(childPlace.parentRegion)
+  const existCase = await ConfirmedCaseDao.findByCodeAndDate(parentPlace.placeCode, dataCase.caseDate) || {}
+  const prevCase = await ConfirmedCaseDao.findTotalBeforeCaseOfPlace(parentPlace.placeCode, dataCase.caseDate)
+
+  // Total cases
+  // Daily Cases
+  const sumTotalParent = await ConfirmedCaseDao.findSumTotalLastCases(childPlace.parentRegion, childPlace.placeTypeId, dataCase.caseDate)
+  const sumDailyParent = await ConfirmedCaseDao.findSumDailyCasesInDate(childPlace.parentRegion, childPlace.placeTypeId, dataCase.caseDate)
+
+  asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.CONFIRMED, parentPlace.placeTypeId, prevCase)
+  asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.DEAD, parentPlace.placeTypeId, prevCase)
+  asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.HEALED, parentPlace.placeTypeId, prevCase)
+
+  // Set date if no exist case saved
+  existCase.placeCode = parentPlace.placeCode
+  existCase.caseDate = dataCase.caseDate
+  if (existCase.caseId) {
+    await ConfirmedCaseDao.update(existCase)
+    debug(`Update case of ${parentPlace.placeCode} to date ${dataCase.caseDate}`)
+  } else {
+    await ConfirmedCaseDao.create(existCase)
+    debug(`Create case of ${parentPlace.placeCode} to date ${dataCase.caseDate}`)
+  }
+  return parentPlace
 }
 
 /**

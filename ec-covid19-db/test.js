@@ -70,7 +70,16 @@ const { CaseGestor } = require('./')
   console.error(e.message)
 }) */
 
-CaseGestor.findAllTotalLastCasesByProvinces().then(data => {
+/* CaseGestor.getAllTotalLastCasesByProvinces().then(data => {
+  console.log(data)
+}).catch(e => {
+  console.error(e.message)
+}) */
+
+CaseGestor.registerCases('2020-04-09', [
+  { placeCode: '0701', totalConfirmed: 44 },
+  { placeCode: '0709', totalConfirmed: 4 }
+]).then(data => {
   console.log(data)
 }).catch(e => {
   console.error(e.message)
