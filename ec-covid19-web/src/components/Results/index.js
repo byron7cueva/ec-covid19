@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import { ResultsContainer } from './style'
 import { ItemResult } from '../ItemResult'
 import { colors } from '../../settings/charts'
 
 export const Results = ({ data }) => {
-  const dateNow = new Date().toISOString().slice(0,10)
+  const dateNow = moment(new Date()).format('YYYY-MM-DD')
   const isNow = dateNow === data.casedate
   return (
     <ResultsContainer>

@@ -1,44 +1,23 @@
-import React, { Component } from 'react'
-import { request } from 'graphql-request'
+import React, { useState, useEffect } from 'react'
 
 import { BarChart } from '../components/BarChart'
 
-export class TotalProvinceChart extends Component {
+import { placeType } from '../utils/constants'
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      data: [],
-      loading: true
-    }
-  }
-
-  componentDidMount () {
-    const query = `
-      query {
-        getAllTotalLastCasesByProvinces{
-          placeCode
-          placeName
-          placeTypeId
-          totalconfirmed
-          totaldead
-          totalhealed
-        }
-      }
-    `
-    
-    request('/api', query)
-    .then(data => {
-      this.setState({data: data.getAllTotalLastCasesByProvinces, loading: false})
+export const TotalProvinceChart = ({ totalCases }) => {
+  const [data,setData] = useState([])
+  const [loading, setLoading] = useState(true)
+  
+  useEffect(() => {
+    let result = totalCases.filter(item => item.placeTypeId === placeType.province)
+    result = result.sort((a, b) => {
+      return a.placeName < b.placeName ? 1 : -1
     })
-    .catch(error => {
-      this.setState({data: [], loading: false})
-    })
-  }
+    setData(result)
+    setLoading(false)
+  }, [totalCases])
 
-  render () {
-    return (
-      <BarChart data={this.state.data} loading={this.state.loading} title='Total de casos por provincia' height='40em'/>
-    )
-  }
+  return (
+    <BarChart data={data} loading={loading} title='Total de casos por provincia' height='40em'/>
+  )
 }

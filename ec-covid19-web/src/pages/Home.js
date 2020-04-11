@@ -28,6 +28,8 @@ export class Home extends Component {
     this.handlerClickGeography = this.handlerClickGeography.bind(this)
     this.handlerOnMouseEnterMap = this.handlerOnMouseEnterMap.bind(this)
     this.handlerClickMenuButton = this.handlerClickMenuButton.bind(this)
+
+    this.getTotalConfirmedCases()
   }
 
   handlerClickGeography (place) {
@@ -43,10 +45,6 @@ export class Home extends Component {
 
   handlerClickMenuButton () {
     this.setState({showMenu: !this.state.showMenu})
-  }
-
-  componentDidMount() {
-    this.getTotalConfirmedCases()
   }
 
   getTotalConfirmedCases () {
@@ -106,7 +104,7 @@ export class Home extends Component {
                   </DataSection>
                 </div>
               </div>
-              <TotalProvinceChart/>
+              <TotalProvinceChart totalCases={this.state.totalCases}/>
               <MenuButton onClick={this.handlerClickMenuButton} clicked={this.state.showMenu}/>
             </Layout>
         }

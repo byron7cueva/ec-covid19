@@ -27,12 +27,7 @@ export const BarChart = ({ data, loading, title, height }) => (
             axisTop={null}
             axisRight={null}
             enableGridY={false}
-            enableGridX={true}
-            axisBottom={{
-              tickSize: 5,
-              tickPadding: 10,
-              tickValues: 4
-            }}
+            axisBottom={null}
             axisLeft={{
               tickSize: 5,
               tickPadding: 5
