@@ -2,7 +2,7 @@ const { CaseGestor } = require('./')
 
 // Casos Confirmados
 
-CaseGestor.registerCase({
+/* CaseGestor.registerCase({
   placeCode: '1407',
   caseDate: '2020-04-09',
   totalConfirmed: 10
@@ -11,7 +11,7 @@ CaseGestor.registerCase({
 }).catch(e => {
   console.error(e.message)
   console.error(e.stack)
-})
+}) */
 
 // Casos Fallecidos
 
@@ -76,7 +76,7 @@ CaseGestor.registerCase({
   console.error(e.message)
 }) */
 
-/* CaseGestor.registerCases('2020-04-09', [
+CaseGestor.registerCases('2020-04-09', [
   { placeCode: '0701', totalConfirmed: 44 },
   { placeCode: '0709', totalConfirmed: 4 }
 ]).then(data => {
@@ -84,7 +84,7 @@ CaseGestor.registerCase({
   console.log(data)
 }).catch(e => {
   console.error(e.message)
-}) */
+})
 
 /* CaseGestor.registerCases('2020-04-09', [
   { placeCode: '07', totalDead: 17 }

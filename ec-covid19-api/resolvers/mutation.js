@@ -17,5 +17,15 @@ module.exports = {
       errorHandler(error)
     }
     return newCase
+  },
+
+  registerCases: async (root, { input }) => {
+    let newCases
+    try {
+      newCases = await CaseGestor.registerCases(input.caseDate, input.cases)
+    } catch (error) {
+      errorHandler(error)
+    }
+    return newCases
   }
 }

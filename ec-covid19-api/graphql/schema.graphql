@@ -40,13 +40,20 @@ type Query {
 
 input ConfirmedCaseInput {
   placeCode: ID!
-  caseDate: String!
+  caseDate: String
   totalConfirmed: Int
   totalDead: Int
   totalHealed: Int
 }
 
+input ConfirmedCasesInput {
+  caseDate: String!
+  cases: [ConfirmedCaseInput]
+}
+
 type Mutation {
   "Register new case"
   registerCase(input: ConfirmedCaseInput!): ConfirmedCases
+  "Register new cases"
+  registerCases(input: ConfirmedCasesInput!): [ConfirmedCases]
 }

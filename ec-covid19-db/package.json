@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard",
-    "dev": "NODE_ENV=development node test.js",
+    "dev": "NODE_ENV=development DEBUG=ec-covid19:* node test.js",
     "debug": "NODE_ENV=development DEBUG=ec-covid19:* node --nolazy --inspect-brk=9229 test.js"
   },
   "keywords": [
