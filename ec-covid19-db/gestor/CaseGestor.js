@@ -73,7 +73,7 @@ class CaseGestor {
     debug(`Create case of ${saveCase.placeCode} to date ${saveCase.caseDate}, confirmed ${saveCase.confirmed} and total confirmed ${saveCase.totalConfirmed}`)
     let pivotPlace = place
     do {
-      pivotPlace = await registerParentCase(pivotPlace, dataCase)
+      pivotPlace = await registerOneParentCase(pivotPlace, dataCase.caseDate)
     } while (pivotPlace !== null)
     return saveCase
   }
@@ -81,6 +81,22 @@ class CaseGestor {
   static registerCases (caseDate, cases) {
     if (lodash.isNil(caseDate)) throw new EcCovid19DBError('The caseDate is required to register new cases')
     if (lodash.isNil(cases) || !lodash.isArray(cases)) throw new EcCovid19DBError('No has cases to register')
+
+    return new Promise((resolve, reject) => {
+      const parentRegions = []
+      let savedCases = []
+      registerCollectionCases(caseDate, cases, parentRegions)
+        .then(result => {
+          savedCases = result
+          return propageCases(parentRegions, caseDate)
+        })
+        .then(() => {
+          resolve(savedCases)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
   }
 
   static getAllTotalLastCasesByProvinces () {
@@ -88,9 +104,8 @@ class CaseGestor {
   }
 }
 
-function registerCollectionCases (caseDate, cases) {
+function registerCollectionCases (caseDate, cases, parentRegions) {
   return new Promise((resolve, reject) => {
-    const parentRegions = []
     const promises = []
 
     cases.forEach(itemCase => {
@@ -98,16 +113,34 @@ function registerCollectionCases (caseDate, cases) {
       promises.push(registerOneCase(itemCase, parentRegions))
     })
 
-    Promise.all(promises).then(results => {
-      resolve(results)
-    }).catch(error => {
-      reject(error)
-    })
+    Promise.all(promises)
+      .then(results => {
+        resolve(results)
+      }).catch(error => {
+        reject(error)
+      })
   })
 }
 
-function propageCases (parentRegions) {
+function propageCases (parentRegions, caseDate) {
+  return new Promise((resolve, reject) => {
+    const nextRegions = []
+    const promises = []
+    parentRegions.forEach(childPlace => {
+      promises.push(registerOneParentCase(childPlace, caseDate, nextRegions))
+    })
 
+    Promise.all(promises)
+      .then(() => {
+        if (nextRegions.length > 0) {
+          return resolve(propageCases(nextRegions, caseDate))
+        }
+        return resolve()
+      })
+      .catch(error => {
+        return reject(error)
+      })
+  })
 }
 
 async function registerOneCase (dataCase, parentRegions) {
@@ -140,17 +173,17 @@ async function registerOneCase (dataCase, parentRegions) {
   return saveCase
 }
 
-async function registerOneParentCase (childPlace, dataCase) {
+async function registerOneParentCase (childPlace, caseDate, parentRegions) {
   if (childPlace.parentRegion === null) return null
   // Search parent
   const parentPlace = await PlaceDao.findByPlaceCode(childPlace.parentRegion)
-  const existCase = await ConfirmedCaseDao.findByCodeAndDate(parentPlace.placeCode, dataCase.caseDate) || {}
-  const prevCase = await ConfirmedCaseDao.findTotalBeforeCaseOfPlace(parentPlace.placeCode, dataCase.caseDate)
+  const existCase = await ConfirmedCaseDao.findByCodeAndDate(parentPlace.placeCode, caseDate) || {}
+  const prevCase = await ConfirmedCaseDao.findTotalBeforeCaseOfPlace(parentPlace.placeCode, caseDate)
 
   // Total cases
   // Daily Cases
-  const sumTotalParent = await ConfirmedCaseDao.findSumTotalLastCases(childPlace.parentRegion, childPlace.placeTypeId, dataCase.caseDate)
-  const sumDailyParent = await ConfirmedCaseDao.findSumDailyCasesInDate(childPlace.parentRegion, childPlace.placeTypeId, dataCase.caseDate)
+  const sumTotalParent = await ConfirmedCaseDao.findSumTotalLastCases(childPlace.parentRegion, childPlace.placeTypeId, caseDate)
+  const sumDailyParent = await ConfirmedCaseDao.findSumDailyCasesInDate(childPlace.parentRegion, childPlace.placeTypeId, caseDate)
 
   asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.CONFIRMED, parentPlace.placeTypeId, prevCase)
   asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.DEAD, parentPlace.placeTypeId, prevCase)
@@ -158,13 +191,16 @@ async function registerOneParentCase (childPlace, dataCase) {
 
   // Set date if no exist case saved
   existCase.placeCode = parentPlace.placeCode
-  existCase.caseDate = dataCase.caseDate
+  existCase.caseDate = caseDate
   if (existCase.caseId) {
     await ConfirmedCaseDao.update(existCase)
-    debug(`Update case of ${parentPlace.placeCode} to date ${dataCase.caseDate}`)
+    debug(`Update case of ${parentPlace.placeCode} to date ${caseDate}`)
   } else {
     await ConfirmedCaseDao.create(existCase)
-    debug(`Create case of ${parentPlace.placeCode} to date ${dataCase.caseDate}`)
+    debug(`Create case of ${parentPlace.placeCode} to date ${caseDate}`)
+  }
+  if (!lodash.isNil(parentRegions) && !lodash.isNil(parentPlace.parentRegion) && !parentRegions.find(item => item.parentRegion === parentPlace.parentRegion)) {
+    parentRegions.push({ parentRegion: parentPlace.parentRegion, placeTypeId: parentPlace.placeTypeId })
   }
   return parentPlace
 }
@@ -186,40 +222,6 @@ function calculateDailyTypeCase (dataCase, prevCase, existCase, typeCase) {
     dailyValue = dailyValue < 0 ? 0 : dailyValue
   }
   existCase[typeCase.daily] = dailyValue
-}
-
-/**
- * Register parent region case
- * @param {ConfirmedCase} childPlace This es child region case
- * @param {ConfirmedCase} dataCase This is case to save
- */
-async function registerParentCase (childPlace, dataCase) {
-  if (childPlace.parentRegion === null) return null
-  // Search parent
-  const parentPlace = await PlaceDao.findByPlaceCode(childPlace.parentRegion)
-  const existCase = await ConfirmedCaseDao.findByCodeAndDate(parentPlace.placeCode, dataCase.caseDate) || {}
-  const prevCase = await ConfirmedCaseDao.findTotalBeforeCaseOfPlace(parentPlace.placeCode, dataCase.caseDate)
-
-  // Total cases
-  // Daily Cases
-  const sumTotalParent = await ConfirmedCaseDao.findSumTotalLastCases(childPlace.parentRegion, childPlace.placeTypeId, dataCase.caseDate)
-  const sumDailyParent = await ConfirmedCaseDao.findSumDailyCasesInDate(childPlace.parentRegion, childPlace.placeTypeId, dataCase.caseDate)
-
-  asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.CONFIRMED, parentPlace.placeTypeId, prevCase)
-  asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.DEAD, parentPlace.placeTypeId, prevCase)
-  asignValueCase(sumTotalParent, sumDailyParent, existCase, TypeCase.HEALED, parentPlace.placeTypeId, prevCase)
-
-  // Set date if no exist case saved
-  existCase.placeCode = parentPlace.placeCode
-  existCase.caseDate = dataCase.caseDate
-  if (existCase.caseId) {
-    await ConfirmedCaseDao.update(existCase)
-    debug(`Update case of ${parentPlace.placeCode} to date ${dataCase.caseDate}`)
-  } else {
-    await ConfirmedCaseDao.create(existCase)
-    debug(`Create case of ${parentPlace.placeCode} to date ${dataCase.caseDate}`)
-  }
-  return parentPlace
 }
 
 /**
