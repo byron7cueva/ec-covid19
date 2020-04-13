@@ -213,7 +213,13 @@ async function registerOneParentCase (childPlace, caseDate, parentRegions) {
  * @param {Object} typeCase It is typecase enum
  */
 function calculateDailyTypeCase (dataCase, prevCase, existCase, typeCase) {
-  if (lodash.isNil(dataCase[typeCase.total]) || dataCase[typeCase.total] === 0) return
+  if (lodash.isNil(dataCase[typeCase.total]) || dataCase[typeCase.total] === 0) {
+    // Replicating previous data
+    if (!lodash.isNil(prevCase)) {
+      existCase[typeCase.total] = prevCase[typeCase.total]
+    }
+    return
+  }
 
   let dailyValue = dataCase[typeCase.total]
 
