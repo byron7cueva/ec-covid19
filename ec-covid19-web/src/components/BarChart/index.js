@@ -21,7 +21,7 @@ export const BarChart = ({ data, loading, title, height }) => (
             margin={{ top: 20, right: 10, bottom: 75, left: 150 }}
             keys={[ 'totalconfirmed', 'totaldead', 'totalhealed' ]}
             indexBy='placeName'
-            layout="horizontal"
+            layout='horizontal'
             labelTextColor={colorsApp.light}
             colors={[colors.confirmed, colors.dead]}
             axisTop={null}

@@ -24,8 +24,4 @@ export const HeaderContainer = styled.header`
     font-size: 1.5em;
     font-weight: ${fonts.title.weight};
   }
-
-  p {
-    margin: 0;
-  }
 `

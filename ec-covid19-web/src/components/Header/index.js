@@ -14,7 +14,6 @@ export const Header = ({ title }) => (
       <img src={logo} />
       <h1 className='header__title'>{title} - Fuente: <a href="https://www.gestionderiesgos.gob.ec/informes-de-situacion-covid-19-desde-el-13-de-marzo-del-2020/" target="_blank">COE Nacional</a> </h1>
     </div>
-    <p>Fuente no oficial</p>
   </HeaderContainer>
 )
 

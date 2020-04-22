@@ -7,5 +7,5 @@ export const ChartContainer = styled.article`
   height: ${props => props.height};
   width: 100%;
   padding: 0 1em;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 `

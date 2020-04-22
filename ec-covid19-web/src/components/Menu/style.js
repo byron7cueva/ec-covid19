@@ -4,10 +4,13 @@ import { devices, colors } from '../../settings/constants'
 
 export const MenuContainer = styled.div`
   width: 100%;
-  height: 30em;
+  height: 53em;
   padding-bottom: 1em;
+  flex-grow: 0;
+  flex-shrink: 0;
 
   @media ${devices.tablet} {
+    height: 30em;
     z-index: 1;
     position: fixed;
     height: 100%;

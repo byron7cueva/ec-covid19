@@ -5,7 +5,6 @@ import ReactTooltip from 'react-tooltip'
 import { GlobalStyle } from '../styles/core/global'
 import { Layout } from '../components/Layout'
 import { Map } from '../components/Map'
-import { DataSection } from '../components/DataSection'
 import { Results } from '../components/Results'
 import { Table } from '../components/Table'
 import { TotalHistoryChart } from '../container/TotalHistoryChart'
@@ -84,8 +83,8 @@ export class Home extends Component {
         <GlobalStyle />
         { this.state.loading ? <LoadingPartial />
           : <Layout title='Casos confirmados' subtitle='Casos confirmados de covid19 en Ecuador, por país, región, provincia y canton'>
-              <div className='flex'>
-                <div className='w-50'>
+              <div className='grid'>
+                <div>
                   <Results data={this.state.selectedPlace} />
                   <Map
                     data={this.state.totalCases}
@@ -93,19 +92,17 @@ export class Home extends Component {
                     onClickGeography={this.handlerClickGeography}
                     onMouseEnter={this.handlerOnMouseEnterMap}
                   />
-                </div>
-                <div className='w-50'>
+                  </div>
+                  <div className='grid__charts'>
+                    <TotalHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
+                    <DailyHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
+                  </div>
                   <Menu show={this.state.showMenu}>
                     <Table data={this.state.totalCases} onRowClick={this.handlerClickGeography} selectedPlace={this.state.selectedPlace} />
                   </Menu>
-                  <DataSection>
-                    <TotalHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
-                    <DailyHistoryChart placeCode={this.state.selectedPlace.placeCode} placeName={this.state.selectedPlace.placeName} />
-                  </DataSection>
                 </div>
-              </div>
-              <TotalProvinceChart totalCases={this.state.totalCases}/>
-              <MenuButton onClick={this.handlerClickMenuButton} clicked={this.state.showMenu}/>
+                <TotalProvinceChart totalCases={this.state.totalCases}/>
+                <MenuButton onClick={this.handlerClickMenuButton} clicked={this.state.showMenu}/>
             </Layout>
         }
         <ReactTooltip id='tooltip' html={true} place='top' effect='float' />

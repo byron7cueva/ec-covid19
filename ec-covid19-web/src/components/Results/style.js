@@ -12,13 +12,10 @@ export const ResultsContainer = styled.article`
   .results__numbers {
     display: flex;
     justify-content: space-between;
-    padding: 0 5em;
   }
 
   @media ${devices.laptop} {
-    .results__numbers {
-      padding: 0 1em;
-    }
+    padding: 0;
   }
 
   @media ${devices.mobileLandscape} {

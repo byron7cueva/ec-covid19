@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { colors } from '../../settings/constants'
+import { colors, devices } from '../../settings/constants'
 
 export const ItemResultContainer = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ export const ItemResultContainer = styled.div`
     color: ${props => props.color};
   }
   h3 {
-    font-size: 3em;
+    font-size: 2.5em;
     margin: 0;
   }
   h5 {
@@ -30,5 +30,11 @@ export const ItemResultContainer = styled.div`
     margin-left: 0.5em;
     padding-left: 0.5em;
     border-left: 1px solid ${colors.gray};
+  }
+
+  @media ${devices.laptop} {
+    h3 {
+      font-size: 2em;
+    }
   }
 `

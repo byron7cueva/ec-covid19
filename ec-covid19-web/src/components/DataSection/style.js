@@ -6,7 +6,16 @@ export const DataContainer = styled.section`
   display: flex;
   width: 100%;
 
-  @media ${devices.tablet} {
+  .data-section__content {
+    width: 100%;
+    display: flex;
     flex-direction: column;
+  }
+
+  @media ${devices.laptop} {
+    flex-direction: column;
+    .data-section__content--lp {
+      flex-direction: row;
+    }
   }
 `

@@ -6,24 +6,35 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1.5em 4%;
+  padding: 2em 4%;
 
-  .flex {
-    display: flex;
-  }
-
-  .w-50 {
-    width: 50%;
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 23em;
+    grid-gap: 2em 1em;
+    padding-bottom: 2em;
   }
 
   @media ${devices.laptop} {
-    display: block;
-    .flex {
-      flex-direction: column;
-    }
+    .grid {
+      grid-template-columns: 1fr 23em;
 
-    .w-50 {
-      width: 100%;
+      &__charts {
+        display: flex;
+        grid-row: 2;
+        grid-column: 1 / span 2;
+      }
+    }
+  }
+
+  @media ${devices.tablet} {
+    .grid {
+      grid-template-columns: 1fr;
+      grid-gap: 0;
+
+      &__charts {
+        display: block;
+      }
     }
   }
 
