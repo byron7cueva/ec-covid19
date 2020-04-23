@@ -14,7 +14,7 @@ export const colors = {
 export const fonts = {
   content: {
     family: '"Rajdhani", sans-serif',
-    weight: 300
+    weight: 400
   },
   title: {
     family: '"Rajdhani", sans-serif',

@@ -31,13 +31,12 @@ export const LineChart = ({ data, loading, title, height }) => {
           enableSlices='x'
           colors={d => d.color}
           animate={false}
-          pointSize={7}
+          pointSize={5}
           pointLabel={d => {
             if (d.x.getDate() === lastDate.getDate()) return d.y
             return null
           }}
           enablePointLabel={true}
-          pointBorderColor={{ from: 'serieColor' }}
           xScale={{
             type: 'time',
             format: '%Y-%m-%d',

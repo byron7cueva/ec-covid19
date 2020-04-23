@@ -10,14 +10,14 @@ export const Main = styled.main`
 
   .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 23em;
+    grid-template-columns: 1fr 30em 30em;
     grid-gap: 2em 1em;
     padding-bottom: 2em;
   }
 
   @media ${devices.laptop} {
     .grid {
-      grid-template-columns: 1fr 23em;
+      grid-template-columns: 1fr 30em;
 
       &__charts {
         display: flex;

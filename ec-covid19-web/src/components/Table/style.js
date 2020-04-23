@@ -31,7 +31,7 @@ export const TableContainer = styled.article`
   }
 
   td:nth-child(2), th:nth-child(2) {
-      width: 50%;
+      width: 40%;
       text-align: left;
   }
 

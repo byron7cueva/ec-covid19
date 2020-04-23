@@ -45,10 +45,17 @@ export const Table = ({data, onRowClick, selectedPlace }) => {
         }
       },
       { 
-        Header: 'Confirmados',
-        id: 'actived',
+        Header: 'Fallecidos',
+        id: 'dead',
         accessor: d => (
-          <Label color={colors.confirmed}>{d.totalconfirmed? d.totalconfirmed : 0}</Label>
+          <Label color={colors.dead}>{d.totaldead? d.totaldead : ''}</Label>
+        )
+      },
+      { 
+        Header: 'Confirmados',
+        id: 'confirmed',
+        accessor: d => (
+          <Label color={colors.confirmed}>{d.totalconfirmed? d.totalconfirmed : ''}</Label>
         )
       }
     ], []
