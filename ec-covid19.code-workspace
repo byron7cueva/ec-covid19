@@ -11,7 +11,12 @@
 	},
 	{
 		"path": "ec-covid19-web"
+	},
+	{
+		"path": "ec-covid19-ng"
 	}
 ],
-  "settings": {}
+	"settings": {
+		"deno.enable": false
+	}
 }
