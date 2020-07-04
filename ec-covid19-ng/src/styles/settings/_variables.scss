@@ -1,0 +1,18 @@
+@import "colors";
+@import "fonts";
+
+:root {
+  // Color
+  --color-primary: #608874;
+  --color-secundary: #7b9e89;
+  --color-alternative: #517175;
+  --color-light: #fff;
+  --color-dark: #111720;
+  -color-gray: #8ca4a4;
+
+  // Font
+  --font-size-content: 12px;
+  --font-size-title: 2em;
+  --font-family-content: 'Roboto', sans-serif;
+  --font-weight-bold: 400;
+}

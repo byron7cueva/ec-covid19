@@ -1,0 +1,13 @@
+@import "settings/colors";
+
+footer {
+  height: 3em;
+  padding: 1em;
+  background-color: $color-dark;
+  color: $color-light;
+  text-align: center;
+
+  small {
+    font-size: 0.9em;
+  }
+}

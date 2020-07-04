@@ -1,0 +1,8 @@
+@import 'settings/colors';
+
+header {
+  height: 5em;
+  padding: 1em;
+  background-color: $color-dark;
+  color: $color-light;
+}
