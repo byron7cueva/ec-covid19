@@ -22,9 +22,9 @@ export const patternScale = [
   {id:'noCases', numInfects: 0, background: null, stroke: '#57606f'},
   {id:'nivel1', numInfects: 50, background: 'rgba(98,98,98,0.3)', stroke: '#636e72', radio: 15},
   {id:'nivel2', numInfects: 100, background: 'rgba(70,70,70,0.3)', stroke: '#636e72', radio: 25},
-  {id:'nivel3', numInfects: 500, background: 'rgba(41,41,41,0.3)', stroke: '#636e72', radio: 30},
-  {id:'nivel4', numInfects: 1000, background: 'rgba(36,36,36,0.3)', stroke: '#636e72', radio: 45},
-  {id:'nivel5', numInfects: 10000, background: 'rgba(21,21,21,0.3)', stroke: '#636e72', radio: 55}
+  {id:'nivel3', numInfects: 1000, background: 'rgba(41,41,41,0.3)', stroke: '#636e72', radio: 30},
+  {id:'nivel4', numInfects: 10000, background: 'rgba(36,36,36,0.3)', stroke: '#636e72', radio: 45},
+  {id:'nivel5', numInfects: 100000,background: 'rgba(21,21,21,0.3)', stroke: '#636e72', radio: 55}
 ]
 
 

@@ -64,6 +64,29 @@ export const LineChart = ({ data, loading, title, height }) => {
           }}
           theme={theme}
           legends={legends}
+          sliceTooltip={({ slice }) => {
+            return (
+              <div
+                style={{
+                  background: '#010a43',
+                  padding: '9px 12px'
+                }}
+              >
+                <div>{slice.points[0].data.xFormatted}</div>
+                {slice.points.map(point => (
+                  <div
+                    key={point.id}
+                    style={{
+                      color: point.serieColor,
+                      padding: '3px 0'
+                    }}
+                  >
+                    <strong>{point.serieId} [{point.data.yFormatted}] </strong>
+                  </div>
+                ))}
+              </div>
+            )
+          }}
         />
        </>
        : <NoData description='No hay casos confirmados' />

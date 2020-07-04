@@ -35,7 +35,7 @@ export const TableContainer = styled.article`
       text-align: left;
   }
 
-  tr td:last-child {
+  tr td:last-child, td:nth-child(3)  {
       text-align: right;
   }
 
