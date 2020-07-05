@@ -1,8 +1,10 @@
 @import 'settings/colors';
 
 header {
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
   height: 5em;
-  padding: 1em;
-  background-color: $color-dark;
+  background-color: $color-dark-transparent;
   color: $color-light;
 }

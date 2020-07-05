@@ -12,4 +12,6 @@ html, body {
 body {
   font-size: $font-size-content;
   font-family: $font-family-content;
+  background-image: url('/assets/img/background.jpg');
+  background-size: cover;
 }
