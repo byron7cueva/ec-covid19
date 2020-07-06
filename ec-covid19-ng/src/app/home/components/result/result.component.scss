@@ -1,0 +1,38 @@
+@import "settings/colors";
+
+:host {
+  width: 33%;
+  padding: 1em;
+  margin: 2em;
+  border-radius: 5px;
+  color: $color-light;
+  background-color: rgba(#000, .2);
+  box-shadow: 3px 5px 10px rgba(0,0,0,0.2);
+  text-align: center;
+  cursor: pointer;
+
+  .result {
+    &__icon {
+      width: 3em;
+      fill: #fff;
+      height: 3em;
+      width: 3em;
+    }
+  
+    &__value {
+      margin: 0;
+      font-size: 2em;
+    }
+  
+    &__title {
+      margin: 0;
+    }
+  }
+
+  &:hover {
+    color: $color-secundary;
+    .result__icon {
+      fill: $color-secundary;
+    }
+  }
+}
